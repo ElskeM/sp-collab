@@ -51,20 +51,20 @@
 	  </target>
 
 	  <target name="setUnixRoot" if="isUnix">
-	    <property name="server-dist" value="/opt/wildfly/wildfly/wildfly-10.0.0.Final/standalone/deployments" />
+	    <property name="server-dist" value="~/wildfly-10.0.0.Final/standalone/deployments" />
 	  </target>
 	
 	  <target name="setServerJar">
-		<property name="server-jarfile" value="${server-dist}/StudentServer2.jar"/>
+		<property name="server-jarfile" value="${server-dist}/olfdb.jar"/>
 	  	<echo message="server-jarfile: ${server-jarfile}"/>
 	  </target>
 	
 	  <target name="setClientJar">
-		<property name="client-jarfile" value="${client-dist}/StudentServerClasses.jar"/>	
+		<property name="client-jarfile" value="${client-dist}/olfdbClasses.jar"/>	
 	  </target>
 	
 	  <target name="setWar">
-	  	<property name="warfile" value="${server-dist}/StudentServer.war"/>
+	  	<property name="warfile" value="${server-dist}/olfdb.war"/>
 	  	<echo message="warfile : ${warfile}"/>
 	  </target>
 	
