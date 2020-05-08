@@ -6,14 +6,13 @@
 	<property name="client-dist" value="./dist"/>
 	
 	
-	<!-- select a line that points to the path of your server deployment folder 
+	   
+    <!--WINDOWS VERSION: -->
+    <property name="windows-server-dist" value="C:\Progra~1\wildfly\wildfly-10.0.0.Final\standalone\deployments"/>
     
-    WINDOWS VERSION:
-    <property name="server-dist" value="C:\Progra~1\wildfly\wildfly-10.0.0.Final\standalone\deployments"/>
-    
-    MAC/LINUX VERSION:
-    <property name="server-dist" value="/opt/wildfly/wildfly/wildfly-10.0.0.Final/standalone/deployments"/>
-    --> 	
+    <!--MAC/LINUX VERSION: -->
+    <property name="linux-server-dist" value="/opt/wildfly/wildfly/wildfly-10.0.0.Final/standalone/deployments"/>
+    	
 	
 	
 	
@@ -47,11 +46,11 @@
 
 	
 	  <target name="setWindowsRoot" if="isWindows">
-	    <property name="server-dist" value="C:\Progra~1\wildfly\wildfly-10.0.0.Final\standalone\deployments" />
+	    <property name="server-dist" value="${windows-server-dist}" />
 	  </target>
 
 	  <target name="setUnixRoot" if="isUnix">
-	    <property name="server-dist" value="/opt/wildfly/wildfly/wildfly-10.0.0.Final/standalone/deployments" />
+	    <property name="server-dist" value="${linux-server-dist}" />
 	  </target>
 	
 	  <target name="setServerJar">
