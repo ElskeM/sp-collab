@@ -18,13 +18,13 @@ public class Customer implements Serializable {
 	private String lastName;
 	private String address;
 	
-	private int discount;//??
+	private double discount;//??
 	
 	public Customer() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Customer(String surname, String lastName, String address, int discount) {
+	public Customer(String surname, String lastName, String address, double discount) {
 		this.surname = surname;
 		this.lastName = lastName;
 		this.address = address;
@@ -55,11 +55,11 @@ public class Customer implements Serializable {
 		this.address = address;
 	}
 
-	public int getDiscount() {
+	public double getDiscount() {
 		return discount;
 	}
 
-	public void setDiscount(int discount) {
+	public void setDiscount(double discount) {
 		this.discount = discount;
 	}
 	
