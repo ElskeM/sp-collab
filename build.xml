@@ -39,7 +39,7 @@
 	
 	
     <target name="BuildAll"
-            depends="clean, prep, compile, setWindowsRoot, setUnixRoot, setServerJar, setClientJar, setWar"
+            depends="clean, prep, compile, setWindowsRoot, setUnixRoot, setServerJar, setClientJar, setWar, serverjar"
             description="Complete rebuild.">
         <echo message="Build complete."/>
     </target>	
@@ -47,11 +47,11 @@
 
 	
 	  <target name="setWindowsRoot" if="isWindows">
-	    <property name="server-dist" value="C:\Progra~1\wildfly\wildfly-10.0.0.Final\standalone\deployments" />
+	    <property name="server-dist" value="C:\wildfly-19.0.0.Final\standalone\deployments" />
 	  </target>
 
 	  <target name="setUnixRoot" if="isUnix">
-	    <property name="server-dist" value="~/wildfly-10.0.0.Final/standalone/deployments" />
+	    <property name="server-dist" value="~/wildfly-19.0.0.Final/standalone/deployments" />
 	  </target>
 	
 	  <target name="setServerJar">
@@ -101,7 +101,7 @@
         <echo message="Compiled."/>
     </target>
 	
-	<!--<target name="serverjar" depends="compile" 
+	<target name="serverjar" depends="compile" 
 	                         description="Build Server Jar files.">
 	   
 	   <jar destfile="${server-jarfile}" basedir="${bin}">
@@ -143,6 +143,5 @@
 	   	</jar>
 		  		  
 		<echo message="Built the client jar file."/>   		
-	</target> -->
-	
+	</target> 
 </project>
