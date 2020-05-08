@@ -1,4 +1,5 @@
 package domain;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -8,7 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Order {
+public class Order implements Serializable {
+	private static final long serialVersionUID = -5152794172107611719L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int orderNr;
