@@ -2,13 +2,13 @@ package service;
 
 import java.util.List;
 
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 import domain.Article;
 import domain.Customer;
 import domain.Order;
 
-@Remote
+@Local
 public interface OlfService {
 
 	public List<Order> findAllOrders();

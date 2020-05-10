@@ -14,9 +14,11 @@ public class Customer implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;//Or string name?
 	
-	private String surname;
+	private String firstName;
 	private String lastName;
 	private String address;
+	private String zipCode;
+	private String city;
 	
 	private double discount;//??
 	
@@ -24,19 +26,21 @@ public class Customer implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Customer(String surname, String lastName, String address, double discount) {
-		this.surname = surname;
+	public Customer(String firstName, String lastName, String address, String zipCode, String city, double discount) {
+		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
+		this.zipCode = zipCode;
+		this.city = city;
 		this.discount = discount;
 	}
 
-	public String getSurname() {
-		return surname;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setSurname(String surname) {
-		this.surname = surname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public String getLastName() {
@@ -55,6 +59,22 @@ public class Customer implements Serializable {
 		this.address = address;
 	}
 
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
 	public double getDiscount() {
 		return discount;
 	}
@@ -62,6 +82,13 @@ public class Customer implements Serializable {
 	public void setDiscount(double discount) {
 		this.discount = discount;
 	}
+
+	@Override
+	public String toString() {
+		return "Customerid: " + id + "\n" + firstName + " " + lastName + "\n" + address
+				+ "\n" + zipCode + " " + city;
+	}
+	
 	
 	
 }

@@ -12,6 +12,7 @@ import domain.Customer;
 import domain.Order;
 
 @Stateless
+@ProductionDao
 public class DataAccessImpl implements DataAccess {
 
 	@PersistenceContext
