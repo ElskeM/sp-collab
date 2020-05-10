@@ -9,7 +9,7 @@ import javax.persistence.Query;
 
 import domain.Article;
 import domain.Customer;
-import domain.Order;
+import domain.CustomerOrder;
 
 @Stateless
 @ProductionDao
@@ -29,15 +29,15 @@ public class DataAccessImpl implements DataAccess {
 	}
 	
 	@Override
-	public void insert(Order order) {
-		em.persist(order);
+	public void insert(CustomerOrder customerOrder) {
+		em.persist(customerOrder);
 	}
 
 	@Override
-	public List<Order> findAllOrders() {
-		Query q = em.createQuery("select order from Order order");
-		List<Order> orders = q.getResultList();
-		return orders;
+	public List<CustomerOrder> findAllOrders() {
+		Query q = em.createQuery("select order from CustomerOrder order");
+		List<CustomerOrder> customerOrders = q.getResultList();
+		return customerOrders;
 	}
 	
 }

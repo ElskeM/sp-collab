@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Order implements Serializable {
+public class CustomerOrder implements Serializable {
 	private static final long serialVersionUID = -5152794172107611719L;
 	
 	@Id
@@ -19,11 +19,11 @@ public class Order implements Serializable {
 	private Customer customer;
 	private HashMap<Article, Integer> articles = new HashMap<Article, Integer>();
 
-	public Order() {
+	public CustomerOrder() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Order(Date deliveryDate, Customer customer, HashMap<Article, Integer> articles) {
+	public CustomerOrder(Date deliveryDate, Customer customer, HashMap<Article, Integer> articles) {
 
 		this.deliveryDate = deliveryDate;
 		this.customer = customer;

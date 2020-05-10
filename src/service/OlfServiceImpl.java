@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import dao.DataAccess;
 import domain.Article;
 import domain.Customer;
-import domain.Order;
+import domain.CustomerOrder;
 
 @Stateless
 public class OlfServiceImpl implements OlfService {
@@ -17,7 +17,7 @@ public class OlfServiceImpl implements OlfService {
 	private DataAccess dao;
 	
 	@Override
-	public List<Order> findAllOrders() {
+	public List<CustomerOrder> findAllOrders() {
 		return dao.findAllOrders();
 	}
 
@@ -44,10 +44,10 @@ public class OlfServiceImpl implements OlfService {
 	}
 
 	@Override
-	public void register(Order order) {
+	public void register(CustomerOrder customerOrder) {
 
 		// TODO Auto-generated method stub
-		dao.insert(order);
+		dao.insert(customerOrder);
 		
 	}
 

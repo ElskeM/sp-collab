@@ -3,16 +3,17 @@ package dao;
 import java.util.List;
 
 import javax.ejb.Local;
+import javax.ejb.Remote;
 
 import domain.Article;
 import domain.Customer;
-import domain.Order;
+import domain.CustomerOrder;
 
 @Local
 public interface DataAccess {
 	public void insert(Article article);
 	public void insert(Customer customer);
-	public void insert(Order order);
+	public void insert(CustomerOrder customerOrder);
 	
-	public List<Order> findAllOrders();
+	public List<CustomerOrder> findAllOrders();
 }	
