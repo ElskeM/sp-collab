@@ -27,7 +27,8 @@ public class CustomerOrder implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "orderNr")
 	private int orderNr;
-	private Date deliveryDate;// the date the package was sent. TODO: Change name to something better!!!
+	private Date orderDate;
+	private Date dispatchDate;
 	
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "cnr")
@@ -45,9 +46,10 @@ public class CustomerOrder implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CustomerOrder(Date deliveryDate, Customer customer, Map<Article, Integer> articles) {
+	public CustomerOrder(Date orderDate, Date dispatchDate, Customer customer, Map<Article, Integer> articles) {
 
-		this.deliveryDate = deliveryDate;
+		this.orderDate = orderDate;
+		this.dispatchDate = dispatchDate;
 		this.customer = customer;
 		this.articles = articles;
 	}
@@ -56,8 +58,12 @@ public class CustomerOrder implements Serializable {
 		return orderNr;
 	}
 
-	public Date getDeliveryDate() {
-		return deliveryDate;
+	public Date getDispatchDate() {
+		return dispatchDate;
+	}
+	
+	public Date getorderDate() {
+		return orderDate;
 	}
 
 	public Customer getCustomer() {
