@@ -11,9 +11,15 @@ import domain.CustomerOrder;
 
 @Local
 public interface DataAccess {
-	public void insert(Article article);
+	public Article insert(Article article);
 	public void insert(Customer customer);
 	public void insert(CustomerOrder customerOrder);
 	
 	public List<CustomerOrder> findAllOrders();
+	
+	/**
+	 * Remove this from production version
+	 */
+	public void dropAllTables();	
+	
 }	

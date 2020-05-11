@@ -14,7 +14,9 @@ public interface OlfService {
 	public List<Customer> findAllCustomer();
 	public List<Article> findAllArticle();
 
-	public void register(Article article);
-	public void register(CustomerOrder customerOrder);
+	public Article register(Article article);
+	public void register(CustomerOrder order);
 	public void register(Customer customer);
+	
+	public void dropAllTables();
 }

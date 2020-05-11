@@ -1,18 +1,22 @@
 package domain;
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="tblCustomer")
 public class Customer implements Serializable {
 	private static final long serialVersionUID = -6937327123991374742L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;//Or string name?
+	@Column(name = "cnr")
+	private int cnr;//Or string name?
 	
 	private String firstName;
 	private String lastName;
@@ -81,11 +85,15 @@ public class Customer implements Serializable {
 
 	public void setDiscount(double discount) {
 		this.discount = discount;
+	}	
+	
+	public int getCnr() {
+		return cnr;
 	}
 
 	@Override
 	public String toString() {
-		return "Customerid: " + id + "\n" + firstName + " " + lastName + "\n" + address
+		return "Customer#: " + cnr + "\n" + firstName + " " + lastName + "\n" + address
 				+ "\n" + zipCode + " " + city;
 	}
 	

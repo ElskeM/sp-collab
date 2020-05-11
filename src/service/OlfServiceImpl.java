@@ -36,10 +36,10 @@ public class OlfServiceImpl implements OlfService {
 	}
 
 	@Override
-	public void register(Article article) {
+	public Article register(Article article) {
 
 		// TODO Auto-generated method stub
-		dao.insert(article);
+		return dao.insert(article);
 		
 	}
 
@@ -55,7 +55,13 @@ public class OlfServiceImpl implements OlfService {
 	public void register(Customer customer) {
 
 		// TODO Auto-generated method stub
-		dao.insert(customer);
+		dao.insert(customer);		
+	}
+	
+	@Override
+	public void dropAllTables() {
+
+		dao.dropAllTables();
 		
 	}
 }
