@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -12,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.Table;
@@ -26,8 +28,11 @@ public class CustomerOrder implements Serializable {
 	@Column(name = "orderNr")
 	private int orderNr;
 	private Date deliveryDate;// the date the package was sent. TODO: Change name to something better!!!
-	private Customer customer;
 	
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "cnr")
+	private Customer customer;
+
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "tblOrderRows",
 			joinColumns = {@JoinColumn(name = "orderNr", referencedColumnName = "orderNr")})
