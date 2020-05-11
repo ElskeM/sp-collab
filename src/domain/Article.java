@@ -29,7 +29,7 @@ public class Article implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Article(String name, String desc, int stock,int price) {
+	public Article(String name, String desc, int stock, double price) {
 		this.name=name;
 		description=desc;
 		this.stock=stock;

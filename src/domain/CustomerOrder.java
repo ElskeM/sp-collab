@@ -45,7 +45,7 @@ public class CustomerOrder implements Serializable {
 	public CustomerOrder() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	public CustomerOrder(Date orderDate, Date dispatchDate, Customer customer, Map<Article, Integer> articles) {
 
 		this.orderDate = orderDate;
