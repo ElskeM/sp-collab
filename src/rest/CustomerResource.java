@@ -25,7 +25,7 @@ public class CustomerResource {
 	@GET
 	@Produces({"application/JSON", "application/XML"})
 	public List<Customer> getAllCustomers(){
-		return service.findAllCustomer();
+		return service.getAllCustomer();
 		
 	}
 	
