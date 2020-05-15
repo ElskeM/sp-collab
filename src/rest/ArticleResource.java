@@ -1,5 +1,8 @@
 package rest;
 
+
+public class ArticleResource {
+
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -33,6 +36,5 @@ public class ArticleResource {
 		service.register(article);
 		return article;
 	}
-	
 
 }
