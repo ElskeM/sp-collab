@@ -11,60 +11,61 @@ import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
 
-
-
 @Stateless
-public class OlfServiceImpl implements OlfService {
-
-	@Inject
-	private DataAccess dao;
+@WebService(name="Pantheon")
+public class OlfWebserviceImplementation{
 	
-	@Override
+	@Inject
+	private OlfService service;
+	
+	
 	public List<CustomerOrder> findAllOrders() {
-		return dao.findAllOrders();
+		return service.findAllOrders();
 	}
 
-	@Override
+
 	public List<Customer> findAllCustomer() {
 
 		// TODO Auto-generated method stub
-		return null;
+		return service.findAllCustomer();
 	}
 
-	@Override
+
 	public List<Article> findAllArticle() {
 
-		// TODO Auto-generated method stub
-		return null;
+		// TODO s-generated method stub
+		return service.findAllArticle();
 	}
 
-	@Override
 	public Article register(Article article) {
 
 		// TODO Auto-generated method stub
-		return dao.insert(article);
+		return service.register(article);
 		
 	}
 
-	@Override
+	
 	public void register(CustomerOrder customerOrder) {
 
 		// TODO Auto-generated method stub
-		dao.insert(customerOrder);
-		
+		service.register(customerOrder);		
 	}
 
-	@Override
+
 	public void register(Customer customer) {
 
 		// TODO Auto-generated method stub
-		dao.insert(customer);		
+		service.register(customer);	
 	}
 	
-	@Override
+
 	public void dropAllTables() {
 
-		dao.dropAllTables();
-		
+		service.dropAllTables();
 	}
+	
+	
+	
+	
+
 }
