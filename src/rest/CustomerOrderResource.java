@@ -12,10 +12,8 @@ import javax.ws.rs.Produces;
 
 import dao.ArticleNotFoundException;
 import dao.CustomerNotFoundException;
-import domain.Article;
 import domain.CustomerOrder;
 import service.OlfService;
-import service.OlfServiceImpl;
 
 @Stateless
 @Path("/orders")

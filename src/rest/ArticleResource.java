@@ -12,7 +12,6 @@ import javax.ws.rs.Produces;
 
 import domain.Article;
 import service.OlfService;
-import service.OlfServiceImpl;
 
 @Stateless
 @Path("/articles")

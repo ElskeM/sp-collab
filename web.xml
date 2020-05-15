@@ -6,7 +6,7 @@
             
  <servlet-mapping>
  	<servlet-name>javax.ws.rs.core.Application</servlet-name>
- 	<url-pattern>/webservice/*</url-pattern>
+ 	<url-pattern>/Pantheon/*</url-pattern>
  </servlet-mapping>
                
 </web-app>
