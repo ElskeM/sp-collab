@@ -17,8 +17,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 @Table(name = "tblCustomerOrder")
 public class CustomerOrder implements Serializable {
 	private static final long serialVersionUID = -5152794172107611719L;

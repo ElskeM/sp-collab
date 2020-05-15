@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 @Table(name="tblCustomer")
 public class Customer implements Serializable {
 	private static final long serialVersionUID = -6937327123991374742L;
