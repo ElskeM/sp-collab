@@ -104,4 +104,52 @@ public class DataAccessImpl implements DataAccess {
 
 	}
 
+	@Override
+	public List<Customer> findAllCustomer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Article> findAllArticle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Article findArticleById(int artNr) throws ArticleNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Customer findCustomerById(int cnr) throws CustomerNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CustomerOrder findOrderById(int orderNr) throws OrderNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Article> findArticleByName(String name) throws ArticleNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Customer> findCustomerBySurname(String name) throws CustomerNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CustomerOrder> findOrderByCustomerId(int cnr) throws OrderNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

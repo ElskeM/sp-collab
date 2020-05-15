@@ -10,6 +10,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import dao.ArticleNotFoundException;
+import dao.CustomerNotFoundException;
 import domain.Article;
 import domain.CustomerOrder;
 import service.OlfServiceImpl;
@@ -24,7 +26,7 @@ public class CustomerOrderResource {
 	@GET
 	@Produces({"application/JSON", "application/XML"})
 	public List<CustomerOrder> getAllOrders() {
-		return service.findAllOrders();
+		return service.getAllOrders();
 	}
 	
 	
@@ -32,7 +34,15 @@ public class CustomerOrderResource {
 	@Produces({"application/JSON", "application/XML"})
 	@Consumes({"application/JSON", "application/XML"})
 	public CustomerOrder registerOrder(CustomerOrder order) {
-		service.register(order);
+		try {
+			service.register(order);
+		} catch (ArticleNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CustomerNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return order;
 	}
 
