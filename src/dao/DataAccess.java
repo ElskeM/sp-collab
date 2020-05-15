@@ -10,9 +10,21 @@ import domain.CustomerOrder;
 public interface DataAccess {
 	public Article insert(Article article);
 	public void insert(Customer customer);
-	public void insert(CustomerOrder customerOrder);
+	public void insert(CustomerOrder customerOrder) throws ArticleNotFoundException,CustomerNotFoundException;
 	
 	public List<CustomerOrder> findAllOrders();
+	public List<Customer> findAllCustomer();
+	public List<Article> findAllArticle();
+	
+	public Article findArticleById(int artNr) throws ArticleNotFoundException;
+	public Customer findCustomerById(int cnr) throws CustomerNotFoundException;
+	public CustomerOrder findOrderById(int orderNr) throws OrderNotFoundException; 
+	
+	public List<Article> findArticleByName(String name) throws ArticleNotFoundException;
+	public List<Customer> findCustomerBySurname(String name) throws CustomerNotFoundException;//Or just name and search for both first- and surname?
+	public List<CustomerOrder> findOrderByCustomerId(int cnr) throws OrderNotFoundException;
+	
+	
 	
 	/**
 	 * Remove this from production version

@@ -23,7 +23,7 @@ public class ArticleResource {
 	@GET
 	@Produces({"application/JSON", "application/XML"})
 	public List<Article> getAllArticles() {
-		return service.findAllArticle();
+		return service.getAllArticle();
 	}
 	
 	@POST

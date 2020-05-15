@@ -5,31 +5,34 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import dao.ArticleNotFoundException;
+import dao.CustomerNotFoundException;
 import dao.DataAccess;
+import dao.OrderNotFoundException;
 import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
 
 @Stateless
-public class OlfServiceImpl implements OlfService {
+public class OlfServiceImpl implements OlfService  {
 
 	@Inject
 	private DataAccess dao;
 	
 	@Override
-	public List<CustomerOrder> findAllOrders() {
+	public List<CustomerOrder> getAllOrders() {
 		return dao.findAllOrders();
 	}
 
 	@Override
-	public List<Customer> findAllCustomer() {
+	public List<Customer> getAllCustomer() {
 
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Article> findAllArticle() {
+	public List<Article> getAllArticle() {
 
 		// TODO Auto-generated method stub
 		return null;
@@ -44,10 +47,9 @@ public class OlfServiceImpl implements OlfService {
 	}
 
 	@Override
-	public void register(CustomerOrder customerOrder) {
+	public void register(CustomerOrder customerOrder) throws ArticleNotFoundException, CustomerNotFoundException {
 
-		// TODO Auto-generated method stub
-		dao.insert(customerOrder);
+			dao.insert(customerOrder);
 		
 	}
 
@@ -63,5 +65,23 @@ public class OlfServiceImpl implements OlfService {
 
 		dao.dropAllTables();
 		
+	}
+
+	@Override
+	public Article getArticle(int artNr) throws ArticleNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Customer getCustomer(int cnr) throws CustomerNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CustomerOrder getOrder(int orderNr) throws OrderNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
