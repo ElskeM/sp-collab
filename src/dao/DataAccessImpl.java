@@ -106,14 +106,18 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public List<Customer> findAllCustomer() {
-		// TODO Auto-generated method stub
-		return null;
+		Query q = em.createQuery("select customer from Customer customer");
+		List<Customer> customers = q.getResultList();
+
+		return customers;
 	}
 
 	@Override
 	public List<Article> findAllArticle() {
-		// TODO Auto-generated method stub
-		return null;
+		Query q = em.createQuery("select article from Article article");
+		List<Article> articles = q.getResultList();
+
+		return articles;
 	}
 
 	@Override

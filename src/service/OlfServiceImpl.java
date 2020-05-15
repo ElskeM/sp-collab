@@ -30,15 +30,13 @@ public class OlfServiceImpl implements OlfService  {
 	@Override
 	public List<Customer> getAllCustomer() {
 
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findAllCustomer();
 	}
 
 	@Override
 	public List<Article> getAllArticle() {
 
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findAllArticle();
 	}
 
 	@Override

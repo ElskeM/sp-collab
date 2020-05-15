@@ -14,6 +14,7 @@ import dao.ArticleNotFoundException;
 import dao.CustomerNotFoundException;
 import domain.Article;
 import domain.CustomerOrder;
+import service.OlfService;
 import service.OlfServiceImpl;
 
 @Stateless
@@ -21,14 +22,13 @@ import service.OlfServiceImpl;
 public class CustomerOrderResource {
 	
 	@Inject
-	private OlfServiceImpl service;
+	private OlfService service;
 	
 	@GET
 	@Produces({"application/JSON", "application/XML"})
 	public List<CustomerOrder> getAllOrders() {
 		return service.getAllOrders();
 	}
-	
 	
 	@POST
 	@Produces({"application/JSON", "application/XML"})

@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import domain.Article;
+import service.OlfService;
 import service.OlfServiceImpl;
 
 @Stateless
@@ -18,7 +19,7 @@ import service.OlfServiceImpl;
 public class ArticleResource {
 	
 	@Inject
-	private OlfServiceImpl service;
+	private OlfService service;
 	
 	@GET
 	@Produces({"application/JSON", "application/XML"})

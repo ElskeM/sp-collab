@@ -14,17 +14,15 @@ import domain.Customer;
 import domain.CustomerOrder;
 
 @Stateless
-@WebService(name="Pantheon")
-public class OlfWebserviceImplementation{
-	
+@WebService(name = "Pantheon")
+public class OlfWebserviceImplementation {
+
 	@Inject
 	private OlfService service;
-	
-	
+
 	public List<CustomerOrder> findAllOrders() {
 		return service.getAllOrders();
 	}
-
 
 	public List<Customer> findAllCustomer() {
 
@@ -32,42 +30,34 @@ public class OlfWebserviceImplementation{
 		return service.getAllCustomer();
 	}
 
-
 	public List<Article> findAllArticle() {
 
 		// TODO s-generated method stub
 		return service.getAllArticle();
 	}
 
-	public Article register(Article article) {
+	public Article registerArticle(Article article) {
 
 		// TODO Auto-generated method stub
 		return service.register(article);
-		
+
 	}
 
-	
-	public void register(CustomerOrder customerOrder) throws ArticleNotFoundException, CustomerNotFoundException {
+	public void registerOrder(CustomerOrder customerOrder) throws ArticleNotFoundException, CustomerNotFoundException {
 
 		// TODO Auto-generated method stub
-		service.register(customerOrder);		
+		service.register(customerOrder);
 	}
 
-
-	public void register(Customer customer) {
+	public void registerCustomer(Customer customer) {
 
 		// TODO Auto-generated method stub
-		service.register(customer);	
+		service.register(customer);
 	}
-	
 
 	public void dropAllTables() {
 
 		service.dropAllTables();
 	}
-	
-	
-	
-	
 
 }
