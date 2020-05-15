@@ -1,8 +1,5 @@
 package rest;
 
-
-public class CustomerResource {
-
 import java.util.List;
 
 import javax.ejb.Stateless;
