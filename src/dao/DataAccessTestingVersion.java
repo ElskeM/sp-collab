@@ -64,7 +64,6 @@ public class DataAccessTestingVersion implements DataAccess {
 		orders.add(cor3);
 		
 		return orders;
-
 	}
 
 	@Override
