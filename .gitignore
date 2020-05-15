@@ -60,3 +60,4 @@ local.properties
 #.project
 /dist/
 /build.xml
+/web.xml
