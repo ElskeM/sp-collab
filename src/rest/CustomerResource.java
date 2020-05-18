@@ -35,7 +35,7 @@ public class CustomerResource {
 	@Path("{customerId}")
 	public Response findCustomerById(@PathParam("customerId") int id) {
 		try {
-			return Response.ok(service.getCustomer(id)).build();
+			return Response.ok(service.getCustomerById(id)).build();
 		} catch (CustomerNotFoundException e) {
 			return Response.status(404).build();
 		}
@@ -50,7 +50,7 @@ public class CustomerResource {
 			service.register(customer);
 			return Response.ok().build();
 		} catch (ServiceUnavailableException e) {
-			return Response.status(500).build();
+			return Response.status(504).build();
 		}
 
 	}

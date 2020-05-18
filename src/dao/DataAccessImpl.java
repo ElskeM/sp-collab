@@ -145,8 +145,12 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public List<Customer> findCustomerBySurname(String name) throws CustomerNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Query q = em.createQuery(
+				"select customer from Customer customer where customer.surname is like :name");
+		q.setParameter("name", name);
+		List<Customer> customers = q.getResultList();
+
+		return customers;
 	}
 
 	@Override
