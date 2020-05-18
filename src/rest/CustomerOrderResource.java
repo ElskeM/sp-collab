@@ -30,7 +30,7 @@ public class CustomerOrderResource {
 	private OlfService service;
 
 	@GET
-	@Produces({ "application/JSON", "application/XML" })
+	@Produces({ "application/JSON" })
 	public Response getAllOrders() {
 		try {
 			List<CustomerOrder> allOrders = service.getAllOrders();

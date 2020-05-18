@@ -53,5 +53,10 @@ public class Article implements Serializable {
 		this.price = price;
 	}
 
+	@Override
+	public String toString() {
+		return "Articlenumber: " + artNr + " | name: " + name + " | description: " + description + " | price: " + price;
+	}
+
 	
 }

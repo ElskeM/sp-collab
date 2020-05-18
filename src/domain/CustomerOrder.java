@@ -1,6 +1,8 @@
 package domain;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
@@ -82,6 +84,7 @@ public class CustomerOrder implements Serializable {
 	}
 
 	public Date getDispatchDate() {
+		
 		return dispatchDate;
 	}
 	
@@ -97,4 +100,26 @@ public class CustomerOrder implements Serializable {
 		return articles;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(customer.toString());
+		sb.append("\nOrderNumber: " + orderNr);
+		sb.append("\n Orderdate: " + new SimpleDateFormat("yyyy-MM-dd").format(orderDate));
+		sb.append("\nDispatchdate=" + new SimpleDateFormat("yyyy-MM-dd").format(dispatchDate));
+		sb.append("\nNumber / Article Id\n");
+		
+		Iterator it = articles.entrySet().iterator();
+		while(it.hasNext()) {
+			Map.Entry orderArt = (Map.Entry)it.next();
+			sb.append(orderArt.getKey() + " / " + orderArt.getValue() + "\n");
+		}
+		
+		String customerOrder = sb.toString();
+		return customerOrder;
+		
+	}
+
+	
 }
