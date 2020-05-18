@@ -86,9 +86,7 @@ public class OlfServiceImpl implements OlfService  {
 		}catch(Exception e) {
 			throw new ArticleNotFoundException();
 			
-		}
-		
-		
+		}			
 	}
 
 	@Override
@@ -113,6 +111,12 @@ public class OlfServiceImpl implements OlfService  {
 	public List<Customer> getCustomersBetweenId(int firstId, int secondId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void deleteArticle(int artNr) throws ArticleNotFoundException {
+		dao.deleteArticle(artNr);
+		
 	}
 
 }

@@ -29,5 +29,7 @@ public interface OlfService {
 	public Customer register(Customer customer) throws ServiceUnavailableException;
 	
 	public void dropAllTables();
+	
+	public void deleteArticle(int artNr) throws ArticleNotFoundException;
 
 }

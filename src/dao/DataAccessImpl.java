@@ -178,5 +178,13 @@ public class DataAccessImpl implements DataAccess {
 		return null;
 	}
 
+	@Override
+	public void deleteArticle(int artNr) throws ArticleNotFoundException {
+		Article art = findArticleById(artNr);
+		em.remove(art);
+		
+		
+	}
+
 
 }

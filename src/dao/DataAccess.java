@@ -29,7 +29,7 @@ public interface DataAccess {
 	public List<Customer> findOrdersBetweenId(int firstId, int secondId);
 
 
-	
+	public void deleteArticle(int artNr) throws ArticleNotFoundException;
 	
 	
 	

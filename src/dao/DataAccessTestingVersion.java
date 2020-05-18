@@ -132,6 +132,12 @@ public class DataAccessTestingVersion implements DataAccess {
 		return null;
 	}
 
+	@Override
+	public void deleteArticle(int artNr) throws ArticleNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }
