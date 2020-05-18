@@ -9,11 +9,13 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import dao.ArticleNotFoundException;
 import dao.CustomerNotFoundException;
+import dao.OrderNotFoundException;
 import domain.CustomerOrder;
 import service.OlfService;
 import service.ServiceUnavailableException;
@@ -58,4 +60,16 @@ public class CustomerOrderResource {
 		}
 	}
 
+	@GET
+	@Produces({"application/JSON", "application/XML" })
+	@Path("{orderNr}")
+	public Response OrderById(@PathParam("orderNr") int orderNr) {
+		try {
+			CustomerOrder result = service.getOrderById(orderNr);
+			return Response.ok(result).build();
+		} catch (OrderNotFoundException e) {
+			return Response.status(404).build();
+		}
+	}
+	
 }

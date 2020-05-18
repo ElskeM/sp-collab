@@ -76,19 +76,19 @@ public class OlfServiceImpl implements OlfService  {
 	}
 
 	@Override
-	public Article getArticle(int artNr) throws ArticleNotFoundException {
+	public Article getArticleById(int artNr) throws ArticleNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Customer getCustomer(int cnr) throws CustomerNotFoundException {
+	public Customer getCustomerById(int cnr) throws CustomerNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public CustomerOrder getOrder(int orderNr) throws OrderNotFoundException {
+	public CustomerOrder getOrderById(int orderNr) throws OrderNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}

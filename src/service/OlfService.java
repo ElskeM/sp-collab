@@ -18,15 +18,16 @@ public interface OlfService {
 	public List<Customer> getAllCustomer();
 	public List<Article> getAllArticle();
 	
-	public Article getArticle(int artNr) throws ArticleNotFoundException;
+	public Article getArticleById(int artNr) throws ArticleNotFoundException;
 	public List<Article> getArticlesBetweenId(int firstId, int secondId);
 	public List<Customer> getCustomersBetweenId(int firstId, int secondId);
-	public Customer getCustomer(int cnr) throws CustomerNotFoundException;
-	public CustomerOrder getOrder(int orderNr) throws OrderNotFoundException; 
+	public Customer getCustomerById(int cnr) throws CustomerNotFoundException;
+	public CustomerOrder getOrderById(int orderNr) throws OrderNotFoundException; 
 
 	public Article register(Article article);
 	public CustomerOrder register(CustomerOrder order) throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException ;
 	public Customer register(Customer customer);
 	
 	public void dropAllTables();
+
 }
