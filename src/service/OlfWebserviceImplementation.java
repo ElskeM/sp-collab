@@ -43,7 +43,7 @@ public class OlfWebserviceImplementation {
 
 	}
 
-	public void registerOrder(CustomerOrder customerOrder) throws ArticleNotFoundException, CustomerNotFoundException {
+	public void registerOrder(CustomerOrder customerOrder) throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException {
 
 		// TODO Auto-generated method stub
 		service.register(customerOrder);
