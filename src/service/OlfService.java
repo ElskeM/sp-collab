@@ -27,7 +27,7 @@ public interface OlfService {
 
 	public Article register(Article article);
 	public CustomerOrder register(CustomerOrder order) throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException ;
-	public void register(Customer customer);
+	public Customer register(Customer customer);
 	
 	public void dropAllTables();
 }
