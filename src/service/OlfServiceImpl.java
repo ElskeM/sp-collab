@@ -1,19 +1,14 @@
 package service;
 
 
-import java.util.ArrayList;
-
 import java.util.Date;
-
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.jws.WebService;
 
 import dao.ArticleNotFoundException;
 import dao.CustomerNotFoundException;
@@ -128,6 +123,24 @@ public class OlfServiceImpl implements OlfService  {
 
 	@Override
 	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException {
+		
+	}
+
+	@Override
+	public void deleteCustomer(int cnr) throws CustomerNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateArticle(int artNr, String description, int stock, double price) throws ArticleNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException {
+		// TODO Auto-generated method stub
 		
 	}
 

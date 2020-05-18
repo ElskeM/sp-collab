@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
+
 import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
@@ -150,6 +150,24 @@ public class DataAccessTestingVersion implements DataAccess {
 
 	@Override
 	public void deleteArticle(int artNr) throws ArticleNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateArticle(int artNr, String description, int stock, double price) throws ArticleNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteCustomer(int cnr) throws CustomerNotFoundException {
 		// TODO Auto-generated method stub
 		
 	}

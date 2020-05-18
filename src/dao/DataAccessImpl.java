@@ -198,6 +198,7 @@ public class DataAccessImpl implements DataAccess {
 
 	}
 
+	@Override
 	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate)
 			throws OrderNotFoundException {
 		CustomerOrder cO = findOrderById(orderNr);
@@ -210,6 +211,24 @@ public class DataAccessImpl implements DataAccess {
 		CustomerOrder cO = findOrderById(orderNr);
 		em.remove(cO);
 
+	}
+
+	@Override
+	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateArticle(int artNr, String description, int stock, double price) throws ArticleNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteCustomer(int cnr) throws CustomerNotFoundException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

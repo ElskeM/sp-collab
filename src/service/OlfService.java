@@ -33,9 +33,11 @@ public interface OlfService {
 	public void dropAllTables();
 
 	public void deleteArticle(int artNr) throws ArticleNotFoundException;
-
-	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate) throws OrderNotFoundException;
+	public void deleteCustomer(int cnr) throws CustomerNotFoundException;
 	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException;
-
+	
+	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate) throws OrderNotFoundException;
+	public void updateArticle(int artNr, String description, int stock, double price ) throws ArticleNotFoundException;
+	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException;
 
 }
