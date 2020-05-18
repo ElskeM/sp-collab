@@ -57,6 +57,14 @@ public class CustomerOrder implements Serializable {
 	@XmlElement
 	private Date dispatchDate;
 
+	public void setArticles(Map<Article, Integer> articles) {
+		this.articles = articles;
+	}
+
+	public void setDispatchDate(Date dispatchDate) {
+		this.dispatchDate = dispatchDate;
+	}
+
 	public CustomerOrder() {
 		// TODO Auto-generated constructor stub
 	}

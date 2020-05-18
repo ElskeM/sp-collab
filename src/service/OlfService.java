@@ -1,6 +1,8 @@
 package service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 
@@ -29,5 +31,7 @@ public interface OlfService {
 	public Customer register(Customer customer) throws ServiceUnavailableException;
 	
 	public void dropAllTables();
+	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate) throws OrderNotFoundException;
+	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException;
 
 }

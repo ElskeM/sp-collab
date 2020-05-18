@@ -1,6 +1,9 @@
 package dao;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import javax.ejb.Local;
 
 import domain.Article;
@@ -28,7 +31,8 @@ public interface DataAccess {
 	public List<Article> findArticlesBetweenId(int firstId, int secondId);
 	public List<Customer> findOrdersBetweenId(int firstId, int secondId);
 
-
+	void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate) throws OrderNotFoundException;
+	void deleteCustomerOrder(int orderNr) throws OrderNotFoundException;
 	
 	
 	

@@ -1,6 +1,8 @@
 package dao;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.ejb.Stateless;
@@ -174,6 +176,20 @@ public class DataAccessImpl implements DataAccess {
 	public List<Customer> findOrdersBetweenId(int firstId, int secondId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate) throws OrderNotFoundException {
+		CustomerOrder cO = findOrderById(orderNr);
+			cO.setArticles(articles);
+			cO.setDispatchDate(dispatchDate);		
+	}
+
+	@Override
+	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException {
+		CustomerOrder cO = findOrderById(orderNr);
+		em.remove(cO);
+		
 	}
 
 

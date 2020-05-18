@@ -1,6 +1,8 @@
 package service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
@@ -61,9 +63,7 @@ public class OlfServiceImpl implements OlfService  {
 	}
 
 	@Override
-	public Customer register(Customer customer) throws ServiceUnavailableException{
-
-		// TODO Auto-generated method stub
+	public Customer register(Customer customer) throws ServiceUnavailableException {
 		dao.insert(customer);	
 		return customer;
 	}
@@ -89,8 +89,7 @@ public class OlfServiceImpl implements OlfService  {
 
 	@Override
 	public CustomerOrder getOrderById(int orderNr) throws OrderNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findOrderById(orderNr);
 	}
 
 	@Override
@@ -103,6 +102,18 @@ public class OlfServiceImpl implements OlfService  {
 	public List<Customer> getCustomersBetweenId(int firstId, int secondId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate) throws OrderNotFoundException {
+		dao.updateCustomerOrder(orderNr, articles, dispatchDate);
+		
+	}
+
+	@Override
+	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException {
+		
+		
 	}
 
 }

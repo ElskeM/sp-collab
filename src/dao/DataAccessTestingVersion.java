@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import domain.Article;
@@ -130,6 +132,18 @@ public class DataAccessTestingVersion implements DataAccess {
 	public List<Customer> findOrdersBetweenId(int firstId, int secondId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException {
+		// TODO Auto-generated method stub
+		
 	}
 
 
