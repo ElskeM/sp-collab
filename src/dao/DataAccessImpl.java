@@ -122,6 +122,7 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public Article findArticleById(int artNr) throws ArticleNotFoundException {
+		
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -158,8 +159,13 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public List<Article> findArticlesBetweenId(int firstId, int secondId) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Query q = em.createQuery("select article from Article article where article.artNr >= :first and "
+				+ "article.artNr <= :second");
+		q.setParameter("first", firstId);
+		q.setParameter("second", secondId);
+		List<Article> articles = q.getResultList();
+		return articles;
 	}
 
 	@Override

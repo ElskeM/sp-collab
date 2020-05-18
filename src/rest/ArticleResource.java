@@ -5,10 +5,13 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
 import domain.Article;
@@ -21,11 +24,32 @@ public class ArticleResource {
 	@Inject
 	private OlfService service;
 	
+//	@GET
+//	@Produces({"application/JSON", "application/XML"})
+//	public Response getAllArticles() {
+//		return Response.ok(service.getAllArticle()).build();
+//	}
+	
 	@GET
 	@Produces({"application/JSON", "application/XML"})
-	public Response getAllArticles() {
-		return Response.ok(service.getAllArticle()).build();
+	public Response getAllArticlesBetweenId(@DefaultValue("0") @QueryParam("firstId") Integer firstId, 
+			@QueryParam("secondId") Integer secondId) {
+		if(firstId == 0 && secondId == null) {
+			GenericEntity<List<Article>> articles = 
+					new GenericEntity<List<Article>>(service.getAllArticle()) {};
+			return Response.ok(articles).build();
+		}
+		if(firstId != null && secondId != null) {
+			//return Response.ok(service.getArticlesBetweenId(firstId, secondId)).build();
+			GenericEntity<List<Article>> articles = 
+					new GenericEntity<List<Article>>(service.getArticlesBetweenId(firstId, secondId)) {};
+			return Response.ok(articles).build();
+		}
+		return Response.status(400).build();
+		
 	}
+	
+	
 	
 	@POST
 	@Produces({"application/JSON", "application/XML"})
