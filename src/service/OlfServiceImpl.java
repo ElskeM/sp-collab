@@ -48,9 +48,10 @@ public class OlfServiceImpl implements OlfService  {
 	}
 
 	@Override
-	public void register(CustomerOrder customerOrder) throws ArticleNotFoundException, CustomerNotFoundException {
+	public CustomerOrder register(CustomerOrder customerOrder) throws ArticleNotFoundException, CustomerNotFoundException {
 
 			dao.insert(customerOrder);
+			return customerOrder;
 		
 	}
 

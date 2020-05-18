@@ -23,7 +23,7 @@ public interface OlfService {
 	public CustomerOrder getOrder(int orderNr) throws OrderNotFoundException; 
 
 	public Article register(Article article);
-	public void register(CustomerOrder order) throws ArticleNotFoundException, CustomerNotFoundException;
+	public CustomerOrder register(CustomerOrder order) throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException ;
 	public void register(Customer customer);
 	
 	public void dropAllTables();
