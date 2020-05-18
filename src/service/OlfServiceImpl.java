@@ -129,8 +129,6 @@ public class OlfServiceImpl implements OlfService  {
 	@Override
 	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException {
 		
-
-		
 	}
 
 }

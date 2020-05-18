@@ -22,17 +22,17 @@ public class DataAccessImpl implements DataAccess {
 
 	@PersistenceContext
 	private EntityManager em;
-	
+
 	@Override
 	public void insert(Article article) {
 		em.persist(article);
 	}
-	
+
 	@Override
 	public void insert(Customer customer) {
 		em.persist(customer);
 	}
-	
+
 	@Override
 	public void insert(CustomerOrder order) {
 
@@ -76,16 +76,19 @@ public class DataAccessImpl implements DataAccess {
 
 	/**
 	 * Hämtar alla orderrader för ett givet ordernummer
+	 * 
 	 * @param orderId
 	 * @return
 	 */
-	private List<Entry<Article,Integer>> getOrderRows(int orderId) {
+	private List<Entry<Article, Integer>> getOrderRows(int orderId) {
 
-		Query q = em.createQuery("select entry(orderrows) from CustomerOrder o INNER JOIN o.articles orderrows where o.orderNr=:orderNr",java.util.Map.Entry.class);
+		Query q = em.createQuery(
+				"select entry(orderrows) from CustomerOrder o INNER JOIN o.articles orderrows where o.orderNr=:orderNr",
+				java.util.Map.Entry.class);
 		q.setParameter("orderNr", orderId);
-		List<Entry<Article,Integer>> res = q.getResultList();
-		for(Entry<Article,Integer> e: res) {
-			System.out.println(e.getKey().getArtNr()+":"+e.getValue());
+		List<Entry<Article, Integer>> res = q.getResultList();
+		for (Entry<Article, Integer> e : res) {
+			System.out.println(e.getKey().getArtNr() + ":" + e.getValue());
 		}
 		return res;
 	}
@@ -122,11 +125,11 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public Article findArticleById(int artNr) throws ArticleNotFoundException {
-		
+
 		Query q = em.createQuery("select article from Article article where article.artNr = :artNr");
 		q.setParameter("artNr", artNr);
 		return (Article) q.getSingleResult();
-	
+
 	}
 
 	@Override
@@ -137,8 +140,9 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public CustomerOrder findOrderById(int orderNr) throws OrderNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Query q = em.createQuery("select order from CustomerOrder order where order.orderNr = :orderNr");
+		q.setParameter("orderNr", orderNr);
+		return (CustomerOrder) q.getSingleResult();
 	}
 
 	@Override
@@ -149,8 +153,7 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public List<Customer> findCustomerBySurname(String name) throws CustomerNotFoundException {
-		Query q = em.createQuery(
-				"select customer from Customer customer where customer.surname is like :name");
+		Query q = em.createQuery("select customer from Customer customer where customer.surname is like :name");
 		q.setParameter("name", name);
 		List<Customer> customers = q.getResultList();
 
@@ -165,9 +168,9 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public List<Article> findArticlesBetweenId(int firstId, int secondId) {
-		
-		Query q = em.createQuery("select article from Article article where article.artNr >= :first and "
-				+ "article.artNr <= :second");
+
+		Query q = em.createQuery(
+				"select article from Article article where article.artNr >= :first and " + "article.artNr <= :second");
 		q.setParameter("first", firstId);
 		q.setParameter("second", secondId);
 		List<Article> articles = q.getResultList();
@@ -184,12 +187,14 @@ public class DataAccessImpl implements DataAccess {
 	public void deleteArticle(int artNr) throws ArticleNotFoundException {
 		Article art = findArticleById(artNr);
 		em.remove(art);
-		
+
 	}
-	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate) throws OrderNotFoundException {
+
+	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate)
+			throws OrderNotFoundException {
 		CustomerOrder cO = findOrderById(orderNr);
-			cO.setArticles(articles);
-			cO.setDispatchDate(dispatchDate);		
+		cO.setArticles(articles);
+		cO.setDispatchDate(dispatchDate);
 	}
 
 	@Override
@@ -197,8 +202,6 @@ public class DataAccessImpl implements DataAccess {
 		CustomerOrder cO = findOrderById(orderNr);
 		em.remove(cO);
 
-		
 	}
-
 
 }
