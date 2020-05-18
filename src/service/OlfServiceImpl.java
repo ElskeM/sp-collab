@@ -2,6 +2,8 @@ package service;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jws.WebService;
@@ -22,8 +24,11 @@ public class OlfServiceImpl implements OlfService  {
 	@Inject
 	private DataAccess dao;
 	
+	@Resource
+	private SessionContext ctx;
+	
 	@Override
-	public List<CustomerOrder> getAllOrders() {
+	public List<CustomerOrder> getAllOrders() throws ServiceUnavailableException {
 		return dao.findAllOrders();
 	}
 
@@ -100,9 +105,4 @@ public class OlfServiceImpl implements OlfService  {
 		return null;
 	}
 
-	@Override
-	public List<CustomerOrder> getCustomerOrdersBetweenId(int firstId, int secondId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

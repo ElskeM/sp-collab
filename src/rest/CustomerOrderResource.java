@@ -27,8 +27,13 @@ public class CustomerOrderResource {
 
 	@GET
 	@Produces({ "application/JSON", "application/XML" })
-	public List<CustomerOrder> getAllOrders() {
-		return service.getAllOrders();
+	public Response getAllOrders() {
+		try {
+			List<CustomerOrder> allOrders = service.getAllOrders();
+			return Response.ok(allOrders).build();
+		} catch (ServiceUnavailableException e) {
+			return Response.status(504).build();
+		}
 	}
 
 	@POST

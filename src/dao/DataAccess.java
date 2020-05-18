@@ -27,7 +27,7 @@ public interface DataAccess {
 	
 	public List<Article> findArticlesBetweenId(int firstId, int secondId);
 	public List<Customer> findOrdersBetweenId(int firstId, int secondId);
-	public List<CustomerOrder> findCustomerOrdersBetweenId(int firstId, int secondId);
+
 
 	
 	
