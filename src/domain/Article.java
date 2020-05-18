@@ -55,7 +55,7 @@ public class Article implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Articlenumber: " + artNr + " | name: " + name + " | description: " + description + " | price: " + price;
+		return "Article number: " + artNr + " | name: " + name + " | description: " + description + " | price: " + price;
 	}
 
 	
