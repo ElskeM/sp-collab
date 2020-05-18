@@ -9,7 +9,7 @@ import domain.CustomerOrder;
 
 @Local
 public interface DataAccess {
-	public Article insert(Article article);
+	public void insert(Article article);
 	public void insert(Customer customer);
 	public void insert(CustomerOrder customerOrder) throws ArticleNotFoundException,CustomerNotFoundException;
 	

@@ -17,8 +17,8 @@ import domain.CustomerOrder;
 public class DataAccessTestingVersion implements DataAccess {
 
 	@Override
-	public Article insert(Article newArticle) {
-		return null;
+	public void insert(Article newArticle) {
+		
 	}
 
 	@Override

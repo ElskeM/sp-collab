@@ -22,10 +22,8 @@ public class DataAccessImpl implements DataAccess {
 	private EntityManager em;
 	
 	@Override
-	public Article insert(Article article) {
+	public void insert(Article article) {
 		em.persist(article);
-
-		return article; // with updated Id-value
 	}
 	
 	@Override
