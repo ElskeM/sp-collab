@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -16,6 +17,7 @@ public class Customer implements Serializable {
 	private static final long serialVersionUID = -6937327123991374742L;
 
 	@Id
+	@XmlAttribute(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "cnr")
 	private int cnr;//Or string name?
