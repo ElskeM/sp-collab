@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -19,6 +20,7 @@ public class Article implements Serializable {
 	@SequenceGenerator(name = "ART_SEQ", initialValue = 10000)
 	
 	@Id
+	@XmlAttribute
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "ART_SEQ")
 	@Column(name = "artNr")
 	private int artNr;
