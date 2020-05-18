@@ -1,8 +1,11 @@
 package rest;
 
+import java.net.URI;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -47,12 +50,31 @@ public class CustomerResource {
 	public Response registerCustomer(Customer customer) {
 		// try catch
 		try {
-			service.register(customer);
-			return Response.ok().build();
+
+			Customer newCustomer = service.register(customer);
+			URI uri = null;
+			try {
+				uri = new URI("/employees/" + newCustomer.getCnr());
+			} catch (Exception e) {
+			}
+			return Response.created(uri).build();
 		} catch (ServiceUnavailableException e) {
 			return Response.status(504).build();
 		}
 
+	}
+
+	@POST
+	@Produces({ "application/JSON", "application/XML" })
+	@Consumes({ "application/JSON", "application/XML" })
+	public Response updateCustomer(Customer customer, int cnr) {
+		return null;
+	}
+
+	@DELETE
+	@Produces({ "application/JSON", "application/XML" })
+	public Response deleteCustomer(int id) {
+		return null;
 	}
 
 }
