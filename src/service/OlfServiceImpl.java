@@ -48,9 +48,10 @@ public class OlfServiceImpl implements OlfService  {
 	}
 
 	@Override
-	public void register(CustomerOrder customerOrder) throws ArticleNotFoundException, CustomerNotFoundException {
+	public CustomerOrder register(CustomerOrder customerOrder) throws ArticleNotFoundException, CustomerNotFoundException {
 
 			dao.insert(customerOrder);
+			return customerOrder;
 		
 	}
 
@@ -88,8 +89,8 @@ public class OlfServiceImpl implements OlfService  {
 
 	@Override
 	public List<Article> getArticlesBetweenId(int firstId, int secondId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return dao.findArticlesBetweenId(firstId, secondId);
 	}
 
 	@Override
