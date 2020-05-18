@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -70,6 +71,29 @@ public class CustomerOrderResource {
 		} catch (OrderNotFoundException e) {
 			return Response.status(404).build();
 		}
+	}
+	
+	
+	
+	public Response updateCustomerOrder(@PathParam("orderNr") int orderNr, CustomerOrder cO) {
+		try {
+			service.updateCustomerOrder(orderNr, cO.getArticles(), cO.getDispatchDate());
+			return Response.ok(service.getOrderById(orderNr)).build();
+		} catch (OrderNotFoundException e) {
+			return Response.status(404).build();
+		}
+	}
+	
+	@DELETE
+	@Path("{orderNr}")
+	public Response deleteCustomerOrder(@PathParam("orderNr") int orderNr) {
+		try {
+			service.deleteCustomerOrder(orderNr);
+			return Response.status(204).build();
+		} catch (OrderNotFoundException e) {
+			return Response.status(404).build();
+		}
+		
 	}
 	
 }
