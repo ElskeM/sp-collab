@@ -54,7 +54,7 @@ public class CustomerResource {
 			Customer newCustomer = service.register(customer);
 			URI uri = null;
 			try {
-				uri = new URI("/employees/" + newCustomer.getCnr());
+				uri = new URI("*/customers/" + newCustomer.getCnr());
 			} catch (Exception e) {
 			}
 			return Response.created(uri).build();
@@ -72,8 +72,8 @@ public class CustomerResource {
 	}
 
 	@DELETE
-	@Produces({ "application/JSON", "application/XML" })
-	public Response deleteCustomer(int id) {
+	@Path("{customerId}")
+	public Response deleteCustomer(@PathParam("customerId") int id) {
 		return null;
 	}
 
