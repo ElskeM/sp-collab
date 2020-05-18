@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -40,7 +41,7 @@ public class OlfServiceImpl implements OlfService  {
 
 	@Override
 	public List<Article> getAllArticle() {
-
+		
 		return dao.findAllArticle();
 	}
 
@@ -77,8 +78,11 @@ public class OlfServiceImpl implements OlfService  {
 
 	@Override
 	public Article getArticleById(int artNr) throws ArticleNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Article art = dao.findArticleById(artNr);
+		if(art == null) {
+			throw new ArticleNotFoundException();
+		} 
+		return art;
 	}
 
 	@Override

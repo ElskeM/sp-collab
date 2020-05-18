@@ -9,11 +9,13 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
+import dao.ArticleNotFoundException;
 import domain.Article;
 import service.OlfService;
 
@@ -48,6 +50,17 @@ public class ArticleResource {
 		
 	}
 	
+	@GET
+	@Produces({"application/JSON", "application/XML"})
+	@Path("{artNr")
+	public Response getArticleById(@PathParam("artNr") int artNr) {
+		try {
+			Article art = service.getArticleById(artNr);
+			return Response.ok(art).build();
+		}catch (ArticleNotFoundException e) {
+			return Response.status(404).build();
+		}
+	}
 	
 	
 	@POST
