@@ -17,7 +17,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAnyAttribute;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlValue;
 
 @Entity
 @XmlRootElement
@@ -25,17 +29,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class CustomerOrder implements Serializable {
 	private static final long serialVersionUID = -5152794172107611719L;
 	
+	@XmlAttribute
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "orderNr")
 	private int orderNr;
+	
+	@XmlElement
 	private Date orderDate;
+	
+	@XmlElement
 	private Date dispatchDate;
 	
+	@XmlElement
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "cnr")
 	private Customer customer;
-
+	
+	@XmlElement
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "tblOrderRows",
 			joinColumns = {@JoinColumn(name = "orderNr", referencedColumnName = "orderNr")})
