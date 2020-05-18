@@ -61,7 +61,7 @@ public class OlfServiceImpl implements OlfService  {
 	}
 
 	@Override
-	public Customer register(Customer customer) {
+	public Customer register(Customer customer) throws ServiceUnavailableException{
 
 		// TODO Auto-generated method stub
 		dao.insert(customer);	
