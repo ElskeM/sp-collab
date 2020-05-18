@@ -1,7 +1,5 @@
 package rest;
 
-import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -10,42 +8,51 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
+import dao.CustomerNotFoundException;
 import domain.Customer;
 import service.OlfService;
-import service.OlfServiceImpl;
+import service.ServiceUnavailableException;
 
 @Stateless
 @Path("/customers")
 public class CustomerResource {
-	
+
 	@Inject
 	private OlfService service;
 
-	
 	@GET
-	@Produces({"application/JSON", "application/XML"})
-	public List<Customer> getAllCustomers(){
-		return service.getAllCustomer();
-		
+	@Produces({ "application/JSON", "application/XML" })
+	public Response getAllCustomers() {
+		return Response.ok(service.getAllCustomer()).build();
+
 	}
-	
-	
-	//saknar implementation i service och db-klasserna, något vi ska ha?
+
+	// saknar implementation i service och db-klasserna, något vi ska ha?
 	@GET
-	@Produces({"application/JSON", "application/XML"})
+	@Produces({ "application/JSON", "application/XML" })
 	@Path("{customerId}")
-	public Customer findCustomerById(@PathParam("customerId") int id) {
-		return null;
+	public Response findCustomerById(@PathParam("customerId") int id) {
+		try {
+			return Response.ok(service.getCustomer(id)).build();
+		} catch (CustomerNotFoundException e) {
+			return Response.status(404).build();
+		}
 	}
-	
+
 	@POST
-	@Produces({"application/JSON", "application/XML"})
-	@Consumes({"application/JSON", "application/XML"})
-	public Customer registerCustomer(Customer customer) {
-		service.register(customer);
-		return customer;
-		
+	@Produces({ "application/JSON", "application/XML" })
+	@Consumes({ "application/JSON", "application/XML" })
+	public Response registerCustomer(Customer customer) {
+		// try catch
+		try {
+			service.register(customer);
+			return Response.ok().build();
+		} catch (ServiceUnavailableException e) {
+			return Response.status(500).build();
+		}
+
 	}
 
 }
