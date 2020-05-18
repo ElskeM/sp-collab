@@ -52,13 +52,14 @@ public class ArticleResource {
 	
 	@GET
 	@Produces({"application/JSON", "application/XML"})
-	@Path("{artNr")
+	@Path("{artNr}")
 	public Response getArticleById(@PathParam("artNr") int artNr) {
 		try {
 			Article art = service.getArticleById(artNr);
 			return Response.ok(art).build();
 		}catch (ArticleNotFoundException e) {
 			return Response.status(404).build();
+			
 		}
 	}
 	

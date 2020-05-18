@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -78,11 +79,16 @@ public class OlfServiceImpl implements OlfService  {
 
 	@Override
 	public Article getArticleById(int artNr) throws ArticleNotFoundException {
-		Article art = dao.findArticleById(artNr);
-		if(art == null) {
+		
+		try {
+			Article art = dao.findArticleById(artNr);
+			return art;
+		}catch(Exception e) {
 			throw new ArticleNotFoundException();
-		} 
-		return art;
+			
+		}
+		
+		
 	}
 
 	@Override
