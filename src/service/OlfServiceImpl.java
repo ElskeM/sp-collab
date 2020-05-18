@@ -85,4 +85,22 @@ public class OlfServiceImpl implements OlfService  {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<Article> getArticlesBetweenId(int firstId, int secondId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Customer> getCustomersBetweenId(int firstId, int secondId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CustomerOrder> getCustomerOrdersBetweenId(int firstId, int secondId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

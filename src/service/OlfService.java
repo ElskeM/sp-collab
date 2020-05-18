@@ -19,6 +19,9 @@ public interface OlfService {
 	public List<Article> getAllArticle();
 	
 	public Article getArticle(int artNr) throws ArticleNotFoundException;
+	public List<Article> getArticlesBetweenId(int firstId, int secondId);
+	public List<Customer> getCustomersBetweenId(int firstId, int secondId);
+	public List<CustomerOrder> getCustomerOrdersBetweenId(int firstId, int secondId);
 	public Customer getCustomer(int cnr) throws CustomerNotFoundException;
 	public CustomerOrder getOrder(int orderNr) throws OrderNotFoundException; 
 
