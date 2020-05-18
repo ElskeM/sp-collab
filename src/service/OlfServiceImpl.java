@@ -1,6 +1,5 @@
 package service;
 
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -18,17 +17,15 @@ import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
 
-
-
 @Stateless
-public class OlfServiceImpl implements OlfService  {
+public class OlfServiceImpl implements OlfService {
 
 	@Inject
 	private DataAccess dao;
-	
+
 	@Resource
 	private SessionContext ctx;
-	
+
 	@Override
 	public List<CustomerOrder> getAllOrders() throws ServiceUnavailableException {
 		return dao.findAllOrders();
@@ -42,7 +39,7 @@ public class OlfServiceImpl implements OlfService  {
 
 	@Override
 	public List<Article> getAllArticle() {
-		
+
 		return dao.findAllArticle();
 	}
 
@@ -51,46 +48,50 @@ public class OlfServiceImpl implements OlfService  {
 
 		dao.insert(article);
 		return article;
-		
+
 	}
 
 	@Override
-	public CustomerOrder register(CustomerOrder customerOrder) throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException {
+	public CustomerOrder register(CustomerOrder customerOrder)
+			throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException {
 
-			dao.insert(customerOrder);
-			return customerOrder;
-		
+		dao.insert(customerOrder);
+		return customerOrder;
+
 	}
 
 	@Override
 	public Customer register(Customer customer) throws ServiceUnavailableException {
-		dao.insert(customer);	
+		dao.insert(customer);
 		return customer;
 	}
-	
+
 	@Override
 	public void dropAllTables() {
 
 		dao.dropAllTables();
-		
+
 	}
 
 	@Override
 	public Article getArticleById(int artNr) throws ArticleNotFoundException {
-		
+
 		try {
 			Article art = dao.findArticleById(artNr);
 			return art;
-		}catch(Exception e) {
+		} catch (Exception e) {
 			throw new ArticleNotFoundException();
-			
-		}			
+
+		}
 	}
 
 	@Override
 	public Customer getCustomerById(int cnr) throws CustomerNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return dao.findCustomerById(cnr);
+		} catch (Exception e) {
+			throw new CustomerNotFoundException();
+		}
 	}
 
 	@Override
@@ -116,32 +117,40 @@ public class OlfServiceImpl implements OlfService  {
 		dao.deleteArticle(artNr);
 
 	}
-	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate) throws OrderNotFoundException {
+
+	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate)
+			throws OrderNotFoundException {
 		dao.updateCustomerOrder(orderNr, articles, dispatchDate);
-		
+
 	}
 
 	@Override
 	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException {
-		
+
 	}
 
 	@Override
 	public void deleteCustomer(int cnr) throws CustomerNotFoundException {
-		// TODO Auto-generated method stub
-		
+		try {
+			dao.deleteCustomer(cnr);
+		} catch (Exception e) {
+			throw new CustomerNotFoundException();
+		}
 	}
 
 	@Override
 	public void updateArticle(int artNr, String description, int stock, double price) throws ArticleNotFoundException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException {
-		// TODO Auto-generated method stub
-		
+		try {
+			dao.updateCustomer(cnr, customer);
+		} catch (Exception e) {
+			throw new CustomerNotFoundException();
+		}
 	}
 
 }

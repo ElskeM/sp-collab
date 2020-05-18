@@ -17,7 +17,7 @@ import domain.CustomerOrder;
 public interface OlfService {
 
 	public List<CustomerOrder> getAllOrders() throws ServiceUnavailableException;
-	public List<Customer> getAllCustomer();
+	public List<Customer> getAllCustomer() throws ServiceUnavailableException;
 	public List<Article> getAllArticle();
 	
 	public Article getArticleById(int artNr) throws ArticleNotFoundException;

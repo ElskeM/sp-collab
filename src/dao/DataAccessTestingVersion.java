@@ -111,7 +111,7 @@ public class DataAccessTestingVersion implements DataAccess {
 	}
 
 	@Override
-	public List<Customer> findCustomerBySurname(String name) throws CustomerNotFoundException {
+	public List<Customer> findCustomerByLastname(String name) throws CustomerNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}

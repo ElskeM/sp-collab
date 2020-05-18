@@ -1,6 +1,7 @@
 package rest;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -8,13 +9,17 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
 import dao.CustomerNotFoundException;
 import domain.Customer;
+import domain.CustomerOrder;
 import service.OlfService;
 import service.ServiceUnavailableException;
 
@@ -28,11 +33,16 @@ public class CustomerResource {
 	@GET
 	@Produces({ "application/JSON", "application/XML" })
 	public Response getAllCustomers() {
-		return Response.ok(service.getAllCustomer()).build();
+		try {
+			GenericEntity<List<Customer>> allCustomers = 
+					new GenericEntity<List<Customer>>(service.getAllCustomer()) {};
+			return Response.ok(allCustomers).build();
+		} catch (ServiceUnavailableException e) {
+			return Response.status(504).build();
+		}
 
 	}
 
-	// saknar implementation i service och db-klasserna, något vi ska ha?
 	@GET
 	@Produces({ "application/JSON", "application/XML" })
 	@Path("{customerId}")
@@ -48,13 +58,12 @@ public class CustomerResource {
 	@Produces({ "application/JSON", "application/XML" })
 	@Consumes({ "application/JSON", "application/XML" })
 	public Response registerCustomer(Customer customer) {
-		// try catch
 		try {
 
 			Customer newCustomer = service.register(customer);
 			URI uri = null;
 			try {
-				uri = new URI("*/customers/" + newCustomer.getCnr());
+				uri = new URI("customers/" + newCustomer.getCnr());
 			} catch (Exception e) {
 			}
 			return Response.created(uri).build();
@@ -64,17 +73,27 @@ public class CustomerResource {
 
 	}
 
-	@POST
+	@PUT
 	@Produces({ "application/JSON", "application/XML" })
 	@Consumes({ "application/JSON", "application/XML" })
-	public Response updateCustomer(Customer customer, int cnr) {
-		return null;
+	public Response updateCustomer(@QueryParam("id") Integer cnr, Customer customer) {
+		try {
+			service.updateCustomer(cnr, customer);
+			return Response.ok(service.getCustomerById(cnr)).build();
+		} catch (CustomerNotFoundException e) {
+			return Response.status(404).build();
+		}
 	}
 
 	@DELETE
 	@Path("{customerId}")
-	public Response deleteCustomer(@PathParam("customerId") int id) {
-		return null;
+	public Response deleteCustomer(@PathParam("customerId") int id) {//funkar inte om den finns i en order?
+		try {
+			service.deleteCustomer(id);
+			return Response.status(204).build();
+		} catch (CustomerNotFoundException e) {
+			return Response.status(404).build();
+		}
 	}
 
 }

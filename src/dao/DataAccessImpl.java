@@ -135,10 +135,10 @@ public class DataAccessImpl implements DataAccess {
 	@Override
 	public Customer findCustomerById(int cnr) throws CustomerNotFoundException {
 		Query q = em.createQuery("select customer from Customer customer where customer.cnr=:id");
-		
+		q.setParameter("id", cnr);
 		Customer customer = null; 
 		try {
-			customer = (Customer) q.getResultList();
+			customer = (Customer) q.getSingleResult();
 		} catch (NoResultException e) {
 			System.out.println("ERROR: Could not find the customer in the database");
 			return null;
@@ -160,8 +160,8 @@ public class DataAccessImpl implements DataAccess {
 	}
 
 	@Override
-	public List<Customer> findCustomerBySurname(String name) throws CustomerNotFoundException {
-		Query q = em.createQuery("select customer from Customer customer where customer.surname is like :name");
+	public List<Customer> findCustomerByLastname(String name) throws CustomerNotFoundException {
+		Query q = em.createQuery("select customer from Customer customer where customer.lastname is like :name");
 		q.setParameter("name", name);
 		List<Customer> customers = q.getResultList();
 
@@ -215,7 +215,13 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException {
-		// TODO Auto-generated method stub
+		Customer cust = findCustomerById(cnr);
+		cust.setFirstName(customer.getFirstName());
+		cust.setLastName(customer.getLastName());
+		cust.setAddress(customer.getAddress());
+		cust.setZipCode(customer.getZipCode());
+		cust.setCity(customer.getCity());
+		cust.setDiscount(customer.getDiscount());
 		
 	}
 
@@ -227,7 +233,8 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public void deleteCustomer(int cnr) throws CustomerNotFoundException {
-		// TODO Auto-generated method stub
+		Customer cust = findCustomerById(cnr);
+		em.remove(cust);
 		
 	}
 

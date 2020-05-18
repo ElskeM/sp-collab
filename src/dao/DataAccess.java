@@ -25,7 +25,7 @@ public interface DataAccess {
 	public CustomerOrder findOrderById(int orderNr) throws OrderNotFoundException; 
 	
 	public List<Article> findArticleByName(String name) throws ArticleNotFoundException;
-	public List<Customer> findCustomerBySurname(String name) throws CustomerNotFoundException;//Or just name and search for both first- and surname?
+	public List<Customer> findCustomerByLastname(String name) throws CustomerNotFoundException;//Or just name and search for both first- and surname?
 	public List<CustomerOrder> findOrderByCustomerId(int cnr) throws OrderNotFoundException;
 	
 	public List<Article> findArticlesBetweenId(int firstId, int secondId);
