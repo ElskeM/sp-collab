@@ -9,6 +9,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import domain.Article;
 import service.OlfService;
@@ -22,8 +23,8 @@ public class ArticleResource {
 	
 	@GET
 	@Produces({"application/JSON", "application/XML"})
-	public List<Article> getAllArticles() {
-		return service.getAllArticle();
+	public Response getAllArticles() {
+		return Response.ok(service.getAllArticle()).build();
 	}
 	
 	@POST

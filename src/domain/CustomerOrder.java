@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlValue;
 
 @Entity
 @XmlRootElement
@@ -27,20 +28,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class CustomerOrder implements Serializable {
 	private static final long serialVersionUID = -5152794172107611719L;
 	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "orderNr")
 	@XmlAttribute
 	private int orderNr;
-	@XmlAttribute
+
+	@XmlElement
 	private Date orderDate;
-	@XmlAttribute
-	private Date dispatchDate;
-	
+
+
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "cnr")
 	@XmlElement
 	private Customer customer;
+	
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "tblOrderRows",
@@ -50,6 +53,9 @@ public class CustomerOrder implements Serializable {
 	@MapKeyColumn(name = "orderNr")
 	@XmlElement
 	private Map<Article, Integer> articles;
+
+	@XmlElement
+	private Date dispatchDate;
 
 	public CustomerOrder() {
 		// TODO Auto-generated constructor stub

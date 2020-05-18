@@ -2,6 +2,7 @@ package dao;
 
 import java.util.List;
 import javax.ejb.Local;
+
 import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
@@ -23,6 +24,12 @@ public interface DataAccess {
 	public List<Article> findArticleByName(String name) throws ArticleNotFoundException;
 	public List<Customer> findCustomerBySurname(String name) throws CustomerNotFoundException;//Or just name and search for both first- and surname?
 	public List<CustomerOrder> findOrderByCustomerId(int cnr) throws OrderNotFoundException;
+	
+	public List<Article> findArticlesBetweenId(int firstId, int secondId);
+	public List<Customer> findOrdersBetweenId(int firstId, int secondId);
+	public List<CustomerOrder> findCustomerOrdersBetweenId(int firstId, int secondId);
+
+	
 	
 	
 	

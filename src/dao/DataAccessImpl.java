@@ -156,4 +156,22 @@ public class DataAccessImpl implements DataAccess {
 		return null;
 	}
 
+	@Override
+	public List<Article> findArticlesBetweenId(int firstId, int secondId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Customer> findOrdersBetweenId(int firstId, int secondId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CustomerOrder> findCustomerOrdersBetweenId(int firstId, int secondId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
