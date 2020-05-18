@@ -40,7 +40,6 @@ public class ArticleResource {
 			return Response.ok(articles).build();
 		}
 		if(firstId != null && secondId != null) {
-			//return Response.ok(service.getArticlesBetweenId(firstId, secondId)).build();
 			GenericEntity<List<Article>> articles = 
 					new GenericEntity<List<Article>>(service.getArticlesBetweenId(firstId, secondId)) {};
 			return Response.ok(articles).build();
