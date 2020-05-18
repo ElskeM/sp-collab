@@ -131,8 +131,16 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public Customer findCustomerById(int cnr) throws CustomerNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Query q = em.createQuery("select customer from Customer customer where customer.cnr=:id");
+		
+		Customer customer = null; 
+		try {
+			customer = (Customer) q.getResultList();
+		} catch (NoResultException e) {
+			System.out.println("ERROR: Could not find the customer in the database");
+			return null;
+		}
+		return customer;
 	}
 
 	@Override
