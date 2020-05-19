@@ -60,10 +60,10 @@ public class CustomerResource {
 	public Response registerCustomer(Customer customer) {
 		try {
 
-			Customer newCustomer = service.register(customer);
+			service.register(customer);
 			URI uri = null;
 			try {
-				uri = new URI("customers/" + newCustomer.getCnr());
+				uri = new URI("customers/" + customer.getCnr());
 			} catch (Exception e) {
 			}
 			return Response.created(uri).build();

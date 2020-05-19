@@ -84,7 +84,6 @@ public class CustomerOrder implements Serializable {
 	}
 
 	public Date getDispatchDate() {
-		
 		return dispatchDate;
 	}
 	
