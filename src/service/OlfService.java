@@ -22,11 +22,12 @@ public interface OlfService {
 	
 	public Article getArticleById(int artNr) throws ArticleNotFoundException;
 	public List<Article> getArticlesBetweenId(int firstId, int secondId);
+	public List<CustomerOrder> getOrdersBetweenId(int firstId, int secondId);
 	public List<Customer> getCustomersBetweenId(int firstId, int secondId);
 	public Customer getCustomerById(int cnr) throws CustomerNotFoundException;
 	public CustomerOrder getOrderById(int orderNr) throws OrderNotFoundException; 
 
-	public Article register(Article article);
+	public Article register(Article article) throws ServiceUnavailableException;
 	public CustomerOrder register(CustomerOrder order) throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException ;
 	public Customer register(Customer customer) throws ServiceUnavailableException;
 	
@@ -37,7 +38,8 @@ public interface OlfService {
 	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException;
 	
 	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate) throws OrderNotFoundException;
-	public void updateArticle(int artNr, String description, int stock, double price ) throws ArticleNotFoundException;
+	public void updateArticle(int artNr, String description, double price, int stock) throws ArticleNotFoundException;
 	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException;
+
 
 }

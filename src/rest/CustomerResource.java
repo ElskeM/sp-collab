@@ -14,8 +14,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import dao.CustomerNotFoundException;
 import domain.Customer;
@@ -30,12 +33,15 @@ public class CustomerResource {
 	@Inject
 	private OlfService service;
 
+	@Context
+	private UriInfo uriInfo;
+
 	@GET
-	@Produces({ "application/JSON"})
+	@Produces({ "application/JSON" })
 	public Response getAllCustomers() {
 		try {
-			GenericEntity<List<Customer>> allCustomers = 
-					new GenericEntity<List<Customer>>(service.getAllCustomer()) {};
+			GenericEntity<List<Customer>> allCustomers = new GenericEntity<List<Customer>>(service.getAllCustomer()) {
+			};
 			return Response.ok(allCustomers).build();
 		} catch (ServiceUnavailableException e) {
 			return Response.status(504).build();
@@ -48,7 +54,11 @@ public class CustomerResource {
 	@Path("{customerId}")
 	public Response findCustomerById(@PathParam("customerId") int id) {
 		try {
-			return Response.ok(service.getCustomerById(id)).build();
+			Customer result = service.getCustomerById(id);
+			Link selfLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("self").type("get").build();
+			Link updateLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("update").type("put").build();
+			Link deleteLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("delete").type("delete").build();
+			return Response.ok(result).links(selfLink, updateLink, deleteLink).build();
 		} catch (CustomerNotFoundException e) {
 			return Response.status(404).build();
 		}
@@ -59,11 +69,10 @@ public class CustomerResource {
 	@Consumes({ "application/JSON" })
 	public Response registerCustomer(Customer customer) {
 		try {
-
 			service.register(customer);
 			URI uri = null;
 			try {
-				uri = new URI("customers/" + customer.getCnr());
+				uri = new URI(uriInfo.getAbsolutePath() + "/" + customer.getCnr());
 			} catch (Exception e) {
 			}
 			return Response.created(uri).build();
@@ -74,6 +83,7 @@ public class CustomerResource {
 	}
 
 	@PUT
+	@Path("{customerId}")
 	@Produces({ "application/JSON" })
 	@Consumes({ "application/JSON" })
 	public Response updateCustomer(@QueryParam("id") Integer cnr, Customer customer) {
@@ -87,7 +97,7 @@ public class CustomerResource {
 
 	@DELETE
 	@Path("{customerId}")
-	public Response deleteCustomer(@PathParam("customerId") int id) {//funkar inte om den finns i en order?
+	public Response deleteCustomer(@PathParam("customerId") int id) {// funkar inte om den finns i en order?
 		try {
 			service.deleteCustomer(id);
 			return Response.status(204).build();

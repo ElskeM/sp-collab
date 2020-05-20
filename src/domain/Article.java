@@ -24,9 +24,9 @@ public class Article implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "ART_SEQ")
 	@Column(name = "artNr")
 	private int artNr;
-	public String name;
-	public String  description;
-	public int stock; //Perhaps better with a warehouse entity that holds the stock. Stock does not "belong" to article
+	private String name;
+	private String  description;
+	private int stock; //Perhaps better with a warehouse entity that holds the stock. Stock does not "belong" to article
 	private double price;
 	
 	public Article() {
@@ -51,6 +51,27 @@ public class Article implements Serializable {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	@Override

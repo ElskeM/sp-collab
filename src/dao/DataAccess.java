@@ -29,12 +29,13 @@ public interface DataAccess {
 	public List<CustomerOrder> findOrderByCustomerId(int cnr) throws OrderNotFoundException;
 	
 	public List<Article> findArticlesBetweenId(int firstId, int secondId);
-	public List<Customer> findOrdersBetweenId(int firstId, int secondId);
+	public List<CustomerOrder> findOrdersBetweenId(int firstId, int secondId);
+	public List<Customer> findCustomersBetweenId(int firstId, int secondId);
 
 
 	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate) throws OrderNotFoundException;
 	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException;
-	public void updateArticle(int artNr, String description, int stock, double price ) throws ArticleNotFoundException;
+	public void updateArticle(int artNr, String description, double price, int stock) throws ArticleNotFoundException;
 	
 	public void deleteArticle(int artNr) throws ArticleNotFoundException;
 	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException;

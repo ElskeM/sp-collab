@@ -39,7 +39,7 @@ public class DataAccessImpl implements DataAccess {
 		for (Article a : order.getArticles().keySet()) {
 			Article db = findArticle(a);
 			if (db != null) {
-				System.out.println(db.name + ":" + db.getArtNr());
+				System.out.println(db.getName() + ":" + db.getArtNr());
 				int quantity = order.getArticles().get(a);
 				order.getArticles().keySet().remove(a);
 				order.getArticles().put(db, quantity);
@@ -155,8 +155,10 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public List<Article> findArticleByName(String name) throws ArticleNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Query q = em.createQuery("select article from Article article where article.name = :name");
+		q.setParameter("name", name);
+		List<Article> articles = q.getResultList();
+		return articles;
 	}
 
 	@Override
@@ -170,8 +172,10 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public List<CustomerOrder> findOrderByCustomerId(int cnr) throws OrderNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Query q = em.createQuery("select order from CustomerOrder order where order.cnr = :cnr");
+		q.setParameter("cnr", cnr);
+		List<CustomerOrder> orders = q.getResultList();
+		return orders;
 	}
 
 	@Override
@@ -186,9 +190,12 @@ public class DataAccessImpl implements DataAccess {
 	}
 
 	@Override
-	public List<Customer> findOrdersBetweenId(int firstId, int secondId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CustomerOrder> findOrdersBetweenId(int firstId, int secondId) {
+		Query q = em.createQuery("select order from CustomerOrder order where order.orderNr >= :first and order.orderNr <= :second");
+		q.setParameter("first", firstId);
+		q.setParameter("second", secondId);
+		List<CustomerOrder> orders = q.getResultList();
+		return orders;
 	}
 
 	@Override
@@ -226,9 +233,11 @@ public class DataAccessImpl implements DataAccess {
 	}
 
 	@Override
-	public void updateArticle(int artNr, String description, int stock, double price) throws ArticleNotFoundException {
-		// TODO Auto-generated method stub
-		
+	public void updateArticle(int artNr, String description, double price, int stock) throws ArticleNotFoundException {
+		Article a = findArticleById(artNr);
+		a.setDescription(description);
+		a.setPrice(price);
+		a.setStock(stock);
 	}
 
 	@Override
@@ -236,6 +245,16 @@ public class DataAccessImpl implements DataAccess {
 		Customer cust = findCustomerById(cnr);
 		em.remove(cust);
 		
+	}
+
+	@Override
+	public List<Customer> findCustomersBetweenId(int firstId, int secondId) {
+		Query q = em.createQuery(
+				"select customer from Customer customer where customer.cnr >= :first and customer.cnr <= :second");
+		q.setParameter("first", firstId);
+		q.setParameter("second", secondId);
+		List<Customer> customers = q.getResultList();
+		return customers;
 	}
 
 }

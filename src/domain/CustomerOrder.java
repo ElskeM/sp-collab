@@ -105,8 +105,8 @@ public class CustomerOrder implements Serializable {
 		
 		sb.append(customer.toString());
 		sb.append("\nOrderNumber: " + orderNr);
-		sb.append("\n Orderdate: " + orderDate);
-		sb.append("\nDispatchdate=" + dispatchDate);
+		sb.append("\n Orderdate: " + new SimpleDateFormat("yyyy-MM-dd").format(orderDate));
+		sb.append("\nDispatchdate=" + new SimpleDateFormat("yyyy-MM-dd").format(dispatchDate));
 		sb.append("\nNumber / Article Id\n");
 		
 		Iterator it = articles.entrySet().iterator();
