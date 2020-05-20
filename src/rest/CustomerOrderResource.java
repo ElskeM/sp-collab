@@ -41,8 +41,8 @@ public class CustomerOrderResource {
 	}
 
 	@POST
-	@Produces({ "application/JSON", "application/XML" })
-	@Consumes({ "application/JSON", "application/XML" })
+	@Produces({ "application/JSON" })
+	@Consumes({ "application/JSON" })
 	public Response registerOrder(CustomerOrder order) {
 		try {
 			service.register(order);
@@ -63,7 +63,7 @@ public class CustomerOrderResource {
 	}
 
 	@GET
-	@Produces({"application/JSON", "application/XML" })
+	@Produces({"application/JSON"})
 	@Path("{orderNr}")
 	public Response OrderById(@PathParam("orderNr") int orderNr) {
 		try {
@@ -77,7 +77,7 @@ public class CustomerOrderResource {
 	
 	@PUT
 	@Path("{orderNr}")
-	@Produces({"application/JSON", "application/XML"})
+	@Produces({"application/JSON"})
 	@Consumes({"application/JSON"})
 	public Response updateCustomerOrder(@PathParam("orderNr") int orderNr, CustomerOrder cO) {
 		try {

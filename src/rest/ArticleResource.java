@@ -34,7 +34,7 @@ public class ArticleResource {
 //	}
 	
 	@GET
-	@Produces({"application/JSON", "application/XML"})
+	@Produces({"application/JSON"})
 	public Response getAllArticlesBetweenId(@DefaultValue("0") @QueryParam("firstId") Integer firstId, 
 			@QueryParam("secondId") Integer secondId) {
 		if(firstId == 0 && secondId == null) {
@@ -52,7 +52,7 @@ public class ArticleResource {
 	}
 	
 	@GET
-	@Produces({"application/JSON", "application/XML"})
+	@Produces({"application/JSON"})
 	@Path("{artNr}")
 	public Response getArticleById(@PathParam("artNr") int artNr) {
 		try {
@@ -79,8 +79,8 @@ public class ArticleResource {
 	
 	
 	@POST
-	@Produces({"application/JSON", "application/XML"})
-	@Consumes({"application/JSON", "application/XML"})
+	@Produces({"application/JSON"})
+	@Consumes({"application/JSON"})
 	public Article registerArticle(Article article) {
 		service.register(article);
 		return article;

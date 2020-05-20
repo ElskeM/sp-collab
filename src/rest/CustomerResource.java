@@ -31,7 +31,7 @@ public class CustomerResource {
 	private OlfService service;
 
 	@GET
-	@Produces({ "application/JSON", "application/XML" })
+	@Produces({ "application/JSON"})
 	public Response getAllCustomers() {
 		try {
 			GenericEntity<List<Customer>> allCustomers = 
@@ -44,7 +44,7 @@ public class CustomerResource {
 	}
 
 	@GET
-	@Produces({ "application/JSON", "application/XML" })
+	@Produces({ "application/JSON" })
 	@Path("{customerId}")
 	public Response findCustomerById(@PathParam("customerId") int id) {
 		try {
@@ -55,8 +55,8 @@ public class CustomerResource {
 	}
 
 	@POST
-	@Produces({ "application/JSON", "application/XML" })
-	@Consumes({ "application/JSON", "application/XML" })
+	@Produces({ "application/JSON" })
+	@Consumes({ "application/JSON" })
 	public Response registerCustomer(Customer customer) {
 		try {
 
@@ -74,8 +74,8 @@ public class CustomerResource {
 	}
 
 	@PUT
-	@Produces({ "application/JSON", "application/XML" })
-	@Consumes({ "application/JSON", "application/XML" })
+	@Produces({ "application/JSON" })
+	@Consumes({ "application/JSON" })
 	public Response updateCustomer(@QueryParam("id") Integer cnr, Customer customer) {
 		try {
 			service.updateCustomer(cnr, customer);
