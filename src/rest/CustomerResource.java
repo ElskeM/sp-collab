@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import dao.CustomerNotFoundException;
+import dao.ForbiddenDeleteException;
 import domain.Customer;
 import domain.CustomerOrder;
 import service.OlfService;
@@ -38,13 +39,22 @@ public class CustomerResource {
 
 	@GET
 	@Produces({ "application/JSON" })
-	public Response getAllCustomers() {
+	public Response getCustomersByName(@QueryParam("lastName") String name) {
 		try {
-			GenericEntity<List<Customer>> allCustomers = new GenericEntity<List<Customer>>(service.getAllCustomer()) {
-			};
-			return Response.ok(allCustomers).build();
+			GenericEntity<List<Customer>> foundCustomers;
+			if (name == null) {
+				foundCustomers = new GenericEntity<List<Customer>>(service.getAllCustomer()) {
+				};
+			} else {
+
+				foundCustomers = new GenericEntity<List<Customer>>(service.getCustomerByName(name)) {
+				};
+			}
+			return Response.ok(foundCustomers).build();
+		} catch (CustomerNotFoundException e) {
+			return Response.status(404).build();
 		} catch (ServiceUnavailableException e) {
-			return Response.status(504).build();
+			return Response.status(500).build();
 		}
 
 	}
@@ -52,13 +62,26 @@ public class CustomerResource {
 	@GET
 	@Produces({ "application/JSON" })
 	@Path("{customerId}")
-	public Response findCustomerById(@PathParam("customerId") int id) {
+	public Response getCustomerById(@PathParam("customerId") int id) {
 		try {
 			Customer result = service.getCustomerById(id);
 			Link selfLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("self").type("get").build();
 			Link updateLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("update").type("put").build();
 			Link deleteLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("delete").type("delete").build();
 			return Response.ok(result).links(selfLink, updateLink, deleteLink).build();
+		} catch (CustomerNotFoundException e) {
+			return Response.status(404).build();
+		}
+	}
+
+	@GET
+	@Produces({ "application/JSON" })
+	public Response findCustomerByName(@QueryParam("lastName") String name) {
+		try {
+			GenericEntity<List<Customer>> foundCustomers = new GenericEntity<List<Customer>>(
+					service.getCustomerByName(name)) {
+			};
+			return Response.ok(foundCustomers).build();
 		} catch (CustomerNotFoundException e) {
 			return Response.status(404).build();
 		}
@@ -77,7 +100,7 @@ public class CustomerResource {
 			}
 			return Response.created(uri).build();
 		} catch (ServiceUnavailableException e) {
-			return Response.status(504).build();
+			return Response.status(500).build();
 		}
 
 	}
@@ -97,12 +120,14 @@ public class CustomerResource {
 
 	@DELETE
 	@Path("{customerId}")
-	public Response deleteCustomer(@PathParam("customerId") int id) {// funkar inte om den finns i en order?
+	public Response deleteCustomer(@PathParam("customerId") int id) {
 		try {
 			service.deleteCustomer(id);
-			return Response.status(204).build();
+			return Response.status(209).build();
 		} catch (CustomerNotFoundException e) {
 			return Response.status(404).build();
+		} catch (ForbiddenDeleteException e) {
+			return Response.status(403).build();
 		}
 	}
 

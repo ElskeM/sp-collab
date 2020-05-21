@@ -136,7 +136,7 @@ public class DataAccessImpl implements DataAccess {
 	public Customer findCustomerById(int cnr) throws CustomerNotFoundException {
 		Query q = em.createQuery("select customer from Customer customer where customer.cnr=:id");
 		q.setParameter("id", cnr);
-		Customer customer = null; 
+		Customer customer = null;
 		try {
 			customer = (Customer) q.getSingleResult();
 		} catch (NoResultException e) {
@@ -163,8 +163,8 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public List<Customer> findCustomerByLastname(String name) throws CustomerNotFoundException {
-		Query q = em.createQuery("select customer from Customer customer where customer.lastname is like :name");
-		q.setParameter("name", name);
+		Query q = em.createQuery("select customer from Customer customer where customer.lastName like :name");
+		q.setParameter("name", "%" + name + "%");
 		List<Customer> customers = q.getResultList();
 
 		return customers;
@@ -172,7 +172,7 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public List<CustomerOrder> findOrderByCustomerId(int cnr) throws OrderNotFoundException {
-		Query q = em.createQuery("select order from CustomerOrder order where order.cnr = :cnr");
+		Query q = em.createQuery("select order from CustomerOrder order where order.customer.cnr = :cnr");
 		q.setParameter("cnr", cnr);
 		List<CustomerOrder> orders = q.getResultList();
 		return orders;
@@ -191,7 +191,8 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public List<CustomerOrder> findOrdersBetweenId(int firstId, int secondId) {
-		Query q = em.createQuery("select order from CustomerOrder order where order.orderNr >= :first and order.orderNr <= :second");
+		Query q = em.createQuery(
+				"select order from CustomerOrder order where order.orderNr >= :first and order.orderNr <= :second");
 		q.setParameter("first", firstId);
 		q.setParameter("second", secondId);
 		List<CustomerOrder> orders = q.getResultList();
@@ -229,7 +230,7 @@ public class DataAccessImpl implements DataAccess {
 		cust.setZipCode(customer.getZipCode());
 		cust.setCity(customer.getCity());
 		cust.setDiscount(customer.getDiscount());
-		
+
 	}
 
 	@Override
@@ -241,10 +242,17 @@ public class DataAccessImpl implements DataAccess {
 	}
 
 	@Override
-	public void deleteCustomer(int cnr) throws CustomerNotFoundException {
-		Customer cust = findCustomerById(cnr);
-		em.remove(cust);
-		
+	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException {
+		try {
+			if (findOrderByCustomerId(cnr).size() == 0) {
+				Customer cust = findCustomerById(cnr);
+				em.remove(cust);
+			} else {
+				throw new ForbiddenDeleteException();
+			}
+		} catch (OrderNotFoundException e) {
+		}
+
 	}
 
 	@Override

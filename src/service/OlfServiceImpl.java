@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import dao.ArticleNotFoundException;
 import dao.CustomerNotFoundException;
 import dao.DataAccess;
+import dao.ForbiddenDeleteException;
 import dao.OrderNotFoundException;
 import domain.Article;
 import domain.Customer;
@@ -120,7 +121,7 @@ public class OlfServiceImpl implements OlfService {
 	}
 
 	@Override
-	public void deleteCustomer(int cnr) throws CustomerNotFoundException {
+	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException {
 			dao.deleteCustomer(cnr);
 
 	}
@@ -139,6 +140,12 @@ public class OlfServiceImpl implements OlfService {
 	@Override
 	public List<Customer> getCustomersBetweenId(int firstId, int secondId) {
 		return dao.findCustomersBetweenId(firstId, secondId);
+	}
+
+	@Override
+	public List<Customer> getCustomerByName(String name) throws CustomerNotFoundException {
+		
+		return dao.findCustomerByLastname(name);
 	}
 
 

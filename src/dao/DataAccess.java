@@ -39,7 +39,13 @@ public interface DataAccess {
 	
 	public void deleteArticle(int artNr) throws ArticleNotFoundException;
 	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException;
-	public void deleteCustomer(int cnr) throws CustomerNotFoundException;
+	/**
+	 * Tar bort en kund om kunden inte har en order.
+	 * @param cnr Kundnummer
+	 * @throws CustomerNotFoundException
+	 * @throws ForbiddenDeleteException
+	 */
+	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException;
 
 	
 	

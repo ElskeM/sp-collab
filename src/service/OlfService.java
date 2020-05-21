@@ -8,6 +8,7 @@ import javax.ejb.Local;
 
 import dao.ArticleNotFoundException;
 import dao.CustomerNotFoundException;
+import dao.ForbiddenDeleteException;
 import dao.OrderNotFoundException;
 import domain.Article;
 import domain.Customer;
@@ -25,6 +26,7 @@ public interface OlfService {
 	public List<CustomerOrder> getOrdersBetweenId(int firstId, int secondId);
 	public List<Customer> getCustomersBetweenId(int firstId, int secondId);
 	public Customer getCustomerById(int cnr) throws CustomerNotFoundException;
+	public List<Customer> getCustomerByName(String name) throws CustomerNotFoundException;
 	public CustomerOrder getOrderById(int orderNr) throws OrderNotFoundException; 
 
 	public Article register(Article article) throws ServiceUnavailableException;
@@ -34,7 +36,7 @@ public interface OlfService {
 	public void dropAllTables();
 
 	public void deleteArticle(int artNr) throws ArticleNotFoundException;
-	public void deleteCustomer(int cnr) throws CustomerNotFoundException;
+	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException;
 	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException;
 	
 	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate) throws OrderNotFoundException;
