@@ -5,9 +5,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,10 +21,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
 
 @Entity
 @XmlRootElement
@@ -30,6 +32,8 @@ import javax.xml.bind.annotation.XmlValue;
 public class CustomerOrder implements Serializable {
 	private static final long serialVersionUID = -5152794172107611719L;
 	
+	@Transient
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,7 +42,10 @@ public class CustomerOrder implements Serializable {
 	private int orderNr;
 
 	@XmlElement
-	private Date orderDate;
+	private String orderDate;
+	
+	@XmlElement
+	private String dispatchDate;
 
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
@@ -56,14 +63,11 @@ public class CustomerOrder implements Serializable {
 	@XmlElement
 	private Map<Article, Integer> articles;
 
-	@XmlElement
-	private Date dispatchDate;
-
 	public void setArticles(Map<Article, Integer> articles) {
 		this.articles = articles;
 	}
 
-	public void setDispatchDate(Date dispatchDate) {
+	public void setDispatchDate(String dispatchDate) {
 		this.dispatchDate = dispatchDate;
 	}
 
@@ -71,7 +75,23 @@ public class CustomerOrder implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	
+	/**
+	 * This constructor remains here for the testing dao
+	 * @param orderDate
+	 * @param dispatchDate
+	 * @param customer
+	 * @param articles
+	 */
+	@Deprecated
 	public CustomerOrder(Date orderDate, Date dispatchDate, Customer customer, Map<Article, Integer> articles) {
+
+		this.orderDate = sdf.format(orderDate);
+		this.dispatchDate = sdf.format(dispatchDate);
+		this.customer = customer;
+		this.articles = articles;
+	}
+	
+	public CustomerOrder(String orderDate, String dispatchDate, Customer customer, Map<Article, Integer> articles) {
 
 		this.orderDate = orderDate;
 		this.dispatchDate = dispatchDate;
@@ -83,11 +103,11 @@ public class CustomerOrder implements Serializable {
 		return orderNr;
 	}
 
-	public Date getDispatchDate() {
+	public String getDispatchDate() {
 		return dispatchDate;
 	}
 	
-	public Date getorderDate() {
+	public String getorderDate() {
 		return orderDate;
 	}
 
@@ -105,8 +125,8 @@ public class CustomerOrder implements Serializable {
 		
 		sb.append(customer.toString());
 		sb.append("\nOrderNumber: " + orderNr);
-		sb.append("\n Orderdate: " + new SimpleDateFormat("yyyy-MM-dd").format(orderDate));
-		sb.append("\nDispatchdate=" + new SimpleDateFormat("yyyy-MM-dd").format(dispatchDate));
+		sb.append("\n Orderdate: " + orderDate);
+		sb.append("\nDispatchdate=" + dispatchDate);
 		sb.append("\nNumber / Article Id\n");
 		
 		Iterator it = articles.entrySet().iterator();
