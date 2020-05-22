@@ -97,7 +97,7 @@ public class Customer implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Customer#: " + cnr + "\n" + firstName + " " + lastName + "\n" + address
+		return "Customer#: " + getCnr() + "\n" + firstName + " " + lastName + "\n" + address
 				+ "\n" + zipCode + " " + city;
 	}
 	

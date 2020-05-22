@@ -39,7 +39,7 @@ public class DataAccessImpl implements DataAccess {
 		for (Article a : order.getArticles().keySet()) {
 			Article db = findArticle(a);
 			if (db != null) {
-				System.out.println(db.name + ":" + db.getArtNr());
+				System.out.println(db.getName() + ":" + db.getArtNr());
 				int quantity = order.getArticles().get(a);
 				order.getArticles().keySet().remove(a);
 				order.getArticles().put(db, quantity);
@@ -138,7 +138,7 @@ public class DataAccessImpl implements DataAccess {
 	public Customer findCustomerById(int cnr) throws CustomerNotFoundException {
 		Query q = em.createQuery("select customer from Customer customer where customer.cnr=:id");
 		q.setParameter("id", cnr);
-		Customer customer = null; 
+		Customer customer = null;
 		try {
 			customer = (Customer) q.getSingleResult();
 		} catch (NoResultException e) {
@@ -157,14 +157,16 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public List<Article> findArticleByName(String name) throws ArticleNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Query q = em.createQuery("select article from Article article where article.name = :name");
+		q.setParameter("name", name);
+		List<Article> articles = q.getResultList();
+		return articles;
 	}
 
 	@Override
 	public List<Customer> findCustomerByLastname(String name) throws CustomerNotFoundException {
-		Query q = em.createQuery("select customer from Customer customer where customer.lastname is like :name");
-		q.setParameter("name", name);
+		Query q = em.createQuery("select customer from Customer customer where customer.lastName like :name");
+		q.setParameter("name", "%" + name + "%");
 		List<Customer> customers = q.getResultList();
 
 		return customers;
@@ -172,8 +174,10 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public List<CustomerOrder> findOrderByCustomerId(int cnr) throws OrderNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Query q = em.createQuery("select order from CustomerOrder order where order.customer.cnr = :cnr");
+		q.setParameter("cnr", cnr);
+		List<CustomerOrder> orders = q.getResultList();
+		return orders;
 	}
 
 	@Override
@@ -188,9 +192,13 @@ public class DataAccessImpl implements DataAccess {
 	}
 
 	@Override
-	public List<Customer> findOrdersBetweenId(int firstId, int secondId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CustomerOrder> findOrdersBetweenId(int firstId, int secondId) {
+		Query q = em.createQuery(
+				"select order from CustomerOrder order where order.orderNr >= :first and order.orderNr <= :second");
+		q.setParameter("first", firstId);
+		q.setParameter("second", secondId);
+		List<CustomerOrder> orders = q.getResultList();
+		return orders;
 	}
 
 	@Override
@@ -224,20 +232,39 @@ public class DataAccessImpl implements DataAccess {
 		cust.setZipCode(customer.getZipCode());
 		cust.setCity(customer.getCity());
 		cust.setDiscount(customer.getDiscount());
-		
+
 	}
 
 	@Override
-	public void updateArticle(int artNr, String description, int stock, double price) throws ArticleNotFoundException {
-		// TODO Auto-generated method stub
-		
+	public void updateArticle(int artNr, String description, double price, int stock) throws ArticleNotFoundException {
+		Article a = findArticleById(artNr);
+		a.setDescription(description);
+		a.setPrice(price);
+		a.setStock(stock);
 	}
 
 	@Override
-	public void deleteCustomer(int cnr) throws CustomerNotFoundException {
-		Customer cust = findCustomerById(cnr);
-		em.remove(cust);
-		
+	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException {
+		try {
+			if (findOrderByCustomerId(cnr).size() == 0) {
+				Customer cust = findCustomerById(cnr);
+				em.remove(cust);
+			} else {
+				throw new ForbiddenDeleteException();
+			}
+		} catch (OrderNotFoundException e) {
+		}
+
+	}
+
+	@Override
+	public List<Customer> findCustomersBetweenId(int firstId, int secondId) {
+		Query q = em.createQuery(
+				"select customer from Customer customer where customer.cnr >= :first and customer.cnr <= :second");
+		q.setParameter("first", firstId);
+		q.setParameter("second", secondId);
+		List<Customer> customers = q.getResultList();
+		return customers;
 	}
 
 }

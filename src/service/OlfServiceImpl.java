@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import dao.ArticleNotFoundException;
 import dao.CustomerNotFoundException;
 import dao.DataAccess;
+import dao.ForbiddenDeleteException;
 import dao.OrderNotFoundException;
 import domain.Article;
 import domain.Customer;
@@ -44,7 +45,7 @@ public class OlfServiceImpl implements OlfService {
 	}
 
 	@Override
-	public Article register(Article article) {
+	public Article register(Article article) throws ServiceUnavailableException{
 
 		dao.insert(article);
 		return article;
@@ -75,23 +76,14 @@ public class OlfServiceImpl implements OlfService {
 
 	@Override
 	public Article getArticleById(int artNr) throws ArticleNotFoundException {
+			return dao.findArticleById(artNr);
 
-		try {
-			Article art = dao.findArticleById(artNr);
-			return art;
-		} catch (Exception e) {
-			throw new ArticleNotFoundException();
-
-		}
 	}
 
 	@Override
 	public Customer getCustomerById(int cnr) throws CustomerNotFoundException {
-		try {
 			return dao.findCustomerById(cnr);
-		} catch (Exception e) {
-			throw new CustomerNotFoundException();
-		}
+
 	}
 
 	@Override
@@ -106,9 +98,8 @@ public class OlfServiceImpl implements OlfService {
 	}
 
 	@Override
-	public List<Customer> getCustomersBetweenId(int firstId, int secondId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CustomerOrder> getOrdersBetweenId(int firstId, int secondId) {
+		return dao.findOrdersBetweenId(firstId, secondId);
 	}
 
 	@Override
@@ -126,31 +117,36 @@ public class OlfServiceImpl implements OlfService {
 
 	@Override
 	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException {
-
+		dao.deleteCustomerOrder(orderNr);
 	}
 
 	@Override
-	public void deleteCustomer(int cnr) throws CustomerNotFoundException {
-		try {
+	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException {
 			dao.deleteCustomer(cnr);
-		} catch (Exception e) {
-			throw new CustomerNotFoundException();
-		}
+
 	}
 
 	@Override
-	public void updateArticle(int artNr, String description, int stock, double price) throws ArticleNotFoundException {
-		// TODO Auto-generated method stub
-
+	public void updateArticle(int artNr, String description, double price, int stock) throws ArticleNotFoundException {
+			dao.updateArticle(artNr, description, price, stock);				
 	}
 
 	@Override
 	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException {
-		try {
 			dao.updateCustomer(cnr, customer);
-		} catch (Exception e) {
-			throw new CustomerNotFoundException();
-		}
+
 	}
+
+	@Override
+	public List<Customer> getCustomersBetweenId(int firstId, int secondId) {
+		return dao.findCustomersBetweenId(firstId, secondId);
+	}
+
+	@Override
+	public List<Customer> getCustomerByName(String name) throws CustomerNotFoundException {
+		
+		return dao.findCustomerByLastname(name);
+	}
+
 
 }

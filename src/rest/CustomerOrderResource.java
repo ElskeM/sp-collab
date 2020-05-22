@@ -13,7 +13,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import dao.ArticleNotFoundException;
 import dao.CustomerNotFoundException;
@@ -28,6 +30,9 @@ public class CustomerOrderResource {
 
 	@Inject
 	private OlfService service;
+	
+	@Context
+	private UriInfo uriInfo;
 
 	@GET
 	@Produces({ "application/JSON" })
@@ -41,8 +46,8 @@ public class CustomerOrderResource {
 	}
 
 	@POST
-	@Produces({ "application/JSON", "application/XML" })
-	@Consumes({ "application/JSON", "application/XML" })
+	@Produces({ "application/JSON" })
+	@Consumes({ "application/JSON" })
 	public Response registerOrder(CustomerOrder order) {
 		try {
 			service.register(order);
@@ -63,7 +68,7 @@ public class CustomerOrderResource {
 	}
 
 	@GET
-	@Produces({"application/JSON", "application/XML" })
+	@Produces({"application/JSON"})
 	@Path("{orderNr}")
 	public Response OrderById(@PathParam("orderNr") int orderNr) {
 		try {
@@ -77,7 +82,7 @@ public class CustomerOrderResource {
 	
 	@PUT
 	@Path("{orderNr}")
-	@Produces({"application/JSON", "application/XML"})
+	@Produces({"application/JSON"})
 	@Consumes({"application/JSON"})
 	public Response updateCustomerOrder(@PathParam("orderNr") int orderNr, CustomerOrder cO) {
 		try {

@@ -129,7 +129,7 @@ public class DataAccessTestingVersion implements DataAccess {
 	}
 
 	@Override
-	public List<Customer> findOrdersBetweenId(int firstId, int secondId) {
+	public List<CustomerOrder> findOrdersBetweenId(int firstId, int secondId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -161,7 +161,7 @@ public class DataAccessTestingVersion implements DataAccess {
 	}
 
 	@Override
-	public void updateArticle(int artNr, String description, int stock, double price) throws ArticleNotFoundException {
+	public void updateArticle(int artNr, String description, double price, int stock) throws ArticleNotFoundException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -171,6 +171,14 @@ public class DataAccessTestingVersion implements DataAccess {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public List<Customer> findCustomersBetweenId(int firstId, int secondId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 
 
