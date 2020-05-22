@@ -95,7 +95,7 @@ public class CustomerResource {
 			service.register(customer);
 			URI uri = null;
 			try {
-				uri = new URI(uriInfo.getAbsolutePath() + "/" + customer.getCnr());
+				uri = new URI(uriInfo.getAbsolutePath() + "/" + customer.getCustomerNr());
 			} catch (Exception e) {
 			}
 			return Response.created(uri).build();

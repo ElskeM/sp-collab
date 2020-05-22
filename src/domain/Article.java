@@ -43,6 +43,10 @@ public class Article implements Serializable {
 	public int getArtNr() {
 		return artNr;
 	}
+	
+	public void setArtNr(int artNr) {
+		this.artNr = artNr;
+	}
 
 
 	public double getPrice() {

@@ -114,6 +114,14 @@ public class CustomerOrder implements Serializable {
 	public Customer getCustomer() {
 		return customer;
 	}
+	
+	public void setCustomer(Customer customer) {
+		this.customer= customer;
+	}
+	
+	public void setOrderNr(int orderNr) {
+		this.orderNr = orderNr;
+	}
 
 	public Map<Article, Integer> getArticles() {
 		return articles;
