@@ -17,10 +17,10 @@ public class Customer implements Serializable {
 	private static final long serialVersionUID = -6937327123991374742L;
 
 	@Id
-	@XmlAttribute(name = "id")
+	@XmlAttribute
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "cnr")
-	private int cnr;//Or string name?
+	private int customerNr;//Or string name?
 	
 	private String firstName;
 	private String lastName;
@@ -91,13 +91,17 @@ public class Customer implements Serializable {
 		this.discount = discount;
 	}	
 	
-	public int getCnr() {
-		return cnr;
+	public int getCustomerNr() {
+		return customerNr;
+	}
+	
+	public void setCustomerNr(int customerNr) {
+		this.customerNr = customerNr;
 	}
 
 	@Override
 	public String toString() {
-		return "Customer#: " + getCnr() + "\n" + firstName + " " + lastName + "\n" + address
+		return "Customer#: " + getCustomerNr() + "\n" + firstName + " " + lastName + "\n" + address
 				+ "\n" + zipCode + " " + city;
 	}
 	
