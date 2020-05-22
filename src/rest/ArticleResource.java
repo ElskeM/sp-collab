@@ -118,6 +118,7 @@ public class ArticleResource {
 		} catch (ArticleNotFoundException e) {
 			return Response.status(404).build();
 		}
+
 	}
 
 }
