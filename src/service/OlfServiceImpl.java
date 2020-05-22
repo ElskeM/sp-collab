@@ -109,7 +109,7 @@ public class OlfServiceImpl implements OlfService {
 
 	}
 
-	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate)
+	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, String dispatchDate)
 			throws OrderNotFoundException {
 		dao.updateCustomerOrder(orderNr, articles, dispatchDate);
 

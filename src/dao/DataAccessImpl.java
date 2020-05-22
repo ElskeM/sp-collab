@@ -209,7 +209,7 @@ public class DataAccessImpl implements DataAccess {
 	}
 
 	@Override
-	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate)
+	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, String dispatchDate)
 			throws OrderNotFoundException {
 		CustomerOrder cO = findOrderById(orderNr);
 		cO.setArticles(articles);

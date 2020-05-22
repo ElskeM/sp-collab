@@ -136,7 +136,7 @@ public class DataAccessTestingVersion implements DataAccess {
 
 	@Override
 
-	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, Date dispatchDate) {
+	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, String dispatchDate) {
 		// TODO Auto-generated method stub
 		
 	}
