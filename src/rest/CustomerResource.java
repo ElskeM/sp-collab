@@ -73,20 +73,7 @@ public class CustomerResource {
 			return Response.status(404).build();
 		}
 	}
-
-	@GET
-	@Produces({ "application/JSON" })
-	public Response findCustomerByName(@QueryParam("lastName") String name) {
-		try {
-			GenericEntity<List<Customer>> foundCustomers = new GenericEntity<List<Customer>>(
-					service.getCustomerByName(name)) {
-			};
-			return Response.ok(foundCustomers).build();
-		} catch (CustomerNotFoundException e) {
-			return Response.status(404).build();
-		}
-	}
-
+	
 	@POST
 	@Produces({ "application/JSON" })
 	@Consumes({ "application/JSON" })
