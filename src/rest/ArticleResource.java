@@ -1,5 +1,6 @@
 package rest;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -82,7 +83,9 @@ public class ArticleResource {
 	@Produces({"application/JSON", "application/XML"})
 	@Consumes({"application/JSON", "application/XML"})
 	public Article registerArticle(Article article) {
+		
 		service.register(article);
+		
 		return article;
 	}
 

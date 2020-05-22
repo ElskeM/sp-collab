@@ -19,7 +19,7 @@ import domain.CustomerOrder;
 @Default
 @ProductionDao
 public class DataAccessImpl implements DataAccess {
-
+	
 	@PersistenceContext
 	private EntityManager em;
 
@@ -73,18 +73,20 @@ public class DataAccessImpl implements DataAccess {
 
 		return orders;
 	}
-
+	
 	/**
 	 * Hämtar alla orderrader för ett givet ordernummer
 	 * 
 	 * @param orderId
 	 * @return
 	 */
+
 	private List<Entry<Article, Integer>> getOrderRows(int orderId) {
 
 		Query q = em.createQuery(
 				"select entry(orderrows) from CustomerOrder o INNER JOIN o.articles orderrows where o.orderNr=:orderNr",
 				java.util.Map.Entry.class);
+
 		q.setParameter("orderNr", orderId);
 		List<Entry<Article, Integer>> res = q.getResultList();
 		for (Entry<Article, Integer> e : res) {
@@ -92,10 +94,10 @@ public class DataAccessImpl implements DataAccess {
 		}
 		return res;
 	}
-
+	
 	@Override
 	public void dropAllTables() {
-
+		
 		Query q = em.createNativeQuery("drop table tblorderrows");
 		q.executeUpdate();
 		q = em.createNativeQuery("drop table tblarticle");
@@ -104,9 +106,9 @@ public class DataAccessImpl implements DataAccess {
 		q.executeUpdate();
 		q = em.createNativeQuery("drop table tblcustomerorder");
 		q.executeUpdate();
-
+		
 	}
-
+	
 	@Override
 	public List<Customer> findAllCustomer() {
 		Query q = em.createQuery("select customer from Customer customer");
