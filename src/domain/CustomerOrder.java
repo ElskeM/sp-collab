@@ -70,6 +70,10 @@ public class CustomerOrder implements Serializable {
 	public void setDispatchDate(String dispatchDate) {
 		this.dispatchDate = dispatchDate;
 	}
+	
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
+	}
 
 	public CustomerOrder() {
 		// TODO Auto-generated constructor stub
