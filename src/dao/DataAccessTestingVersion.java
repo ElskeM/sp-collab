@@ -20,17 +20,23 @@ public class DataAccessTestingVersion implements DataAccess {
 
 	@Override
 	public void insert(Article newArticle) {
-		
+		Article art1 = new Article("Epson EB-580 projector", "Ultra Short Throw Projector", 6, 19999.95);
 	}
 
 	@Override
 	public void insert(Customer newCustomer) {
-
+		Customer cl1 = new Customer("Anders", "Anderson", "Andersväg 1A", "414 23", "Andersdal", 0.1);
 	}
 
 	@Override
 	public void insert(CustomerOrder newCustomerOrder) {
-
+		Customer cl2 = new Customer("Bertil", "Bertilson", "Bertillan 2B", "424 34", "Bertilholm", 0.15);
+		Article art1 = new Article("Epson EB-580 projector", "Ultra Short Throw Projector", 6, 19999.95);
+		HashMap<Article, Integer> or2 = new HashMap<>();
+		or2.put(art1, 2);
+		String ordD2 = "2020-04-27";
+		String dispD2 = "2020-05-02";
+		CustomerOrder cor2 = new CustomerOrder(ordD2, dispD2, cl2, or2);
 	}
 
 	@Override
@@ -49,12 +55,12 @@ public class DataAccessTestingVersion implements DataAccess {
 		or2.put(art1, 2);
 		or3.put(art1, 3);
 		
-		Date ordD1 = new GregorianCalendar(2020, Calendar.APRIL, 24).getTime();
-		Date dispD1 = new GregorianCalendar(2020, Calendar.APRIL, 29).getTime();
-		Date ordD2 = new GregorianCalendar(2020, Calendar.APRIL, 27).getTime();
-		Date dispD2 = new GregorianCalendar(2020, Calendar.MAY, 2).getTime();
-		Date ordD3 = new GregorianCalendar(2020, Calendar.MAY, 2).getTime();
-		Date dispD3 = new GregorianCalendar(2020, Calendar.MAY, 9).getTime();
+		String ordD1 = "2020-04-24";
+		String dispD1 = "2020-04-29";
+		String ordD2 = "2020-04-27";
+		String dispD2 = "2020-05-02";
+		String ordD3 = "2020-05-02";
+		String dispD3 = "2020-05-09";
 		
 		CustomerOrder cor1 = new CustomerOrder(ordD1, dispD1, cl1, or1);
 		CustomerOrder cor2 = new CustomerOrder(ordD2, dispD2, cl2, or2);
@@ -76,14 +82,26 @@ public class DataAccessTestingVersion implements DataAccess {
 
 	@Override
 	public List<Customer> findAllCustomer() {
-		// TODO Auto-generated method stub
-		return null;
+		Customer cl1 = new Customer("Anders", "Anderson", "Andersväg 1A", "414 23", "Andersdal", 0.1);
+		Customer cl2 = new Customer("Bertil", "Bertilson", "Bertillan 2B", "424 34", "Bertilholm", 0.15);
+		Customer cl3 = new Customer("Cecilia", "Ceciliason", "Ceciliatorget 3C", "434 45", "Ceciliaborg", 0.2);
+		List<Customer> customers = new ArrayList<Customer>();
+		customers.add(cl1);
+		customers.add(cl2);
+		customers.add(cl3);
+		return customers;
 	}
 
 	@Override
 	public List<Article> findAllArticle() {
-		// TODO Auto-generated method stub
-		return null;
+		Article art1 = new Article("Epson EB-580 projector", "Ultra Short Throw Projector", 6, 19999.95);
+		Article art2 = new Article("Lenovo ThinkPad T490", "Ideal laptop for the office", 3, 14999.00);
+		Article art3 = new Article("Samsung monitor", "Curved screen for an optimal experience", 9, 1998.97);
+		List<Article> articles = new ArrayList<Article>();
+		articles.add(art1);
+		articles.add(art2);
+		articles.add(art3);
+		return articles;
 	}
 
 	@Override
