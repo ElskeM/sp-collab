@@ -112,7 +112,7 @@ public class ArticleResource {
 	@Path("{artNr}")
 	@Produces({ "application/JSON" })
 	@Consumes({ "application/JSON" })
-	public Response updateArticle(@PathParam("employeeNo") int artNr, Article a) {
+	public Response updateArticle(@PathParam("artNr") int artNr, Article a) {
 		try {
 			service.updateArticle(artNr, a.getDescription(), a.getPrice(), a.getStock());
 			return Response.ok(service.getArticleById(artNr)).build();

@@ -222,7 +222,7 @@ public class CustomerOrder implements Serializable {
 		}
 		sb.append("\nSubtotal: " + stnd);
 		sb.append("\nCustomer discount: " + td);
-		sb.append("\nTotal in SEK: " + total);
+		sb.append("\nTotal in SEK: " + total + "\n");
 		String customerOrder = sb.toString();
 		return customerOrder;
 		
