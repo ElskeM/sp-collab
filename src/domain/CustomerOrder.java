@@ -79,22 +79,6 @@ public class CustomerOrder implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	
-	/**
-	 * This constructor remains here for the testing dao
-	 * @param orderDate
-	 * @param dispatchDate
-	 * @param customer
-	 * @param articles
-	 */
-	@Deprecated
-	public CustomerOrder(Date orderDate, Date dispatchDate, Customer customer, Map<Article, Integer> articles) {
-
-		this.orderDate = sdf.format(orderDate);
-		this.dispatchDate = sdf.format(dispatchDate);
-		this.customer = customer;
-		this.articles = articles;
-	}
-	
 	public CustomerOrder(String orderDate, String dispatchDate, Customer customer, Map<Article, Integer> articles) {
 
 		this.orderDate = orderDate;
@@ -127,16 +111,20 @@ public class CustomerOrder implements Serializable {
 		this.orderNr = orderNr;
 	}
 	
+	/**
+	 * @author Peter
+	 * @return
+	 */
 	private double getSubTotalNoDiscount() {
 		double total = 0;
-		for(Article a : getArticles().keySet()) {
+		for(Article a : articles.keySet()) {
 			total += a.getPrice() * articles.get(a);
 		}
 		return total;
 	}
 	
 	/**
-	 * 
+	 * @author Peter
 	 * @return
 	 */
 	public double getTotal() {
@@ -144,7 +132,7 @@ public class CustomerOrder implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * @author Peter
 	 * @return
 	 */
 	public double getTotalDiscount() {
@@ -155,6 +143,9 @@ public class CustomerOrder implements Serializable {
 		return articles;
 	}
 
+	/**
+	 *@author Elske
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

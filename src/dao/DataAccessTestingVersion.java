@@ -14,20 +14,33 @@ import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
 
+/**
+ * @author elske
+ *
+ */
 @Stateless
 @TestingDao
 public class DataAccessTestingVersion implements DataAccess {
 
+	/**
+	 *@author elske
+	 */
 	@Override
 	public void insert(Article newArticle) {
 		Article art1 = new Article("Epson EB-580 projector", "Ultra Short Throw Projector", 6, 19999.95);
 	}
 
+	/**
+	 *@author elske
+	 */
 	@Override
 	public void insert(Customer newCustomer) {
 		Customer cl1 = new Customer("Anders", "Anderson", "Andersväg 1A", "414 23", "Andersdal", 0.1);
 	}
 
+	/**
+	 *@author elske
+	 */
 	@Override
 	public void insert(CustomerOrder newCustomerOrder) {
 		Customer cl2 = new Customer("Bertil", "Bertilson", "Bertillan 2B", "424 34", "Bertilholm", 0.15);
@@ -39,6 +52,9 @@ public class DataAccessTestingVersion implements DataAccess {
 		CustomerOrder cor2 = new CustomerOrder(ordD2, dispD2, cl2, or2);
 	}
 
+	/**
+	 *@author elske
+	 */
 	@Override
 	public List<CustomerOrder> findAllOrders() {
 		Customer cl1 = new Customer("Anders", "Anderson", "Andersväg 1A", "414 23", "Andersdal", 0.1);
@@ -80,6 +96,9 @@ public class DataAccessTestingVersion implements DataAccess {
 
 	}
 
+	/**
+	 *@author elske
+	 */
 	@Override
 	public List<Customer> findAllCustomer() {
 		Customer cl1 = new Customer("Anders", "Anderson", "Andersväg 1A", "414 23", "Andersdal", 0.1);
@@ -92,6 +111,9 @@ public class DataAccessTestingVersion implements DataAccess {
 		return customers;
 	}
 
+	/**
+	 *@author elske
+	 */
 	@Override
 	public List<Article> findAllArticle() {
 		Article art1 = new Article("Epson EB-580 projector", "Ultra Short Throw Projector", 6, 19999.95);
