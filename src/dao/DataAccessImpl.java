@@ -41,15 +41,15 @@ public class DataAccessImpl implements DataAccess {
 	public void insert(CustomerOrder order) throws ArticleNotFoundException {
 		
 		for (Article a : order.getArticles().keySet()) {
-			Article db = findArticle(a);
-			if (db != null) {
-				System.out.println(db.getName() + ":" + db.getArtNr());
-				int quantity = order.getArticles().get(a);
-				order.getArticles().keySet().remove(a);
-				order.getArticles().put(db, quantity);
-			} else {
-				insert(a); // cascading
-			}
+			Article db = findArticle(a); // throws ArticleNotFoundException
+			
+//			System.out.println(db.getName() + ":" + db.getArtNr());
+//			int quantity = order.getArticles().get(a);
+//			order.getArticles().keySet().remove(a);
+//			order.getArticles().put(db, quantity);
+			
+			//insert(a); // cascading
+			
 		}
 		em.persist(order);
 	}
@@ -142,7 +142,7 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public Customer findCustomerById(int cnr) throws CustomerNotFoundException {
-		Query q = em.createQuery("select customer from Customer customer where customer.cnr=:id");
+		Query q = em.createQuery("select customer from Customer customer where customer.customerNr=:id");
 		q.setParameter("id", cnr);
 		Customer customer = null;
 		try {
