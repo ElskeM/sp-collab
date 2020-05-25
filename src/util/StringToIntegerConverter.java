@@ -1,27 +1,29 @@
 package util;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 import domain.Article;
+import domain.Customer;
 
-@Converter
-public class StringToMapConverter implements AttributeConverter<String,Map<Article,Integer>> {
+@Converter(autoApply = true)
+public class StringToIntegerConverter implements AttributeConverter<Integer,String> {
 
 	@Override
-	public Map<Article, Integer> convertToDatabaseColumn(String arg0) {
+	public String convertToDatabaseColumn(Integer arg0) {
 		System.out.println("RUNNING CONVERTER A");
 		// TODO Auto-generated method stub
-		return null;
+		return arg0.toString();
 	}
 
 	@Override
-	public String convertToEntityAttribute(Map<Article, Integer> arg0) {
+	public Integer convertToEntityAttribute(String arg0) {
 		System.out.println("RUNNING CONVERTER B");
 		// TODO Auto-generated method stub
-		return null;
+		return Integer.parseInt(arg0);
 	}
 
 }

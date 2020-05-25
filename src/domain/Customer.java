@@ -2,6 +2,8 @@ package domain;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,7 +12,10 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import util.StringToIntegerConverter;
+
 @Entity
+//@Embeddable
 @XmlRootElement
 @Table(name="tblCustomer")
 public class Customer implements Serializable {

@@ -39,7 +39,7 @@ public interface OlfService {
 	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException;
 	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException;
 	
-	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, String dispatchDate) throws OrderNotFoundException;
+	public void updateCustomerOrder(int orderNr, Map<String, Integer> articles, String dispatchDate) throws OrderNotFoundException;
 	public void updateArticle(int artNr, String description, double price, int stock) throws ArticleNotFoundException;
 	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException;
 

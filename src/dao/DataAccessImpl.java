@@ -40,24 +40,33 @@ public class DataAccessImpl implements DataAccess {
 	@Override
 	public void insert(CustomerOrder order) throws ArticleNotFoundException {
 
-		for (Article a : order.getArticles().keySet()) {
+		double total = 0;
+		
+		for (String a : order.getArticles().keySet()) {
+			System.out.println("PRE-FIND");
 			Article db = findArticle(a); // throws ArticleNotFoundException
 			
 			System.out.println(db.getName() + ":" + db.getArtNr());
 			int quantity = order.getArticles().get(a);
-			order.getArticles().keySet().remove(a);
-			order.getArticles().put(db, quantity);
+			total += db.getPrice() * quantity;
+			//order.getArticles().keySet().remove(a);
+			//order.getArticles().put(db, quantity);
 			
 			//insert(a); // cascading
 			
 		}
+		System.out.println("PRE-PERSIST");
+		order.setCustomer(em.find(Customer.class, order.getCustomer().getCustomerNr()));
+		System.out.println("SET TOTAL");
+		order.setTotal(total);
 		em.persist(order);
+		System.out.println("EXITING INSERT");
 	}
 
-	private Article findArticle(Article a) throws ArticleNotFoundException {
+	private Article findArticle(String a) throws ArticleNotFoundException {
 
 		Query q = em.createQuery("select a from Article a where a.artNr=:artNr");
-		q.setParameter("artNr", a.getArtNr());
+		q.setParameter("artNr", Integer.parseInt(a));
 		System.out.println(q);
 		Article res = null;
 		try {
@@ -73,7 +82,9 @@ public class DataAccessImpl implements DataAccess {
 	public List<CustomerOrder> findAllOrders() {
 
 		Query q = em.createQuery("select order from CustomerOrder order");
+		System.out.println("TEST");
 		List<CustomerOrder> orders = q.getResultList();
+		System.out.println(orders.size());
 		return orders;
 	}
 	
@@ -242,7 +253,7 @@ public class DataAccessImpl implements DataAccess {
 	}
 
 	@Override
-	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, String dispatchDate)
+	public void updateCustomerOrder(int orderNr, Map<String, Integer> articles, String dispatchDate)
 			throws OrderNotFoundException {
 		CustomerOrder cO = findOrderById(orderNr);
 		cO.setArticles(articles);

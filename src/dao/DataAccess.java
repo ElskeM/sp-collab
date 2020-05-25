@@ -33,7 +33,7 @@ public interface DataAccess {
 	public List<Customer> findCustomersBetweenId(int firstId, int secondId) throws CustomerNotFoundException;
 
 
-	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, String dispatchDate) throws OrderNotFoundException;
+	public void updateCustomerOrder(int orderNr, Map<String, Integer> articles, String dispatchDate) throws OrderNotFoundException;
 	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException;
 	public void updateArticle(int artNr, String description, double price, int stock) throws ArticleNotFoundException;
 	
