@@ -101,23 +101,6 @@ public class CustomerOrder implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * This constructor remains here for the testing dao
-	 * 
-	 * @param orderDate
-	 * @param dispatchDate
-	 * @param customer
-	 * @param articles
-	 */
-	@Deprecated
-	public CustomerOrder(Date orderDate, Date dispatchDate, Customer customer, Map<Article, Integer> articles) {
-
-		this.orderDate = sdf.format(orderDate);
-		this.dispatchDate = sdf.format(dispatchDate);
-		this.customer = customer;
-		this.articles = articles;
-	}
-
 	public CustomerOrder(String orderDate, String dispatchDate, Customer customer, Map<Article, Integer> articles) {
 
 		this.orderDate = orderDate;
