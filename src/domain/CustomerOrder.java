@@ -126,6 +126,30 @@ public class CustomerOrder implements Serializable {
 	public void setOrderNr(int orderNr) {
 		this.orderNr = orderNr;
 	}
+	
+	private double getSubTotalNoDiscount() {
+		double total = 0;
+		for(Article a : articles.keySet()) {
+			total += a.getPrice() * articles.get(a);
+		}
+		return total;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public double getTotal() {
+		return getSubTotalNoDiscount() - getTotalDiscount();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public double getTotalDiscount() {
+		return getSubTotalNoDiscount() * customer.getDiscount();
+	}
 
 	public Map<Article, Integer> getArticles() {
 		return articles;
