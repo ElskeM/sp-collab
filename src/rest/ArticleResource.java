@@ -1,6 +1,7 @@
 package rest;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -46,19 +47,22 @@ public class ArticleResource {
 	@Produces({ "application/JSON" })
 	public Response getAllArticlesBetweenId(@DefaultValue("0") @QueryParam("firstId") Integer firstId,
 			@QueryParam("secondId") Integer secondId) {
+		GenericEntity<List<Article>> articles = null;
 		if (firstId == 0 && secondId == null) {
-			GenericEntity<List<Article>> articles = new GenericEntity<List<Article>>(service.getAllArticle()) {
+			articles = new GenericEntity<List<Article>>(service.getAllArticle()) {
 			};
-			return Response.ok(articles).build();
 		}
 		if (firstId != null && secondId != null) {
-			GenericEntity<List<Article>> articles = new GenericEntity<List<Article>>(
-					service.getArticlesBetweenId(firstId, secondId)) {
-			};
-			return Response.ok(articles).build();
-		}
-		return Response.status(400).build();
+			try {
+				articles = new GenericEntity<List<Article>>(service.getArticlesBetweenId(firstId, secondId)) {
+				};
+			} catch (ArticleNotFoundException e) {
+				return Response.status(404).build();
+			}
 
+		}
+
+		return Response.ok(articles).build();
 	}
 
 	@GET
@@ -94,19 +98,16 @@ public class ArticleResource {
 	@Produces({ "application/JSON" })
 	@Consumes({ "application/JSON" })
 	public Response registerArticle(Article article) {
-		try {
-			service.register(article);
-			URI uri = null;
-			try {
-				uri = new URI(uriInfo.getAbsolutePath() + "/" + article.getArtNr());
-			} catch (Exception e) {
-			}
-			return Response.created(uri).build();
-		} catch (ServiceUnavailableException e) {
-			return Response.status(504).build();
-		}
-	}
+		service.register(article);
+		URI uri = null;
 	
+		try {
+			uri = new URI(uriInfo.getAbsolutePath() + "/" + article.getArtNr());
+		} catch (URISyntaxException e) {}
+
+		return Response.created(uri).build();
+	}
+
 	@PUT
 	@Path("{artNr}")
 	@Produces({ "application/JSON" })

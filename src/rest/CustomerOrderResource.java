@@ -1,6 +1,7 @@
 package rest;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -37,12 +38,8 @@ public class CustomerOrderResource {
 	@GET
 	@Produces({ "application/JSON" })
 	public Response getAllOrders() {
-		try {
-			List<CustomerOrder> allOrders = service.getAllOrders();
-			return Response.ok(allOrders).build();
-		} catch (ServiceUnavailableException e) {
-			return Response.status(504).build();
-		}
+		List<CustomerOrder> allOrders = service.getAllOrders();
+		return Response.ok(allOrders).build();
 	}
 
 	@POST
@@ -54,7 +51,7 @@ public class CustomerOrderResource {
 			URI uri = null;
 			try {
 				uri = new URI("/orders/" + order.getOrderNr());
-			} catch (Exception e) {
+			} catch (URISyntaxException e) {
 
 			}
 			return Response.created(uri).build();

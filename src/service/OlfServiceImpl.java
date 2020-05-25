@@ -28,7 +28,7 @@ public class OlfServiceImpl implements OlfService {
 	private SessionContext ctx;
 
 	@Override
-	public List<CustomerOrder> getAllOrders() throws ServiceUnavailableException {
+	public List<CustomerOrder> getAllOrders() {
 		return dao.findAllOrders();
 	}
 
@@ -45,7 +45,7 @@ public class OlfServiceImpl implements OlfService {
 	}
 
 	@Override
-	public Article register(Article article) throws ServiceUnavailableException{
+	public Article register(Article article){
 
 		dao.insert(article);
 		return article;
@@ -62,7 +62,7 @@ public class OlfServiceImpl implements OlfService {
 	}
 
 	@Override
-	public Customer register(Customer customer) throws ServiceUnavailableException {
+	public Customer register(Customer customer){
 		dao.insert(customer);
 		return customer;
 	}
@@ -92,13 +92,13 @@ public class OlfServiceImpl implements OlfService {
 	}
 
 	@Override
-	public List<Article> getArticlesBetweenId(int firstId, int secondId) {
+	public List<Article> getArticlesBetweenId(int firstId, int secondId) throws ArticleNotFoundException {
 
 		return dao.findArticlesBetweenId(firstId, secondId);
 	}
 
 	@Override
-	public List<CustomerOrder> getOrdersBetweenId(int firstId, int secondId) {
+	public List<CustomerOrder> getOrdersBetweenId(int firstId, int secondId) throws OrderNotFoundException {
 		return dao.findOrdersBetweenId(firstId, secondId);
 	}
 
@@ -138,7 +138,7 @@ public class OlfServiceImpl implements OlfService {
 	}
 
 	@Override
-	public List<Customer> getCustomersBetweenId(int firstId, int secondId) {
+	public List<Customer> getCustomersBetweenId(int firstId, int secondId) throws CustomerNotFoundException {
 		return dao.findCustomersBetweenId(firstId, secondId);
 	}
 

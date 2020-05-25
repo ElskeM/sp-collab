@@ -17,21 +17,21 @@ import domain.CustomerOrder;
 @Local
 public interface OlfService {
 
-	public List<CustomerOrder> getAllOrders() throws ServiceUnavailableException;
-	public List<Customer> getAllCustomer() throws ServiceUnavailableException;
+	public List<CustomerOrder> getAllOrders();
+	public List<Customer> getAllCustomer();
 	public List<Article> getAllArticle();
 	
 	public Article getArticleById(int artNr) throws ArticleNotFoundException;
-	public List<Article> getArticlesBetweenId(int firstId, int secondId);
-	public List<CustomerOrder> getOrdersBetweenId(int firstId, int secondId);
-	public List<Customer> getCustomersBetweenId(int firstId, int secondId);
+	public List<Article> getArticlesBetweenId(int firstId, int secondId) throws ArticleNotFoundException;
+	public List<CustomerOrder> getOrdersBetweenId(int firstId, int secondId) throws OrderNotFoundException;
+	public List<Customer> getCustomersBetweenId(int firstId, int secondId) throws CustomerNotFoundException;
 	public Customer getCustomerById(int cnr) throws CustomerNotFoundException;
 	public List<Customer> getCustomerByName(String name) throws CustomerNotFoundException;
 	public CustomerOrder getOrderById(int orderNr) throws OrderNotFoundException; 
 
-	public Article register(Article article) throws ServiceUnavailableException;
+	public Article register(Article article);
 	public CustomerOrder register(CustomerOrder order) throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException ;
-	public Customer register(Customer customer) throws ServiceUnavailableException;
+	public Customer register(Customer customer);
 	
 	public void dropAllTables();
 

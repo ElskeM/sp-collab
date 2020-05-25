@@ -15,6 +15,7 @@ import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
 
+
 @Stateless
 @Default
 @ProductionDao
@@ -33,8 +34,11 @@ public class DataAccessImpl implements DataAccess {
 		em.persist(customer);
 	}
 
+	/*Insertar vi en artikel som kommer ifrån en order i databasen om den inte finns?
+	 * är detta rimligt? Vad händer om inte customern finns?
+	 */
 	@Override
-	public void insert(CustomerOrder order) {
+	public void insert(CustomerOrder order) throws ArticleNotFoundException {
 
 		for (Article a : order.getArticles().keySet()) {
 			Article db = findArticle(a);
@@ -50,7 +54,7 @@ public class DataAccessImpl implements DataAccess {
 		em.persist(order);
 	}
 
-	private Article findArticle(Article a) {
+	private Article findArticle(Article a) throws ArticleNotFoundException {
 
 		Query q = em.createQuery("select a from Article a where a.artNr=:artNr");
 		q.setParameter("artNr", a.getArtNr());
@@ -59,8 +63,8 @@ public class DataAccessImpl implements DataAccess {
 		try {
 			res = (Article) q.getSingleResult();
 		} catch (NoResultException e) {
-			System.out.println("Could not find the article in the database");
-			return null;
+			throw new ArticleNotFoundException();
+			
 		}
 		return res;
 	}
@@ -70,7 +74,6 @@ public class DataAccessImpl implements DataAccess {
 
 		Query q = em.createQuery("select order from CustomerOrder order");
 		List<CustomerOrder> orders = q.getResultList();
-
 		return orders;
 	}
 	
@@ -81,6 +84,7 @@ public class DataAccessImpl implements DataAccess {
 	 * @return
 	 */
 
+	//Behöver vi hämta orderrows?
 	private List<Entry<Article, Integer>> getOrderRows(int orderId) {
 
 		Query q = em.createQuery(
@@ -121,7 +125,6 @@ public class DataAccessImpl implements DataAccess {
 	public List<Article> findAllArticle() {
 		Query q = em.createQuery("select article from Article article");
 		List<Article> articles = q.getResultList();
-
 		return articles;
 	}
 
@@ -130,8 +133,11 @@ public class DataAccessImpl implements DataAccess {
 
 		Query q = em.createQuery("select article from Article article where article.artNr = :artNr");
 		q.setParameter("artNr", artNr);
+		try {
 		return (Article) q.getSingleResult();
-
+		}catch (NoResultException e) {
+			throw new ArticleNotFoundException();
+		}
 	}
 
 	@Override
@@ -142,8 +148,8 @@ public class DataAccessImpl implements DataAccess {
 		try {
 			customer = (Customer) q.getSingleResult();
 		} catch (NoResultException e) {
-			System.out.println("ERROR: Could not find the customer in the database");
-			return null;
+			throw new CustomerNotFoundException();
+
 		}
 		return customer;
 	}
@@ -152,7 +158,13 @@ public class DataAccessImpl implements DataAccess {
 	public CustomerOrder findOrderById(int orderNr) throws OrderNotFoundException {
 		Query q = em.createQuery("select order from CustomerOrder order where order.orderNr = :orderNr");
 		q.setParameter("orderNr", orderNr);
-		return (CustomerOrder) q.getSingleResult();
+		CustomerOrder order = null;
+		try {
+			order = (CustomerOrder) q.getSingleResult();
+		}catch (NoResultException e) {
+			throw new OrderNotFoundException();
+		}
+		return order;
 	}
 
 	@Override
@@ -160,7 +172,11 @@ public class DataAccessImpl implements DataAccess {
 		Query q = em.createQuery("select article from Article article where article.name = :name");
 		q.setParameter("name", name);
 		List<Article> articles = q.getResultList();
+		if(articles.isEmpty()) {
+			throw new ArticleNotFoundException();
+		} else {
 		return articles;
+		}
 	}
 
 	@Override
@@ -168,8 +184,13 @@ public class DataAccessImpl implements DataAccess {
 		Query q = em.createQuery("select customer from Customer customer where customer.lastName like :name");
 		q.setParameter("name", "%" + name + "%");
 		List<Customer> customers = q.getResultList();
+		if(customers.isEmpty()) {
+			throw new CustomerNotFoundException();
+		} else {
+			return customers;
+			
+		}
 
-		return customers;
 	}
 
 	@Override
@@ -177,27 +198,39 @@ public class DataAccessImpl implements DataAccess {
 		Query q = em.createQuery("select order from CustomerOrder order where order.customer.cnr = :cnr");
 		q.setParameter("cnr", cnr);
 		List<CustomerOrder> orders = q.getResultList();
+		if(orders.isEmpty()) {
+			throw new OrderNotFoundException();
+		} else {
 		return orders;
+		}
 	}
 
 	@Override
-	public List<Article> findArticlesBetweenId(int firstId, int secondId) {
+	public List<Article> findArticlesBetweenId(int firstId, int secondId) throws ArticleNotFoundException {
 
 		Query q = em.createQuery(
 				"select article from Article article where article.artNr >= :first and " + "article.artNr <= :second");
 		q.setParameter("first", firstId);
 		q.setParameter("second", secondId);
 		List<Article> articles = q.getResultList();
-		return articles;
+		if(articles.isEmpty()) {
+			throw new ArticleNotFoundException();
+		} else {
+			return articles;
+			
+		}
 	}
 
 	@Override
-	public List<CustomerOrder> findOrdersBetweenId(int firstId, int secondId) {
+	public List<CustomerOrder> findOrdersBetweenId(int firstId, int secondId) throws OrderNotFoundException {
 		Query q = em.createQuery(
 				"select order from CustomerOrder order where order.orderNr >= :first and order.orderNr <= :second");
 		q.setParameter("first", firstId);
 		q.setParameter("second", secondId);
 		List<CustomerOrder> orders = q.getResultList();
+		if(orders.isEmpty()) {
+			throw new OrderNotFoundException();
+		}
 		return orders;
 	}
 
@@ -244,26 +277,45 @@ public class DataAccessImpl implements DataAccess {
 	}
 
 	@Override
+//	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException {
+//		try {
+//			if (findOrderByCustomerId(cnr).size() == 0) {
+//				Customer cust = findCustomerById(cnr);
+//				em.remove(cust);
+//			} else {
+//				throw new ForbiddenDeleteException();
+//			}
+//		} catch (OrderNotFoundException e) {
+//		}
+//
+//	}
+	
 	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException {
 		try {
-			if (findOrderByCustomerId(cnr).size() == 0) {
-				Customer cust = findCustomerById(cnr);
-				em.remove(cust);
-			} else {
+			findOrderByCustomerId(cnr); 
+			Customer cust = findCustomerById(cnr);
+			em.remove(cust);
+		}
+			catch (OrderNotFoundException e) {
 				throw new ForbiddenDeleteException();
-			}
-		} catch (OrderNotFoundException e) {
+			} 
 		}
 
-	}
+
+	
+	
 
 	@Override
-	public List<Customer> findCustomersBetweenId(int firstId, int secondId) {
+	public List<Customer> findCustomersBetweenId(int firstId, int secondId) throws CustomerNotFoundException {
 		Query q = em.createQuery(
 				"select customer from Customer customer where customer.cnr >= :first and customer.cnr <= :second");
 		q.setParameter("first", firstId);
 		q.setParameter("second", secondId);
 		List<Customer> customers = q.getResultList();
+		if(customers.isEmpty()) {
+			throw new CustomerNotFoundException();
+		}
+			
 		return customers;
 	}
 

@@ -1,6 +1,7 @@
 package rest;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -53,8 +54,6 @@ public class CustomerResource {
 			return Response.ok(foundCustomers).build();
 		} catch (CustomerNotFoundException e) {
 			return Response.status(404).build();
-		} catch (ServiceUnavailableException e) {
-			return Response.status(500).build();
 		}
 
 	}
@@ -78,17 +77,13 @@ public class CustomerResource {
 	@Produces({ "application/JSON" })
 	@Consumes({ "application/JSON" })
 	public Response registerCustomer(Customer customer) {
-		try {
-			service.register(customer);
-			URI uri = null;
+		service.register(customer);
+		URI uri = null;
 			try {
 				uri = new URI(uriInfo.getAbsolutePath() + "/" + customer.getCustomerNr());
-			} catch (Exception e) {
-			}
-			return Response.created(uri).build();
-		} catch (ServiceUnavailableException e) {
-			return Response.status(500).build();
-		}
+			} catch (URISyntaxException e) {}
+	
+		return Response.created(uri).build();
 
 	}
 
