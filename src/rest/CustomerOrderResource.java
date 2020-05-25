@@ -60,7 +60,9 @@ public class CustomerOrderResource {
 	@Consumes({ "application/JSON" })
 	public Response registerOrder(CustomerOrder order) {
 		try {
+			System.out.print("Registering new order");
 			service.register(order);
+			System.out.print("Registered new order as number " + order.getOrderNr());
 			URI uri = null;
 			try {
 				uri = new URI("/orders/" + order.getOrderNr());

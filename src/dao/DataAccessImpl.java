@@ -43,10 +43,10 @@ public class DataAccessImpl implements DataAccess {
 		for (Article a : order.getArticles().keySet()) {
 			Article db = findArticle(a); // throws ArticleNotFoundException
 			
-//			System.out.println(db.getName() + ":" + db.getArtNr());
-//			int quantity = order.getArticles().get(a);
-//			order.getArticles().keySet().remove(a);
-//			order.getArticles().put(db, quantity);
+			System.out.println(db.getName() + ":" + db.getArtNr());
+			int quantity = order.getArticles().get(a);
+			order.getArticles().keySet().remove(a);
+			order.getArticles().put(db, quantity);
 			
 			//insert(a); // cascading
 			
