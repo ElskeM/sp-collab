@@ -14,6 +14,7 @@ import dao.CustomerNotFoundException;
 import dao.DataAccess;
 import dao.ForbiddenDeleteException;
 import dao.OrderNotFoundException;
+import dao.TestingDao;
 import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
@@ -22,6 +23,7 @@ import domain.CustomerOrder;
 public class OlfServiceImpl implements OlfService {
 
 	@Inject
+	//@TestingDao
 	private DataAccess dao;
 
 	@Resource
