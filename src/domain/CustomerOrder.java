@@ -129,7 +129,7 @@ public class CustomerOrder implements Serializable {
 	
 	private double getSubTotalNoDiscount() {
 		double total = 0;
-		for(Article a : articles.keySet()) {
+		for(Article a : getArticles().keySet()) {
 			total += a.getPrice() * articles.get(a);
 		}
 		return total;
@@ -158,6 +158,9 @@ public class CustomerOrder implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
+		double stnd = getSubTotalNoDiscount();
+		double td = getTotalDiscount();
+		double total = getTotal();
 		
 		sb.append(customer.toString());
 		sb.append("\nOrderNumber: " + orderNr);
@@ -170,7 +173,9 @@ public class CustomerOrder implements Serializable {
 			Map.Entry orderArt = (Map.Entry)it.next();
 			sb.append(orderArt.getKey() + " / " + orderArt.getValue() + "\n");
 		}
-		
+		sb.append("\nSubtotal: " + stnd);
+		sb.append("\nCustomer discount: " + td);
+		sb.append("\nTotal in SEK: " + total);
 		String customerOrder = sb.toString();
 		return customerOrder;
 		
