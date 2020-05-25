@@ -1,11 +1,11 @@
 package domain;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -26,12 +26,15 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import util.StringToMapConverter;
+
 @Entity
 @XmlRootElement
 @Table(name = "tblCustomerOrder")
 public class CustomerOrder implements Serializable {
+
 	private static final long serialVersionUID = -5152794172107611719L;
-	
+
 	@Transient
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -43,44 +46,64 @@ public class CustomerOrder implements Serializable {
 
 	@XmlElement
 	private String orderDate;
-	
+
 	@XmlElement
 	private String dispatchDate;
-
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "cnr")
 	@XmlElement
 	private Customer customer;
-	
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "tblOrderRows",
-			joinColumns = {@JoinColumn(name = "orderNr", referencedColumnName = "orderNr")})
+	@CollectionTable(name = "tblOrderRows", joinColumns = {
+			@JoinColumn(name = "orderNr", referencedColumnName = "orderNr") })
 	@Column(name = "antal")
 	@MapKeyJoinColumn(name = "artNr")
 	@MapKeyColumn(name = "orderNr")
 	@XmlElement
+	@Convert(attributeName = "key", 
+			converter = StringToMapConverter.class)
 	private Map<Article, Integer> articles;
 
+//	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+//		System.out.println("TESTDESERIALIZER");
+//		this.orderNr = 2;
+//		this.customer = new Customer("John","Petrucci","Gibsongatan 12", "425 71", "Göteborg", 0.5);
+//		this.customer.setCustomerNr(116);
+//		this.dispatchDate = "2006-01-01";
+//		this.orderDate = "2006-01-01";
+//		Map<Article, Integer> articles = new HashMap<>();
+//		Article a1 = new Article("Skruv", "Skruv",100, 1);
+//		a1.setArtNr(10005);
+//		articles.put(a1, 5);
+//		this.articles = articles;
+//		in.close();
+//	}
+
 	public void setArticles(Map<Article, Integer> articles) {
+
 		this.articles = articles;
 	}
 
 	public void setDispatchDate(String dispatchDate) {
+
 		this.dispatchDate = dispatchDate;
 	}
-	
+
 	public void setOrderDate(String orderDate) {
+
 		this.orderDate = orderDate;
 	}
 
 	public CustomerOrder() {
+
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	/**
 	 * This constructor remains here for the testing dao
+	 * 
 	 * @param orderDate
 	 * @param dispatchDate
 	 * @param customer
@@ -94,7 +117,7 @@ public class CustomerOrder implements Serializable {
 		this.customer = customer;
 		this.articles = articles;
 	}
-	
+
 	public CustomerOrder(String orderDate, String dispatchDate, Customer customer, Map<Article, Integer> articles) {
 
 		this.orderDate = orderDate;
@@ -104,73 +127,84 @@ public class CustomerOrder implements Serializable {
 	}
 
 	public int getOrderNr() {
+
 		return orderNr;
 	}
 
 	public String getDispatchDate() {
+
 		return dispatchDate;
 	}
-	
+
 	public String getorderDate() {
+
 		return orderDate;
 	}
 
 	public Customer getCustomer() {
+
 		return customer;
 	}
-	
+
 	public void setCustomer(Customer customer) {
-		this.customer= customer;
+
+		this.customer = customer;
 	}
-	
+
 	public void setOrderNr(int orderNr) {
+
 		this.orderNr = orderNr;
 	}
-	
+
 	private double getSubTotalNoDiscount() {
+
 		double total = 0;
-		for(Article a : getArticles().keySet()) {
+		for (Article a : getArticles().keySet()) {
 			total += a.getPrice() * articles.get(a);
 		}
 		return total;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public double getTotal() {
+
 		return getSubTotalNoDiscount() - getTotalDiscount();
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public double getTotalDiscount() {
+
 		return getSubTotalNoDiscount() * customer.getDiscount();
 	}
 
 	public Map<Article, Integer> getArticles() {
+
 		return articles;
 	}
 
 	@Override
 	public String toString() {
+
 		StringBuilder sb = new StringBuilder();
 		double stnd = getSubTotalNoDiscount();
 		double td = getTotalDiscount();
 		double total = getTotal();
-		
+
 		sb.append(customer.toString());
 		sb.append("\nOrderNumber: " + orderNr);
 		sb.append("\nOrderdate: " + orderDate);
 		sb.append("\nDispatchdate: " + dispatchDate);
 		sb.append("\nNumber / Article Id\n");
-		
+
 		Iterator it = articles.entrySet().iterator();
-		while(it.hasNext()) {
-			Map.Entry orderArt = (Map.Entry)it.next();
+		while (it.hasNext()) {
+			Map.Entry orderArt = (Map.Entry) it.next();
 			sb.append(orderArt.getKey() + " / " + orderArt.getValue() + "\n");
 		}
 		sb.append("\nSubtotal: " + stnd);
@@ -178,8 +212,7 @@ public class CustomerOrder implements Serializable {
 		sb.append("\nTotal in SEK: " + total);
 		String customerOrder = sb.toString();
 		return customerOrder;
-		
+
 	}
 
-	
 }
