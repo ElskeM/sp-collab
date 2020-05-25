@@ -58,8 +58,8 @@ public class DataAccessImpl implements DataAccess {
 		System.out.println("PRE-PERSIST");
 		order.setCustomer(em.find(Customer.class, order.getCustomer().getCustomerNr()));
 		System.out.println("SET TOTAL");
-		order.setTotal(total);
 		em.persist(order);
+		order.setTotal(total);
 		System.out.println("EXITING INSERT");
 	}
 

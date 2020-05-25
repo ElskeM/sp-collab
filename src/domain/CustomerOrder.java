@@ -28,6 +28,7 @@ import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import util.StringToIntegerConverter;
@@ -78,6 +79,10 @@ public class CustomerOrder implements Serializable {
 	
 	@Transient
 	private double totalDiscount;
+	
+	@Transient
+	@XmlTransient //Den här annotationen gör så att fältet döljs i XML-representationen av objektet
+	private double totalWithDiscount;
 	
 //	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
 //		System.out.println("TESTDESERIALIZER");
@@ -173,29 +178,21 @@ public class CustomerOrder implements Serializable {
 	 * @author Peter
 	 * @return
 	 */
-	private double getSubTotalNoDiscount() {
-		double total = 0;
-		for (String a : getArticles().keySet()) {
-			//total += a.getPrice() * articles.get(a);
-		}
-		return total;
-	}
 	
-	/**
-	 * @author Peter
-	 * @return
-	 */
 	public double getTotal() {
-		return getSubTotalNoDiscount() - getTotalDiscount();
+		return this.total;
+	}
+	
+	public double getTotalWithDiscount() {
+		return getTotal() - getTotalDiscount();
 	}
 	
 	/**
 	 * @author Peter
 	 * @return
 	 */
-	@Ignore
 	public double getTotalDiscount() {
-		return getSubTotalNoDiscount() * customer.getDiscount();
+		return getTotal() * customer.getDiscount();
 	}
 
 	public Map<String, Integer> getArticles() {
@@ -208,9 +205,9 @@ public class CustomerOrder implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		double stnd = getSubTotalNoDiscount();
+		double stnd = getTotal();
 		double td = getTotalDiscount();
-		double total = getTotal();
+		double total = getTotalWithDiscount();
 		
 		sb.append(customer.toString());
 		sb.append("\nOrderNumber: " + orderNr);
