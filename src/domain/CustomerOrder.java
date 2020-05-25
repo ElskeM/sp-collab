@@ -127,81 +127,77 @@ public class CustomerOrder implements Serializable {
 	}
 
 	public int getOrderNr() {
-
 		return orderNr;
 	}
 
 	public String getDispatchDate() {
-
 		return dispatchDate;
 	}
-
+	
 	public String getorderDate() {
-
 		return orderDate;
 	}
 
 	public Customer getCustomer() {
-
 		return customer;
 	}
-
+	
 	public void setCustomer(Customer customer) {
-
-		this.customer = customer;
+		this.customer= customer;
 	}
-
+	
 	public void setOrderNr(int orderNr) {
-
 		this.orderNr = orderNr;
 	}
-
+	
+	/**
+	 * @author Peter
+	 * @return
+	 */
 	private double getSubTotalNoDiscount() {
-
 		double total = 0;
 		for (Article a : getArticles().keySet()) {
 			total += a.getPrice() * articles.get(a);
 		}
 		return total;
 	}
-
+	
 	/**
-	 * 
+	 * @author Peter
 	 * @return
 	 */
 	public double getTotal() {
-
 		return getSubTotalNoDiscount() - getTotalDiscount();
 	}
-
+	
 	/**
-	 * 
+	 * @author Peter
 	 * @return
 	 */
 	public double getTotalDiscount() {
-
 		return getSubTotalNoDiscount() * customer.getDiscount();
 	}
 
 	public Map<Article, Integer> getArticles() {
-
 		return articles;
 	}
 
+	/**
+	 *@author Elske
+	 */
 	@Override
 	public String toString() {
-
 		StringBuilder sb = new StringBuilder();
 		double stnd = getSubTotalNoDiscount();
 		double td = getTotalDiscount();
 		double total = getTotal();
-
+		
 		sb.append(customer.toString());
 		sb.append("\nOrderNumber: " + orderNr);
 		sb.append("\nOrderdate: " + orderDate);
 		sb.append("\nDispatchdate: " + dispatchDate);
 		sb.append("\nNumber / Article Id\n");
-
+		
 		Iterator it = articles.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry orderArt = (Map.Entry) it.next();
@@ -212,7 +208,8 @@ public class CustomerOrder implements Serializable {
 		sb.append("\nTotal in SEK: " + total);
 		String customerOrder = sb.toString();
 		return customerOrder;
-
+		
 	}
 
+	
 }

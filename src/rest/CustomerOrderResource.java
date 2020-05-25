@@ -25,6 +25,10 @@ import domain.CustomerOrder;
 import service.OlfService;
 import service.ServiceUnavailableException;
 
+/**
+ * @author elske
+ *
+ */
 @Stateless
 @Path("/orders")
 public class CustomerOrderResource {
@@ -35,6 +39,10 @@ public class CustomerOrderResource {
 	@Context
 	private UriInfo uriInfo;
 
+	/**
+	 * @author elske
+	 * @return
+	 */
 	@GET
 	@Produces({ "application/JSON" })
 	public Response getAllOrders() {
@@ -42,6 +50,11 @@ public class CustomerOrderResource {
 		return Response.ok(allOrders).build();
 	}
 
+	/**
+	 * @author elske
+	 * @param order
+	 * @return
+	 */
 	@POST
 	@Produces({ "application/JSON" })
 	@Consumes({ "application/JSON" })
@@ -66,6 +79,11 @@ public class CustomerOrderResource {
 		}
 	}
 
+	/**
+	 * @author elske
+	 * @param orderNr
+	 * @return
+	 */
 	@GET
 	@Produces({"application/JSON"})
 	@Path("{orderNr}")
@@ -79,6 +97,12 @@ public class CustomerOrderResource {
 	}
 	
 	
+	/**
+	 * @author elske
+	 * @param orderNr
+	 * @param cO
+	 * @return
+	 */
 	@PUT
 	@Path("{orderNr}")
 	@Produces({"application/JSON"})
@@ -92,6 +116,11 @@ public class CustomerOrderResource {
 		}
 	}
 	
+	/**
+	 * @author elske
+	 * @param orderNr
+	 * @return
+	 */
 	@DELETE
 	@Path("{orderNr}")
 	public Response deleteCustomerOrder(@PathParam("orderNr") int orderNr) {
