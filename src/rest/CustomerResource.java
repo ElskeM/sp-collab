@@ -38,6 +38,11 @@ public class CustomerResource {
 	@Context
 	private UriInfo uriInfo;
 
+	/**
+	 * Takes a string and returns all customers whos last name includes that string
+	 * @param name the last name of the customer(s) 
+	 * @return Response with List<Customer> or 404 if no customers matches the param name
+	 */
 	@GET
 	@Produces({ "application/JSON" })
 	public Response getCustomersByName(@QueryParam("lastName") String name) {
@@ -58,6 +63,11 @@ public class CustomerResource {
 
 	}
 
+	/**
+	 * Takes an int and returns the Customers whos customerNr matches the given parameter
+	 * @param id a customerNr
+	 * @return Response with Customer and hateoas-info or if no Customer with given id exists status 404 
+	 */
 	@GET
 	@Produces({ "application/JSON" })
 	@Path("{customerId}")
@@ -73,6 +83,11 @@ public class CustomerResource {
 		}
 	}
 	
+	/**
+	 * Takes a Customer and registers it into the database
+	 * @param customer
+	 * @return Response with uriInfo about the inserted customer
+	 */
 	@POST
 	@Produces({ "application/JSON" })
 	@Consumes({ "application/JSON" })
@@ -87,6 +102,13 @@ public class CustomerResource {
 
 	}
 
+	/**
+	 * Takes an Integer and a Customer and updates an already existing customer with the given customerNr using
+	 * the information in the Customer object 
+	 * @param cnr
+	 * @param customer
+	 * @return Response with the updated Customer or status 404
+	 */
 	@PUT
 	@Path("{customerId}")
 	@Produces({ "application/JSON" })
@@ -100,6 +122,12 @@ public class CustomerResource {
 		}
 	}
 
+	/**
+	 * Takes a customerNr and deletes the Customer with the given customerNr 
+	 * if the Customer has an order the deletion is forbidden
+	 * @param id
+	 * @return Response with status 209, 404 or 403
+	 */
 	@DELETE
 	@Path("{customerId}")
 	public Response deleteCustomer(@PathParam("customerId") int id) {

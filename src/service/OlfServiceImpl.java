@@ -57,9 +57,19 @@ public class OlfServiceImpl implements OlfService {
 	@Override
 	public CustomerOrder register(CustomerOrder customerOrder)
 			throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException {
-
+//		try {
+//			dao.insert(customerOrder);
+//			Customer customer = customerOrder.getCustomer();
+//			recieptSendingService.sendReceipt(customer.getFirstName(), customer.getLastName(), 
+//					customer.getAddress(), customer.getZipCode(), customer.getCity());
+//			return customerOrder;
+//		} catch (ServiceUnavailableException e) {
+//			ctx.setRollbackOnly();
+//			throw e;
+//		}
 		dao.insert(customerOrder);
 		return customerOrder;
+		
 
 	}
 

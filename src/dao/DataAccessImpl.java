@@ -23,23 +23,23 @@ public class DataAccessImpl implements DataAccess {
 	
 	@PersistenceContext
 	private EntityManager em;
-
+	
 	@Override
 	public void insert(Article article) {
 		em.persist(article);
 	}
-
+	
 	@Override
 	public void insert(Customer customer) {
 		em.persist(customer);
 	}
-
+	
 	/*Insertar vi en artikel som kommer ifrån en order i databasen om den inte finns?
 	 * är detta rimligt? Vad händer om inte customern finns?
 	 */
 	@Override
 	public void insert(CustomerOrder order) throws ArticleNotFoundException {
-
+		
 		for (Article a : order.getArticles().keySet()) {
 			Article db = findArticle(a);
 			if (db != null) {
@@ -53,9 +53,9 @@ public class DataAccessImpl implements DataAccess {
 		}
 		em.persist(order);
 	}
-
+	
 	private Article findArticle(Article a) throws ArticleNotFoundException {
-
+		
 		Query q = em.createQuery("select a from Article a where a.artNr=:artNr");
 		q.setParameter("artNr", a.getArtNr());
 		System.out.println(q);
@@ -68,7 +68,7 @@ public class DataAccessImpl implements DataAccess {
 		}
 		return res;
 	}
-
+	
 	@Override
 	public List<CustomerOrder> findAllOrders() {
 
@@ -83,14 +83,14 @@ public class DataAccessImpl implements DataAccess {
 	 * @param orderId
 	 * @return
 	 */
-
+	
 	//Behöver vi hämta orderrows?
 	private List<Entry<Article, Integer>> getOrderRows(int orderId) {
-
+		
 		Query q = em.createQuery(
 				"select entry(orderrows) from CustomerOrder o INNER JOIN o.articles orderrows where o.orderNr=:orderNr",
 				java.util.Map.Entry.class);
-
+		
 		q.setParameter("orderNr", orderId);
 		List<Entry<Article, Integer>> res = q.getResultList();
 		for (Entry<Article, Integer> e : res) {
@@ -195,7 +195,7 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public List<CustomerOrder> findOrderByCustomerId(int cnr) throws OrderNotFoundException {
-		Query q = em.createQuery("select order from CustomerOrder order where order.customer.cnr = :cnr");
+		Query q = em.createQuery("select order from CustomerOrder order where order.customer.customerNr = :cnr");
 		q.setParameter("cnr", cnr);
 		List<CustomerOrder> orders = q.getResultList();
 		if(orders.isEmpty()) {
