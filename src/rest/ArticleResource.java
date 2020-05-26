@@ -43,6 +43,7 @@ public class ArticleResource {
 //		return Response.ok(service.getAllArticle()).build();
 //	}
 
+
 	@GET
 	@Produces({ "application/JSON" })
 	public Response getAllArticlesBetweenId(@DefaultValue("0") @QueryParam("firstId") Integer firstId,
