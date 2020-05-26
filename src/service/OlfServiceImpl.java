@@ -65,10 +65,11 @@ public class OlfServiceImpl implements OlfService {
 	}
 
 	@Override
-	public Customer register(Customer customer) throws ServiceUnavailableException{
-			ReceiptSendingService.sendReciept(customer.getFirstName(), customer.getLastName(),
-			customer.getAddress(), customer.getZipCode(), customer.getCity());
+	public Customer register(Customer customer) throws ServiceUnavailableException {
+			
 			dao.insert(customer);
+			ReceiptSendingService.sendReciept(customer.getFirstName(), customer.getLastName(),
+					customer.getAddress(), customer.getZipCode(), customer.getCity());
 			return customer;
 	}
 
