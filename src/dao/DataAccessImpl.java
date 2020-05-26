@@ -15,12 +15,11 @@ import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
 
-
 @Stateless
 @Default
 @ProductionDao
 public class DataAccessImpl implements DataAccess {
-	
+
 	@PersistenceContext
 	private EntityManager em;
 
@@ -34,31 +33,39 @@ public class DataAccessImpl implements DataAccess {
 		em.persist(customer);
 	}
 
-	/*Insertar vi en artikel som kommer ifrån en order i databasen om den inte finns?
-	 * är detta rimligt? Vad händer om inte customern finns?
+	/*
+	 * Insertar vi en artikel som kommer ifrån en order i databasen om den inte
+	 * finns? är detta rimligt? Vad händer om inte customern finns?
 	 */
 	@Override
-	public void insert(CustomerOrder order) throws ArticleNotFoundException {
+	public void insert(CustomerOrder order) throws ArticleNotFoundException, OutOfStockException {
 
 		double total = 0;
-		
-		for (String a : order.getArticles().keySet()) {
+
+		for (String artNr : order.getArticles().keySet()) {
 			System.out.println("PRE-FIND");
-			Article db = findArticle(a); // throws ArticleNotFoundException
-			
-			System.out.println(db.getName() + ":" + db.getArtNr());
-			int quantity = order.getArticles().get(a);
-			total += db.getPrice() * quantity;
-			//order.getArticles().keySet().remove(a);
-			//order.getArticles().put(db, quantity);
-			
-			//insert(a); // cascading
-			
+			Article a = findArticle(artNr); // throws ArticleNotFoundException
+
+			System.out.println(a.getName() + ":" + a.getArtNr());
+			int quantity = order.getArticles().get(artNr);
+			total += a.getPrice() * quantity;
+
+			if (quantity > a.getStock()) {
+				throw new OutOfStockException(
+						"Article: " + artNr + " [Requested: " + quantity + "] [In stock: " + a.getStock() + "]");
+			}
+			// order.getArticles().keySet().remove(a);
+			// order.getArticles().put(db, quantity);
+
+			// insert(a); // cascading
+
 		}
 		System.out.println("PRE-PERSIST");
+		// Get a managed instance of the Customer entity, because we can't persist
+		// detached entities
 		order.setCustomer(em.find(Customer.class, order.getCustomer().getCustomerNr()));
-		System.out.println("SET TOTAL");
 		em.persist(order);
+		System.out.println("SET TOTAL");
 		order.setTotal(total);
 		System.out.println("EXITING INSERT");
 	}
@@ -73,7 +80,7 @@ public class DataAccessImpl implements DataAccess {
 			res = (Article) q.getSingleResult();
 		} catch (NoResultException e) {
 			throw new ArticleNotFoundException();
-			
+
 		}
 		return res;
 	}
@@ -87,7 +94,7 @@ public class DataAccessImpl implements DataAccess {
 		System.out.println(orders.size());
 		return orders;
 	}
-	
+
 	/**
 	 * Hämtar alla orderrader för ett givet ordernummer
 	 * 
@@ -95,7 +102,7 @@ public class DataAccessImpl implements DataAccess {
 	 * @return
 	 */
 
-	//Behöver vi hämta orderrows?
+	// Behöver vi hämta orderrows?
 	private List<Entry<Article, Integer>> getOrderRows(int orderId) {
 
 		Query q = em.createQuery(
@@ -109,10 +116,10 @@ public class DataAccessImpl implements DataAccess {
 		}
 		return res;
 	}
-	
+
 	@Override
 	public void dropAllTables() {
-		
+
 		Query q = em.createNativeQuery("drop table tblorderrows");
 		q.executeUpdate();
 		q = em.createNativeQuery("drop table tblarticle");
@@ -121,9 +128,9 @@ public class DataAccessImpl implements DataAccess {
 		q.executeUpdate();
 		q = em.createNativeQuery("drop table tblcustomerorder");
 		q.executeUpdate();
-		
+
 	}
-	
+
 	@Override
 	public List<Customer> findAllCustomer() {
 		Query q = em.createQuery("select customer from Customer customer");
@@ -145,8 +152,8 @@ public class DataAccessImpl implements DataAccess {
 		Query q = em.createQuery("select article from Article article where article.artNr = :artNr");
 		q.setParameter("artNr", artNr);
 		try {
-		return (Article) q.getSingleResult();
-		}catch (NoResultException e) {
+			return (Article) q.getSingleResult();
+		} catch (NoResultException e) {
 			throw new ArticleNotFoundException();
 		}
 	}
@@ -172,7 +179,7 @@ public class DataAccessImpl implements DataAccess {
 		CustomerOrder order = null;
 		try {
 			order = (CustomerOrder) q.getSingleResult();
-		}catch (NoResultException e) {
+		} catch (NoResultException e) {
 			throw new OrderNotFoundException();
 		}
 		return order;
@@ -183,10 +190,10 @@ public class DataAccessImpl implements DataAccess {
 		Query q = em.createQuery("select article from Article article where article.name = :name");
 		q.setParameter("name", name);
 		List<Article> articles = q.getResultList();
-		if(articles.isEmpty()) {
+		if (articles.isEmpty()) {
 			throw new ArticleNotFoundException();
 		} else {
-		return articles;
+			return articles;
 		}
 	}
 
@@ -195,11 +202,11 @@ public class DataAccessImpl implements DataAccess {
 		Query q = em.createQuery("select customer from Customer customer where customer.lastName like :name");
 		q.setParameter("name", "%" + name + "%");
 		List<Customer> customers = q.getResultList();
-		if(customers.isEmpty()) {
+		if (customers.isEmpty()) {
 			throw new CustomerNotFoundException();
 		} else {
 			return customers;
-			
+
 		}
 
 	}
@@ -209,10 +216,10 @@ public class DataAccessImpl implements DataAccess {
 		Query q = em.createQuery("select order from CustomerOrder order where order.customer.cnr = :cnr");
 		q.setParameter("cnr", cnr);
 		List<CustomerOrder> orders = q.getResultList();
-		if(orders.isEmpty()) {
+		if (orders.isEmpty()) {
 			throw new OrderNotFoundException();
 		} else {
-		return orders;
+			return orders;
 		}
 	}
 
@@ -224,11 +231,11 @@ public class DataAccessImpl implements DataAccess {
 		q.setParameter("first", firstId);
 		q.setParameter("second", secondId);
 		List<Article> articles = q.getResultList();
-		if(articles.isEmpty()) {
+		if (articles.isEmpty()) {
 			throw new ArticleNotFoundException();
 		} else {
 			return articles;
-			
+
 		}
 	}
 
@@ -239,7 +246,7 @@ public class DataAccessImpl implements DataAccess {
 		q.setParameter("first", firstId);
 		q.setParameter("second", secondId);
 		List<CustomerOrder> orders = q.getResultList();
-		if(orders.isEmpty()) {
+		if (orders.isEmpty()) {
 			throw new OrderNotFoundException();
 		}
 		return orders;
@@ -300,21 +307,16 @@ public class DataAccessImpl implements DataAccess {
 //		}
 //
 //	}
-	
+
 	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException {
 		try {
-			findOrderByCustomerId(cnr); 
+			findOrderByCustomerId(cnr);
 			Customer cust = findCustomerById(cnr);
 			em.remove(cust);
+		} catch (OrderNotFoundException e) {
+			throw new ForbiddenDeleteException();
 		}
-			catch (OrderNotFoundException e) {
-				throw new ForbiddenDeleteException();
-			} 
-		}
-
-
-	
-	
+	}
 
 	@Override
 	public List<Customer> findCustomersBetweenId(int firstId, int secondId) throws CustomerNotFoundException {
@@ -323,10 +325,10 @@ public class DataAccessImpl implements DataAccess {
 		q.setParameter("first", firstId);
 		q.setParameter("second", secondId);
 		List<Customer> customers = q.getResultList();
-		if(customers.isEmpty()) {
+		if (customers.isEmpty()) {
 			throw new CustomerNotFoundException();
 		}
-			
+
 		return customers;
 	}
 

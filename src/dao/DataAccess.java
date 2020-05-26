@@ -14,7 +14,7 @@ import domain.CustomerOrder;
 public interface DataAccess {
 	public void insert(Article article);
 	public void insert(Customer customer);
-	public void insert(CustomerOrder customerOrder) throws ArticleNotFoundException,CustomerNotFoundException;
+	public void insert(CustomerOrder customerOrder) throws ArticleNotFoundException,CustomerNotFoundException, OutOfStockException;
 	
 	public List<CustomerOrder> findAllOrders();
 	public List<Customer> findAllCustomer();
