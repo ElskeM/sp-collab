@@ -14,7 +14,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -42,8 +41,7 @@ public class CustomerOrderResource {
 	private UriInfo uriInfo;
 
 	/**
-	 * @author elske
-	 * @return
+	 * @return Response
 	 */
 	@GET
 	@Produces({ "application/JSON" })
@@ -53,9 +51,8 @@ public class CustomerOrderResource {
 	}
 
 	/**
-	 * @author elske
 	 * @param order
-	 * @return
+	 * @return Response
 	 */
 	@POST
 	@Produces({ "application/JSON" })
@@ -84,9 +81,8 @@ public class CustomerOrderResource {
 	}
 
 	/**
-	 * @author elske
 	 * @param orderNr
-	 * @return
+	 * @return Response
 	 */
 	@GET
 	@Produces({"application/JSON"})
@@ -102,10 +98,9 @@ public class CustomerOrderResource {
 	
 	
 	/**
-	 * @author elske
 	 * @param orderNr
 	 * @param cO
-	 * @return
+	 * @return Response
 	 */
 	@PUT
 	@Path("{orderNr}")
@@ -121,9 +116,8 @@ public class CustomerOrderResource {
 	}
 	
 	/**
-	 * @author elske
 	 * @param orderNr
-	 * @return
+	 * @return Response
 	 */
 	@DELETE
 	@Path("{orderNr}")

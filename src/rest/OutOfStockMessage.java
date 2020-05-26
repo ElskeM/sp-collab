@@ -1,5 +1,9 @@
 package rest;
 
+/**
+ * @author Peter
+ *
+ */
 public class OutOfStockMessage {
 	
 	private String error = "Item is out of stock";

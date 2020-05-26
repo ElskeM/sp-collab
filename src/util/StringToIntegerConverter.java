@@ -9,6 +9,10 @@ import javax.persistence.Converter;
 import domain.Article;
 import domain.Customer;
 
+/**
+ * @author Peter
+ *
+ */
 @Converter(autoApply = true)
 public class StringToIntegerConverter implements AttributeConverter<Integer,String> {
 
