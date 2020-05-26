@@ -15,6 +15,10 @@ import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
 
+/**Class for inserting and accessing data from our derby database
+ * @author Peter
+ *
+ */
 @Stateless
 @Default
 @ProductionDao
