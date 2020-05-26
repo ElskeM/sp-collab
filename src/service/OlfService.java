@@ -32,7 +32,7 @@ public interface OlfService {
 
 	public Article register(Article article);
 	public CustomerOrder register(CustomerOrder order) throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException, OutOfStockException ;
-	public Customer register(Customer customer);
+	public Customer register(Customer customer) throws ServiceUnavailableException;
 	
 	public void dropAllTables();
 
