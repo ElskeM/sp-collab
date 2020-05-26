@@ -77,7 +77,11 @@ public class CustomerResource {
 	@Produces({ "application/JSON" })
 	@Consumes({ "application/JSON" })
 	public Response registerCustomer(Customer customer) {
-		service.register(customer);
+		try {
+			service.register(customer);
+		} catch (ServiceUnavailableException e1) {
+			return Response.status(500).build();
+		}
 		URI uri = null;
 			try {
 				uri = new URI(uriInfo.getAbsolutePath() + "/" + customer.getCustomerNr());
