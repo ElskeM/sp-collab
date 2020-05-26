@@ -1,6 +1,5 @@
 package service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,10 +19,15 @@ import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
 
+/**
+ * @author Peter, Pontus, Simon, Elske
+ *
+ */
 @Stateless
 public class OlfServiceImpl implements OlfService {
 
 	@Inject
+	/* Vill man testa clienten med DataAccessTestingVersion, ta bort // framför @TestingDao */
 	//@TestingDao
 	private DataAccess dao;
 
@@ -66,7 +70,6 @@ public class OlfServiceImpl implements OlfService {
 
 	@Override
 	public Customer register(Customer customer) throws ServiceUnavailableException {
-			
 			dao.insert(customer);
 			ReceiptSendingService.sendReciept(customer.getFirstName(), customer.getLastName(),
 					customer.getAddress(), customer.getZipCode(), customer.getCity());
@@ -129,7 +132,6 @@ public class OlfServiceImpl implements OlfService {
 	@Override
 	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException {
 			dao.deleteCustomer(cnr);
-
 	}
 
 	@Override
@@ -140,7 +142,6 @@ public class OlfServiceImpl implements OlfService {
 	@Override
 	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException {
 			dao.updateCustomer(cnr, customer);
-
 	}
 
 	@Override
@@ -150,7 +151,6 @@ public class OlfServiceImpl implements OlfService {
 
 	@Override
 	public List<Customer> getCustomerByName(String name) throws CustomerNotFoundException {
-		
 		return dao.findCustomerByLastname(name);
 	}
 

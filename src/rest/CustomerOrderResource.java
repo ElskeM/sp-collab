@@ -42,8 +42,7 @@ public class CustomerOrderResource {
 	private UriInfo uriInfo;
 
 	/**
-	 * @author elske
-	 * @return
+	 * @return Response
 	 */
 	@GET
 	@Produces({ "application/JSON" })
@@ -59,9 +58,8 @@ public class CustomerOrderResource {
 	}
 
 	/**
-	 * @author elske
 	 * @param order
-	 * @return
+	 * @return Response
 	 */
 	@POST
 	@Produces({ "application/JSON" })
@@ -90,9 +88,8 @@ public class CustomerOrderResource {
 	}
 
 	/**
-	 * @author elske
 	 * @param orderNr
-	 * @return
+	 * @return Response
 	 */
 	@GET
 	@Produces({ "application/JSON" })
@@ -107,10 +104,9 @@ public class CustomerOrderResource {
 	}
 
 	/**
-	 * @author elske
 	 * @param orderNr
 	 * @param cO
-	 * @return
+	 * @return Response
 	 */
 	@PUT
 	@Path("{orderNr}")
@@ -126,9 +122,8 @@ public class CustomerOrderResource {
 	}
 
 	/**
-	 * @author elske
 	 * @param orderNr
-	 * @return
+	 * @return Response
 	 */
 	@DELETE
 	@Path("{orderNr}")

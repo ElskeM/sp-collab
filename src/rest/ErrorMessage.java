@@ -1,5 +1,9 @@
 package rest;
 
+/**
+ * @author Peter
+ */
+
 enum MESSAGE_TYPE {
 	ArticleOutOfStock("Article out of stock"),
 	ServerError("Server Error");

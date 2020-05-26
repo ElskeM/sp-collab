@@ -24,10 +24,13 @@ import javax.ws.rs.core.UriInfo;
 import dao.CustomerNotFoundException;
 import dao.ForbiddenDeleteException;
 import domain.Customer;
-import domain.CustomerOrder;
 import service.OlfService;
 import service.ServiceUnavailableException;
 
+/**
+ * @author Simon
+ *
+ */
 @Stateless
 @Path("/customers")
 public class CustomerResource {
@@ -38,6 +41,10 @@ public class CustomerResource {
 	@Context
 	private UriInfo uriInfo;
 
+	/**
+	 * @param name
+	 * @return Response
+	 */
 	@GET
 	@Produces({ "application/JSON" })
 	public Response getCustomersByName(@QueryParam("lastName") String name) {
@@ -58,6 +65,10 @@ public class CustomerResource {
 
 	}
 
+	/**
+	 * @param id
+	 * @return Response
+	 */
 	@GET
 	@Produces({ "application/JSON" })
 	@Path("{customerId}")
@@ -73,6 +84,10 @@ public class CustomerResource {
 		}
 	}
 	
+	/**
+	 * @param customer
+	 * @return Response
+	 */
 	@POST
 	@Produces({ "application/JSON" })
 	@Consumes({ "application/JSON" })
@@ -91,6 +106,11 @@ public class CustomerResource {
 
 	}
 
+	/**
+	 * @param cnr
+	 * @param customer
+	 * @return Response
+	 */
 	@PUT
 	@Path("{customerId}")
 	@Produces({ "application/JSON" })
@@ -104,6 +124,10 @@ public class CustomerResource {
 		}
 	}
 
+	/**
+	 * @param id
+	 * @return Response
+	 */
 	@DELETE
 	@Path("{customerId}")
 	public Response deleteCustomer(@PathParam("customerId") int id) {

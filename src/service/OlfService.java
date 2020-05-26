@@ -15,6 +15,10 @@ import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
 
+/**
+ * @author Peter, Pontus, Simon, Elske
+ *
+ */
 @Local
 public interface OlfService {
 
