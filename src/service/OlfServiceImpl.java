@@ -14,6 +14,7 @@ import dao.CustomerNotFoundException;
 import dao.DataAccess;
 import dao.ForbiddenDeleteException;
 import dao.OrderNotFoundException;
+import dao.OutOfStockException;
 import dao.TestingDao;
 import domain.Article;
 import domain.Customer;
@@ -56,7 +57,7 @@ public class OlfServiceImpl implements OlfService {
 
 	@Override
 	public CustomerOrder register(CustomerOrder customerOrder)
-			throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException {
+			throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException, OutOfStockException {
 
 		dao.insert(customerOrder);
 		return customerOrder;

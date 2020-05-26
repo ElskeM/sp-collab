@@ -10,6 +10,7 @@ import dao.ArticleNotFoundException;
 import dao.CustomerNotFoundException;
 import dao.ForbiddenDeleteException;
 import dao.OrderNotFoundException;
+import dao.OutOfStockException;
 import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
@@ -30,7 +31,7 @@ public interface OlfService {
 	public CustomerOrder getOrderById(int orderNr) throws OrderNotFoundException; 
 
 	public Article register(Article article);
-	public CustomerOrder register(CustomerOrder order) throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException ;
+	public CustomerOrder register(CustomerOrder order) throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException, OutOfStockException ;
 	public Customer register(Customer customer);
 	
 	public void dropAllTables();
