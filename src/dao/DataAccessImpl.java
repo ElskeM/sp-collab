@@ -1,6 +1,5 @@
 package dao;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -11,12 +10,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
 
-/**Class for inserting and accessing data from our derby database
- * @author Peter
+/**
+ * Class for inserting and accessing data from our derby database
+ * 
+ * @author Peter, Pontus, Elske, Simon
  *
  */
 @Stateless
@@ -37,10 +39,7 @@ public class DataAccessImpl implements DataAccess {
 		em.persist(customer);
 	}
 
-	/*
-	 * Insertar vi en artikel som kommer ifrån en order i databasen om den inte
-	 * finns? är detta rimligt? Vad händer om inte customern finns?
-	 */
+	
 	@Override
 	public void insert(CustomerOrder order) throws ArticleNotFoundException, OutOfStockException {
 
@@ -57,6 +56,8 @@ public class DataAccessImpl implements DataAccess {
 			if (quantity > a.getStock()) {
 				throw new OutOfStockException(
 						"Article: " + artNr + " [Requested: " + quantity + "] [In stock: " + a.getStock() + "]");
+			} else {
+				a.setStock(a.getStock() - quantity);
 			}
 			// order.getArticles().keySet().remove(a);
 			// order.getArticles().put(db, quantity);
@@ -99,14 +100,7 @@ public class DataAccessImpl implements DataAccess {
 		return orders;
 	}
 
-	/**
-	 * Hämtar alla orderrader för ett givet ordernummer
-	 * 
-	 * @param orderId
-	 * @return
-	 */
-
-	// Behöver vi hämta orderrows?
+	
 	private List<Entry<Article, Integer>> getOrderRows(int orderId) {
 
 		Query q = em.createQuery(
@@ -299,19 +293,6 @@ public class DataAccessImpl implements DataAccess {
 	}
 
 	@Override
-//	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException {
-//		try {
-//			if (findOrderByCustomerId(cnr).size() == 0) {
-//				Customer cust = findCustomerById(cnr);
-//				em.remove(cust);
-//			} else {
-//				throw new ForbiddenDeleteException();
-//			}
-//		} catch (OrderNotFoundException e) {
-//		}
-//
-//	}
-
 	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException {
 		try {
 			findOrderByCustomerId(cnr);
