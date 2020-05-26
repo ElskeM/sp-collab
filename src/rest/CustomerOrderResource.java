@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -14,7 +15,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -37,25 +37,29 @@ public class CustomerOrderResource {
 
 	@Inject
 	private OlfService service;
-	
+
 	@Context
 	private UriInfo uriInfo;
 
 	/**
-	 * @author elske
-	 * @return
+	 * @return Response
 	 */
 	@GET
 	@Produces({ "application/JSON" })
 	public Response getAllOrders() {
-		List<CustomerOrder> allOrders = service.getAllOrders();
-		return Response.ok(allOrders).build();
+		try {
+			List<CustomerOrder> allOrders = service.getAllOrders();
+			return Response.ok(allOrders).build();
+		} catch (EJBTransactionRolledbackException e) {
+			return Response.serverError()
+					.entity(new ErrorMessage("Error communicating with the database backend", MESSAGE_TYPE.ServerError))
+					.build();
+		}
 	}
 
 	/**
-	 * @author elske
 	 * @param order
-	 * @return
+	 * @return Response
 	 */
 	@POST
 	@Produces({ "application/JSON" })
@@ -79,17 +83,16 @@ public class CustomerOrderResource {
 		} catch (ServiceUnavailableException e) {
 			return Response.status(504).build();
 		} catch (OutOfStockException e1) {
-			return Response.ok(new OutOfStockMessage(e1.getMessage())).build();
+			return Response.ok(new ErrorMessage(e1.getMessage(), MESSAGE_TYPE.ArticleOutOfStock)).build();
 		}
 	}
 
 	/**
-	 * @author elske
 	 * @param orderNr
-	 * @return
+	 * @return Response
 	 */
 	@GET
-	@Produces({"application/JSON"})
+	@Produces({ "application/JSON" })
 	@Path("{orderNr}")
 	public Response OrderById(@PathParam("orderNr") int orderNr) {
 		try {
@@ -99,18 +102,16 @@ public class CustomerOrderResource {
 			return Response.status(404).build();
 		}
 	}
-	
-	
+
 	/**
-	 * @author elske
 	 * @param orderNr
 	 * @param cO
-	 * @return
+	 * @return Response
 	 */
 	@PUT
 	@Path("{orderNr}")
-	@Produces({"application/JSON"})
-	@Consumes({"application/JSON"})
+	@Produces({ "application/JSON" })
+	@Consumes({ "application/JSON" })
 	public Response updateCustomerOrder(@PathParam("orderNr") int orderNr, CustomerOrder cO) {
 		try {
 			service.updateCustomerOrder(orderNr, cO.getArticles(), cO.getDispatchDate());
@@ -119,11 +120,10 @@ public class CustomerOrderResource {
 			return Response.status(404).build();
 		}
 	}
-	
+
 	/**
-	 * @author elske
 	 * @param orderNr
-	 * @return
+	 * @return Response
 	 */
 	@DELETE
 	@Path("{orderNr}")
@@ -134,7 +134,7 @@ public class CustomerOrderResource {
 		} catch (OrderNotFoundException e) {
 			return Response.status(404).build();
 		}
-		
+
 	}
-	
+
 }

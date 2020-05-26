@@ -1,5 +1,5 @@
 # OrderLagerFaktureringService
-Du behöver wildfly samt derby installerat på din dator och använda Eclpise. Wildfly behöver konfigureras att ha datasourcen OlfDb.
+Du behöver wildfly samt derby installerat på din dator och använda Eclipse. Wildfly behöver konfigureras att ha datasourcen OlfDb.
 
 
 ## Bygginstruktioner för servern
