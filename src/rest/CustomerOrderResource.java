@@ -79,8 +79,7 @@ public class CustomerOrderResource {
 		} catch (ServiceUnavailableException e) {
 			return Response.status(504).build();
 		} catch (OutOfStockException e1) {
-			Entity errorEntity = Entity.entity(e1.getMessage(), "application/JSON");
-			return Response.ok(errorEntity).build();
+			return Response.ok(new OutOfStockMessage(e1.getMessage())).build();
 		}
 	}
 
