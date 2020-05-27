@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -29,30 +30,54 @@ public class CustomerWebResource {
 	@Context
 	private UriInfo uriInfo;
 	
+	
+	
+//	@POST
+//	@Produces({ "application/JSON" })
+//	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+//	public Response registerCustomer(@FormParam("firstname") String firstName, 
+//									 @FormParam("lastname") String lastName,
+//									 @FormParam("address") String address,
+//									 @FormParam("zipcode") String zipCode,
+//									 @FormParam("city") String city
+//									 ) {
+//		
+//		Customer customer = new Customer(firstName, lastName, address, zipCode, city, 0);
+//		
+//		try {
+//			service.register(customer);
+//		} catch (ServiceUnavailableException e1) {
+//			return Response.status(500).build();
+//		}
+//		URI uri = null;
+//			try {
+//				uri = new URI(uriInfo.getAbsolutePath() + "/" + customer.getCustomerNr());
+//			} catch (URISyntaxException e) {}
+//	
+//		return Response.created(uri).build();
+//
+//	}
+	
 	@POST
-	@Produces({ "application/JSON" })
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response registerCustomer(@FormParam("firstname") String firstName, 
-									 @FormParam("lastname") String lastName,
-									 @FormParam("address") String address,
-									 @FormParam("zipcode") String zipCode,
-									 @FormParam("city") String city
-									 ) {
-		
-		Customer customer = new Customer(firstName, lastName, address, zipCode, city, 0);
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response registerCustomer(@Valid Customer customer){
 		
 		try {
 			service.register(customer);
 		} catch (ServiceUnavailableException e1) {
-			return Response.status(500).build();
+			return Response.status(500)
+					 .build();
 		}
 		URI uri = null;
 			try {
 				uri = new URI(uriInfo.getAbsolutePath() + "/" + customer.getCustomerNr());
 			} catch (URISyntaxException e) {}
 	
-		return Response.created(uri).build();
+		return Response.created(uri)
+				.build();
 
 	}
+
 
 }
