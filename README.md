@@ -5,7 +5,7 @@ Du behöver wildfly samt derby installerat på din dator och använda Eclipse. W
 ## Bygginstruktioner för servern
 1. Klona repositoryt
 2. Kontrollera att sökvägen till wildfly i build.xml stämmer med din dator. Kontrollera också       att sökvägen till server-dist propertyn pekar på deployments-katalogen i wildfly.
-3. Bygg projektet
+3. Bygg projektet med Ant
 4. Starta wildfly och Derby
 
 ## Bygginstruktioner för klienten
