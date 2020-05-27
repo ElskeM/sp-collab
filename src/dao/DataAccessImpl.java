@@ -268,6 +268,7 @@ public class DataAccessImpl implements DataAccess {
 			throws OrderNotFoundException, OutOfStockException, ArticleNotFoundException {
 		double total = 0;
 
+
 		for (String artNr : articles.keySet()) {
 			System.out.println("PRE-FIND");
 			Article a = findArticle(artNr); // throws ArticleNotFoundException
@@ -285,6 +286,7 @@ public class DataAccessImpl implements DataAccess {
 		}
 		System.out.println("PRE-PERSIST");
 		CustomerOrder cO = findOrderById(orderNr);
+		cO.setTotal(0.0);
 		cO.setArticles(articles);
 		cO.setDispatchDate(dispatchDate);
 		System.out.println("SET TOTAL");
