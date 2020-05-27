@@ -13,7 +13,7 @@ import domain.Customer;
  * @author Peter
  *
  */
-@Converter(autoApply = true)
+@Converter(autoApply = false)
 public class StringToIntegerConverter implements AttributeConverter<Integer,String> {
 
 	@Override
