@@ -303,18 +303,5 @@ public class DataAccessImpl implements DataAccess {
 		}
 	}
 
-	@Override
-	public List<Customer> findCustomersBetweenId(int firstId, int secondId) throws CustomerNotFoundException {
-		Query q = em.createQuery(
-				"select customer from Customer customer where customer.cnr >= :first and customer.cnr <= :second");
-		q.setParameter("first", firstId);
-		q.setParameter("second", secondId);
-		List<Customer> customers = q.getResultList();
-		if (customers.isEmpty()) {
-			throw new CustomerNotFoundException();
-		}
-
-		return customers;
-	}
 
 }

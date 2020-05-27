@@ -212,14 +212,4 @@ public class DataAccessTestingVersion implements DataAccess {
 		
 	}
 
-	@Override
-	public List<Customer> findCustomersBetweenId(int firstId, int secondId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-
-
 }

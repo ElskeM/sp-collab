@@ -29,7 +29,6 @@ public interface OlfService {
 	public Article getArticleById(int artNr) throws ArticleNotFoundException;
 	public List<Article> getArticlesBetweenId(int firstId, int secondId) throws ArticleNotFoundException;
 	public List<CustomerOrder> getOrdersBetweenDates(String firstDate, String secondDate) throws OrderNotFoundException;
-	public List<Customer> getCustomersBetweenId(int firstId, int secondId) throws CustomerNotFoundException;
 	public Customer getCustomerById(int cnr) throws CustomerNotFoundException;
 	public List<Customer> getCustomerByName(String name) throws CustomerNotFoundException;
 	public CustomerOrder getOrderById(int orderNr) throws OrderNotFoundException; 

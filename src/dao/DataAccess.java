@@ -142,17 +142,6 @@ public interface DataAccess {
 	public List<CustomerOrder> findOrdersBetweenDates(String firstDate, String secondDates) throws OrderNotFoundException;
 
 	/**
-	 * Finds and returns a list of customers which has an customer number between
-	 * the two parameters.
-	 * 
-	 * @param firstId  lowest number.
-	 * @param secondId highest number.
-	 * @return
-	 * @throws CustomerNotFoundException
-	 */
-	public List<Customer> findCustomersBetweenId(int firstId, int secondId) throws CustomerNotFoundException;
-
-	/**
 	 * Updates an existing order with a new list of articles and dispatch date.
 	 * 
 	 * @param orderNr

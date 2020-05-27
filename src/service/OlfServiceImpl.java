@@ -144,10 +144,6 @@ public class OlfServiceImpl implements OlfService {
 			dao.updateCustomer(cnr, customer);
 	}
 
-	@Override
-	public List<Customer> getCustomersBetweenId(int firstId, int secondId) throws CustomerNotFoundException {
-		return dao.findCustomersBetweenId(firstId, secondId);
-	}
 
 	@Override
 	public List<Customer> getCustomerByName(String name) throws CustomerNotFoundException {
