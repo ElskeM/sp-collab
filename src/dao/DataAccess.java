@@ -139,7 +139,7 @@ public interface DataAccess {
 	 * @return
 	 * @throws OrderNotFoundException
 	 */
-	public List<CustomerOrder> findOrdersBetweenId(int firstId, int secondId) throws OrderNotFoundException;
+	public List<CustomerOrder> findOrdersBetweenDates(String firstDate, String secondDates) throws OrderNotFoundException;
 
 	/**
 	 * Finds and returns a list of customers which has an customer number between

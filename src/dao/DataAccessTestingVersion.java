@@ -169,7 +169,7 @@ public class DataAccessTestingVersion implements DataAccess {
 	}
 
 	@Override
-	public List<CustomerOrder> findOrdersBetweenId(int firstId, int secondId) {
+	public List<CustomerOrder> findOrdersBetweenDates(String firstDate, String secondDate) {
 		// TODO Auto-generated method stub
 		return null;
 	}

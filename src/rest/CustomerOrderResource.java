@@ -9,13 +9,16 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -55,6 +58,19 @@ public class CustomerOrderResource {
 					.entity(new ErrorMessage("Error communicating with the database backend", MESSAGE_TYPE.ServerError))
 					.build();
 		}
+	}
+	
+	@GET
+	@Produces({ "application/JSON" })
+	public Response getOrdersBetweenDates(@QueryParam("firstDate") String firstDate, @QueryParam("secondDate") String secondDate) {
+	GenericEntity<List<CustomerOrder>> orders = null;
+		try {
+			orders = new GenericEntity<List<CustomerOrder>>(service.getOrdersBetweenDates(firstDate, secondDate)) {
+		};
+	} catch (OrderNotFoundException e) {
+		return Response.status(404).build();
+	}
+		return Response.ok(orders).build();
 	}
 
 	/**

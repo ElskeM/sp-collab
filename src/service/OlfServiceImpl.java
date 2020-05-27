@@ -107,8 +107,8 @@ public class OlfServiceImpl implements OlfService {
 	}
 
 	@Override
-	public List<CustomerOrder> getOrdersBetweenId(int firstId, int secondId) throws OrderNotFoundException {
-		return dao.findOrdersBetweenId(firstId, secondId);
+	public List<CustomerOrder> getOrdersBetweenDates(String firstDate, String secondDate) throws OrderNotFoundException {
+		return dao.findOrdersBetweenDates(firstDate, secondDate);
 	}
 
 	@Override

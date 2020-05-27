@@ -238,11 +238,11 @@ public class DataAccessImpl implements DataAccess {
 	}
 
 	@Override
-	public List<CustomerOrder> findOrdersBetweenId(int firstId, int secondId) throws OrderNotFoundException {
+	public List<CustomerOrder> findOrdersBetweenDates(String firstDate, String secondDate) throws OrderNotFoundException {
 		Query q = em.createQuery(
-				"select order from CustomerOrder order where order.orderNr >= :first and order.orderNr <= :second");
-		q.setParameter("first", firstId);
-		q.setParameter("second", secondId);
+				"select order from CustomerOrder order where order.orderdate >= :first and order.orderdate <= :second");
+		q.setParameter("first", firstDate);
+		q.setParameter("second", secondDate);
 		List<CustomerOrder> orders = q.getResultList();
 		if (orders.isEmpty()) {
 			throw new OrderNotFoundException();
