@@ -60,18 +60,18 @@ public class CustomerOrderResource {
 		}
 	}
 	
-	@GET
-	@Produces({ "application/JSON" })
-	public Response getOrdersBetweenDates(@QueryParam("firstDate") String firstDate, @QueryParam("secondDate") String secondDate) {
-	GenericEntity<List<CustomerOrder>> orders = null;
-		try {
-			orders = new GenericEntity<List<CustomerOrder>>(service.getOrdersBetweenDates(firstDate, secondDate)) {
-		};
-	} catch (OrderNotFoundException e) {
-		return Response.status(404).build();
-	}
-		return Response.ok(orders).build();
-	}
+//	@GET
+//	@Produces({ "application/JSON" })
+//	public Response getOrdersBetweenDates(@QueryParam("firstDate") String firstDate, @QueryParam("secondDate") String secondDate) {
+//	GenericEntity<List<CustomerOrder>> orders = null;
+//		try {
+//			orders = new GenericEntity<List<CustomerOrder>>(service.getOrdersBetweenDates(firstDate, secondDate)) {
+//		};
+//	} catch (OrderNotFoundException e) {
+//		return Response.status(404).build();
+//	}
+//		return Response.ok(orders).build();
+//	}
 
 	/**
 	 * @param order
