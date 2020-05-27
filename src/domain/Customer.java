@@ -2,21 +2,30 @@ package domain;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import util.StringToIntegerConverter;
 
 @Entity
+//@Embeddable
+@XmlRootElement
 @Table(name="tblCustomer")
 public class Customer implements Serializable {
 	private static final long serialVersionUID = -6937327123991374742L;
 
 	@Id
+	@XmlAttribute
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "cnr")
-	private int cnr;//Or string name?
+	private int customerNr;//Or string name?
 	
 	private String firstName;
 	private String lastName;
@@ -87,13 +96,17 @@ public class Customer implements Serializable {
 		this.discount = discount;
 	}	
 	
-	public int getCnr() {
-		return cnr;
+	public int getCustomerNr() {
+		return customerNr;
+	}
+	
+	public void setCustomerNr(int customerNr) {
+		this.customerNr = customerNr;
 	}
 
 	@Override
 	public String toString() {
-		return "Customer#: " + cnr + "\n" + firstName + " " + lastName + "\n" + address
+		return "Customer#: " + getCustomerNr() + "\n" + firstName + " " + lastName + "\n" + address
 				+ "\n" + zipCode + " " + city;
 	}
 	
