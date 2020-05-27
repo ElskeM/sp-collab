@@ -22,6 +22,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import dao.CustomerNotFoundException;
+import dao.DataAccessException;
 import dao.ForbiddenDeleteException;
 import domain.Customer;
 import service.OlfService;
@@ -64,6 +65,8 @@ public class CustomerResource {
 			return Response.ok(foundCustomers).build();
 		} catch (CustomerNotFoundException e) {
 			return Response.status(404).build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
 	}
 
@@ -87,6 +90,8 @@ public class CustomerResource {
 			return Response.ok(result).links(selfLink, updateLink, deleteLink).build();
 		} catch (CustomerNotFoundException e) {
 			return Response.status(404).build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
 	}
 
@@ -104,6 +109,8 @@ public class CustomerResource {
 			service.register(customer);
 		} catch (ServiceUnavailableException e1) {
 			return Response.status(500).build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
 		URI uri = null;
 		try {
@@ -132,6 +139,8 @@ public class CustomerResource {
 			return Response.ok(service.getCustomerById(cnr)).build();
 		} catch (CustomerNotFoundException e) {
 			return Response.status(404).build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
 	}
 
@@ -152,6 +161,8 @@ public class CustomerResource {
 			return Response.status(404).build();
 		} catch (ForbiddenDeleteException e) {
 			return Response.status(403).build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
 	}
 }

@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import dao.DataAccessException;
 import domain.Customer;
 import service.OlfService;
 import service.ServiceUnavailableException;
@@ -70,6 +71,8 @@ public class CustomerWebResource {
 			service.register(customer);
 		} catch (ServiceUnavailableException e1) {
 			return Response.status(500).build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
 		URI uri = null;
 		try {

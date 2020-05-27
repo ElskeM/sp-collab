@@ -23,6 +23,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import dao.ArticleNotFoundException;
+import dao.DataAccessException;
 import domain.Article;
 import service.OlfService;
 
@@ -49,20 +50,26 @@ public class ArticleResource {
 	@Produces({ "application/JSON" })
 	public Response getAllArticlesBetweenId(@DefaultValue("0") @QueryParam("firstId") Integer firstId,
 			@QueryParam("secondId") Integer secondId) {
-		GenericEntity<List<Article>> articles = null;
-		if (firstId == 0 && secondId == null) {
-			articles = new GenericEntity<List<Article>>(service.getAllArticle()) {
-			};
-		}
-		if (firstId != null && secondId != null) {
-			try {
+		try {
+			GenericEntity<List<Article>> articles = null;
+
+			if (firstId == 0 && secondId == null) {
+				articles = new GenericEntity<List<Article>>(service.getAllArticle()) {
+				};
+			}
+
+			if (firstId != null && secondId != null) {
 				articles = new GenericEntity<List<Article>>(service.getArticlesBetweenId(firstId, secondId)) {
 				};
-			} catch (ArticleNotFoundException e) {
-				return Response.status(404).build();
 			}
+
+			return Response.ok(articles).header("Access-Control-Allow-Origin", "*").build();
+			
+		} catch (ArticleNotFoundException e) {
+			return Response.status(404).build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
-		return Response.ok(articles).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	/**
@@ -81,6 +88,8 @@ public class ArticleResource {
 			return Response.ok(art).links(selfLink, updateLink, deleteLink).build();
 		} catch (ArticleNotFoundException e) {
 			return Response.status(404).build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
 	}
 
@@ -97,6 +106,8 @@ public class ArticleResource {
 
 		} catch (ArticleNotFoundException e) {
 			return Response.status(404).build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
 	}
 
@@ -108,12 +119,14 @@ public class ArticleResource {
 	@Produces({ "application/JSON" })
 	@Consumes({ "application/JSON" })
 	public Response registerArticle(Article article) {
-		service.register(article);
 		URI uri = null;
-
 		try {
+			service.register(article);
 			uri = new URI(uriInfo.getAbsolutePath() + "/" + article.getArtNr());
 		} catch (URISyntaxException e) {
+
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
 		return Response.created(uri).build();
 	}
@@ -133,6 +146,8 @@ public class ArticleResource {
 			return Response.ok(service.getArticleById(artNr)).build();
 		} catch (ArticleNotFoundException e) {
 			return Response.status(404).build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
 	}
 }
