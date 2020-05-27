@@ -19,6 +19,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -60,10 +61,10 @@ public class CustomerOrderResource {
 	public Response getOrdersBetweenDates(@QueryParam("fromDate") String fromDate,
 			@QueryParam("toDate") String toDate) {
 
-		if(fromDate == null && toDate == null) {
+		if (fromDate == null && toDate == null) {
 			return getAllOrders();
 		}
-		
+
 		GenericEntity<List<CustomerOrder>> orders;
 		try {
 			orders = new GenericEntity<List<CustomerOrder>>(service.getOrdersBetweenDates(fromDate, toDate)) {
@@ -114,6 +115,9 @@ public class CustomerOrderResource {
 	public Response OrderById(@PathParam("orderNr") int orderNr) {
 		try {
 			CustomerOrder result = service.getOrderById(orderNr);
+			Link selfLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("self").type("get").build();
+			Link updateLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("update").type("put").build();
+			Link deleteLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("delete").type("delete").build();
 			return Response.ok(result).build();
 		} catch (OrderNotFoundException e) {
 			return Response.status(404).build();
