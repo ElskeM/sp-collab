@@ -259,10 +259,31 @@ public class DataAccessImpl implements DataAccess {
 
 	@Override
 	public void updateCustomerOrder(int orderNr, Map<String, Integer> articles, String dispatchDate)
-			throws OrderNotFoundException {
+			throws OrderNotFoundException, OutOfStockException, ArticleNotFoundException {
+		double total = 0;
+
+		for (String artNr : articles.keySet()) {
+			System.out.println("PRE-FIND");
+			Article a = findArticle(artNr); // throws ArticleNotFoundException
+
+			System.out.println(a.getName() + ":" + a.getArtNr());
+			int quantity = articles.get(artNr);
+			total += a.getPrice() * quantity;
+
+			if (quantity > a.getStock()) {
+				throw new OutOfStockException(
+						"Article: " + artNr + " [Requested: " + quantity + "] [In stock: " + a.getStock() + "]");
+			} else {
+				a.setStock(a.getStock() - quantity);
+			}
+		}
+		System.out.println("PRE-PERSIST");
 		CustomerOrder cO = findOrderById(orderNr);
 		cO.setArticles(articles);
 		cO.setDispatchDate(dispatchDate);
+		System.out.println("SET TOTAL");
+		cO.setTotal(total);
+		System.out.println("EXITING INSERT");
 	}
 
 	@Override

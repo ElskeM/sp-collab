@@ -150,7 +150,7 @@ public interface DataAccess {
 	 * @throws OrderNotFoundException
 	 */
 	public void updateCustomerOrder(int orderNr, Map<String, Integer> articles, String dispatchDate)
-			throws OrderNotFoundException;
+			throws OrderNotFoundException, OutOfStockException, ArticleNotFoundException;
 
 	/**
 	 * Updates an existing customer.

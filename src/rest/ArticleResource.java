@@ -83,7 +83,6 @@ public class ArticleResource {
 			return Response.ok(art).links(selfLink, updateLink, deleteLink).build();
 		} catch (ArticleNotFoundException e) {
 			return Response.status(404).build();
-
 		}
 	}
 

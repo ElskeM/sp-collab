@@ -139,6 +139,10 @@ public class CustomerOrderResource {
 			return Response.ok(service.getOrderById(orderNr)).build();
 		} catch (OrderNotFoundException e) {
 			return Response.status(404).build();
+		} catch (OutOfStockException e) {
+			return Response.status(404).build();
+		} catch (ArticleNotFoundException e) {
+			return Response.status(404).build();
 		}
 	}
 
