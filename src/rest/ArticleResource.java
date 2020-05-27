@@ -25,7 +25,6 @@ import javax.ws.rs.core.UriInfo;
 import dao.ArticleNotFoundException;
 import domain.Article;
 import service.OlfService;
-import service.ServiceUnavailableException;
 
 /**
  * @author Pontus
@@ -62,9 +61,7 @@ public class ArticleResource {
 			} catch (ArticleNotFoundException e) {
 				return Response.status(404).build();
 			}
-
 		}
-
 		return Response.ok(articles).header("Access-Control-Allow-Origin", "*").build();
 	}
 
@@ -101,7 +98,6 @@ public class ArticleResource {
 		} catch (ArticleNotFoundException e) {
 			return Response.status(404).build();
 		}
-
 	}
 
 	/**
@@ -114,11 +110,11 @@ public class ArticleResource {
 	public Response registerArticle(Article article) {
 		service.register(article);
 		URI uri = null;
-	
+
 		try {
 			uri = new URI(uriInfo.getAbsolutePath() + "/" + article.getArtNr());
-		} catch (URISyntaxException e) {}
-
+		} catch (URISyntaxException e) {
+		}
 		return Response.created(uri).build();
 	}
 
@@ -138,7 +134,5 @@ public class ArticleResource {
 		} catch (ArticleNotFoundException e) {
 			return Response.status(404).build();
 		}
-
 	}
-
 }

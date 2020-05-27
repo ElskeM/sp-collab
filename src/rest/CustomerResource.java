@@ -43,8 +43,10 @@ public class CustomerResource {
 
 	/**
 	 * Takes a string and returns all customers whos last name includes that string
-	 * @param name the last name of the customer(s) 
-	 * @return Response with List<Customer> or 404 if no customers matches the param name
+	 * 
+	 * @param name the last name of the customer(s)
+	 * @return Response with List<Customer> or 404 if no customers matches the param
+	 *         name
 	 */
 	@GET
 	@Produces({ "application/JSON" })
@@ -63,13 +65,15 @@ public class CustomerResource {
 		} catch (CustomerNotFoundException e) {
 			return Response.status(404).build();
 		}
-
 	}
 
 	/**
-	 * Takes an int and returns the Customers whos customerNr matches the given parameter
+	 * Takes an int and returns the Customers whos customerNr matches the given
+	 * parameter
+	 * 
 	 * @param id a customerNr
-	 * @return Response with Customer and hateoas-info or if no Customer with given id exists status 404 
+	 * @return Response with Customer and hateoas-info or if no Customer with given
+	 *         id exists status 404
 	 */
 	@GET
 	@Produces({ "application/JSON" })
@@ -85,9 +89,10 @@ public class CustomerResource {
 			return Response.status(404).build();
 		}
 	}
-	
+
 	/**
 	 * Takes a Customer and registers it into the database
+	 * 
 	 * @param customer
 	 * @return Response with uriInfo about the inserted customer
 	 */
@@ -101,17 +106,18 @@ public class CustomerResource {
 			return Response.status(500).build();
 		}
 		URI uri = null;
-			try {
-				uri = new URI(uriInfo.getAbsolutePath() + "/" + customer.getCustomerNr());
-			} catch (URISyntaxException e) {}
-	
-		return Response.created(uri).build();
+		try {
+			uri = new URI(uriInfo.getAbsolutePath() + "/" + customer.getCustomerNr());
+		} catch (URISyntaxException e) {
+		}
 
+		return Response.created(uri).build();
 	}
 
 	/**
-	 * Takes an Integer and a Customer and updates an already existing customer with the given customerNr using
-	 * the information in the Customer object 
+	 * Takes an Integer and a Customer and updates an already existing customer with
+	 * the given customerNr using the information in the Customer object
+	 * 
 	 * @param cnr
 	 * @param customer
 	 * @return Response with the updated Customer or status 404
@@ -130,8 +136,9 @@ public class CustomerResource {
 	}
 
 	/**
-	 * Takes a customerNr and deletes the Customer with the given customerNr 
-	 * if the Customer has an order the deletion is forbidden
+	 * Takes a customerNr and deletes the Customer with the given customerNr if the
+	 * Customer has an order the deletion is forbidden
+	 * 
 	 * @param id
 	 * @return Response with status 209, 404 or 403
 	 */
@@ -147,5 +154,4 @@ public class CustomerResource {
 			return Response.status(403).build();
 		}
 	}
-
 }

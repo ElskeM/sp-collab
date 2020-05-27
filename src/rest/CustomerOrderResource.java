@@ -9,7 +9,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -56,6 +55,11 @@ public class CustomerOrderResource {
 		}
 	}
 
+	/**
+	 * @param fromDate
+	 * @param toDate
+	 * @return
+	 */
 	@GET
 	@Produces({ "application/JSON" })
 	public Response getOrdersBetweenDates(@QueryParam("fromDate") String fromDate,
@@ -118,7 +122,7 @@ public class CustomerOrderResource {
 			Link selfLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("self").type("get").build();
 			Link updateLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("update").type("put").build();
 			Link deleteLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("delete").type("delete").build();
-			return Response.ok(result).build();
+			return Response.ok(result).links(selfLink, updateLink, deleteLink).build();
 		} catch (OrderNotFoundException e) {
 			return Response.status(404).build();
 		}
@@ -159,7 +163,5 @@ public class CustomerOrderResource {
 		} catch (OrderNotFoundException e) {
 			return Response.status(404).build();
 		}
-
 	}
-
 }

@@ -1,11 +1,8 @@
 package service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import javax.ejb.Local;
-
 import dao.ArticleNotFoundException;
 import dao.CustomerNotFoundException;
 import dao.ForbiddenDeleteException;
