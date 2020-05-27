@@ -206,7 +206,6 @@ public class DataAccessTestingVersion implements DataAccess {
 	@Override
 	public void deleteCustomer(int cnr) throws CustomerNotFoundException {
 		// TODO Auto-generated method stub
-
 	}
 
 }
