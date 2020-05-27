@@ -64,7 +64,7 @@ public class ArticleResource {
 
 		}
 
-		return Response.ok(articles).build();
+		return Response.ok(articles).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	/**
