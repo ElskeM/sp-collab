@@ -2,6 +2,8 @@ package domain;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,8 +13,11 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import util.StringToIntegerConverter;
+
 @Entity
 @XmlRootElement
+@Embeddable
 @Table(name = "tblArticle")
 public class Article implements Serializable {
 	private static final long serialVersionUID = 27799321788954129L;
@@ -76,6 +81,9 @@ public class Article implements Serializable {
 
 	public String getName() {
 		return name;
+	}
+	public void setName(String name) {
+		this.name=name;
 	}
 
 	@Override

@@ -45,8 +45,8 @@ public class DataAccessTestingVersion implements DataAccess {
 	public void insert(CustomerOrder newCustomerOrder) {
 		Customer cl2 = new Customer("Bertil", "Bertilson", "Bertillan 2B", "424 34", "Bertilholm", 0.15);
 		Article art1 = new Article("Epson EB-580 projector", "Ultra Short Throw Projector", 6, 19999.95);
-		HashMap<Article, Integer> or2 = new HashMap<>();
-		or2.put(art1, 2);
+		HashMap<String, Integer> or2 = new HashMap<>();
+		or2.put(""+art1.getArtNr(), 2);
 		String ordD2 = "2020-04-27";
 		String dispD2 = "2020-05-02";
 		CustomerOrder cor2 = new CustomerOrder(ordD2, dispD2, cl2, or2);
@@ -63,13 +63,13 @@ public class DataAccessTestingVersion implements DataAccess {
 		
 		Article art1 = new Article("Epson EB-580 projector", "Ultra Short Throw Projector", 6, 19999.95);
 
-		HashMap<Article, Integer> or1 = new HashMap<>();
-		HashMap<Article, Integer> or2 = new HashMap<>();
-		HashMap<Article, Integer> or3 = new HashMap<>();
+		HashMap<String, Integer> or1 = new HashMap<>();
+		HashMap<String, Integer> or2 = new HashMap<>();
+		HashMap<String, Integer> or3 = new HashMap<>();
 		
-		or1.put(art1, 1);
-		or2.put(art1, 2);
-		or3.put(art1, 3);
+		or1.put(""+art1.getArtNr(), 1);
+		or2.put(""+art1.getArtNr(), 2);
+		or3.put(""+art1.getArtNr(), 3);
 		
 		String ordD1 = "2020-04-24";
 		String dispD1 = "2020-04-29";
@@ -169,14 +169,14 @@ public class DataAccessTestingVersion implements DataAccess {
 	}
 
 	@Override
-	public List<CustomerOrder> findOrdersBetweenId(int firstId, int secondId) {
+	public List<CustomerOrder> findOrdersBetweenDates(String firstDate, String secondDate) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 
-	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, String dispatchDate) {
+	public void updateCustomerOrder(int orderNr, Map<String, Integer> articles, String dispatchDate) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -211,15 +211,5 @@ public class DataAccessTestingVersion implements DataAccess {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public List<Customer> findCustomersBetweenId(int firstId, int secondId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-
 
 }

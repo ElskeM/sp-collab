@@ -1,6 +1,5 @@
 package service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,15 +13,21 @@ import dao.CustomerNotFoundException;
 import dao.DataAccess;
 import dao.ForbiddenDeleteException;
 import dao.OrderNotFoundException;
+import dao.OutOfStockException;
 import dao.TestingDao;
 import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
 
+/**
+ * @author Peter, Pontus, Simon, Elske
+ *
+ */
 @Stateless
 public class OlfServiceImpl implements OlfService {
 
 	@Inject
+	/* Vill man testa clienten med DataAccessTestingVersion, ta bort // framför @TestingDao */
 	//@TestingDao
 	private DataAccess dao;
 
@@ -56,7 +61,7 @@ public class OlfServiceImpl implements OlfService {
 
 	@Override
 	public CustomerOrder register(CustomerOrder customerOrder)
-			throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException {
+			throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException, OutOfStockException {
 //		try {
 //			dao.insert(customerOrder);
 //			Customer customer = customerOrder.getCustomer();
@@ -69,14 +74,15 @@ public class OlfServiceImpl implements OlfService {
 //		}
 		dao.insert(customerOrder);
 		return customerOrder;
-		
 
 	}
 
 	@Override
-	public Customer register(Customer customer){
-		dao.insert(customer);
-		return customer;
+	public Customer register(Customer customer) throws ServiceUnavailableException {
+			dao.insert(customer);
+			ReceiptSendingService.sendReciept(customer.getFirstName(), customer.getLastName(),
+					customer.getAddress(), customer.getZipCode(), customer.getCity());
+			return customer;
 	}
 
 	@Override
@@ -110,8 +116,8 @@ public class OlfServiceImpl implements OlfService {
 	}
 
 	@Override
-	public List<CustomerOrder> getOrdersBetweenId(int firstId, int secondId) throws OrderNotFoundException {
-		return dao.findOrdersBetweenId(firstId, secondId);
+	public List<CustomerOrder> getOrdersBetweenDates(String firstDate, String secondDate) throws OrderNotFoundException {
+		return dao.findOrdersBetweenDates(firstDate, secondDate);
 	}
 
 	@Override
@@ -121,7 +127,7 @@ public class OlfServiceImpl implements OlfService {
 
 	}
 
-	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, String dispatchDate)
+	public void updateCustomerOrder(int orderNr, Map<String, Integer> articles, String dispatchDate)
 			throws OrderNotFoundException {
 		dao.updateCustomerOrder(orderNr, articles, dispatchDate);
 
@@ -135,7 +141,6 @@ public class OlfServiceImpl implements OlfService {
 	@Override
 	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException {
 			dao.deleteCustomer(cnr);
-
 	}
 
 	@Override
@@ -146,17 +151,11 @@ public class OlfServiceImpl implements OlfService {
 	@Override
 	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException {
 			dao.updateCustomer(cnr, customer);
-
 	}
 
-	@Override
-	public List<Customer> getCustomersBetweenId(int firstId, int secondId) throws CustomerNotFoundException {
-		return dao.findCustomersBetweenId(firstId, secondId);
-	}
 
 	@Override
 	public List<Customer> getCustomerByName(String name) throws CustomerNotFoundException {
-		
 		return dao.findCustomerByLastname(name);
 	}
 

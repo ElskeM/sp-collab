@@ -3,6 +3,7 @@ package domain;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,8 +28,10 @@ import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
-import util.StringToMapConverter;
+import jdk.nashorn.internal.ir.annotations.Ignore;
+import util.StringToIntegerConverter;
 
 @Entity
 @XmlRootElement
@@ -53,19 +58,32 @@ public class CustomerOrder implements Serializable {
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "cnr")
 	@XmlElement
+//	@Embedded
+//	@Convert(converter = StringToIntegerConverter.class,
+//	attributeName = "city")
 	private Customer customer;
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "tblOrderRows", joinColumns = {
 			@JoinColumn(name = "orderNr", referencedColumnName = "orderNr") })
 	@Column(name = "antal")
-	@MapKeyJoinColumn(name = "artNr")
-	@MapKeyColumn(name = "orderNr")
+	//@MapKeyJoinColumn(name = "artNr")
+	@MapKeyColumn(name = "artNr")
 	@XmlElement
-	@Convert(attributeName = "key", 
-			converter = StringToMapConverter.class)
-	private Map<Article, Integer> articles;
+//	@Convert(converter = StringToIntegerConverter.class,
+//			attributeName = "key")
+	private Map<String, Integer> articles;
 
+	@XmlElement
+	private double total;
+	
+	@Transient
+	private double totalDiscount;
+	
+	@Transient
+	@XmlTransient //Den här annotationen gör så att fältet döljs i XML-representationen av objektet
+	private double totalWithDiscount;
+	
 //	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
 //		System.out.println("TESTDESERIALIZER");
 //		this.orderNr = 2;
@@ -81,7 +99,13 @@ public class CustomerOrder implements Serializable {
 //		in.close();
 //	}
 
-	public void setArticles(Map<Article, Integer> articles) {
+	
+	public void setTotal(double total) {
+	
+		this.total = total;
+	}
+
+	public void setArticles(Map<String, Integer> articles) {
 
 		this.articles = articles;
 	}
@@ -101,7 +125,25 @@ public class CustomerOrder implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CustomerOrder(String orderDate, String dispatchDate, Customer customer, Map<Article, Integer> articles) {
+
+	/**
+	 * This constructor remains here for the testing dao
+	 * 
+	 * @param ordD1
+	 * @param dispD1
+	 * @param customer
+	 * @param or1
+	 */
+	@Deprecated
+	public CustomerOrder(String ordD1, String dispD1, Customer customer, HashMap<String, Integer> or1) {
+
+		this.orderDate = sdf.format(ordD1);
+		this.dispatchDate = sdf.format(dispD1);
+		this.customer = customer;
+		this.articles = or1;
+	}
+
+	public CustomerOrder(String orderDate, String dispatchDate, Customer customer, Map<String, Integer> articles) {
 
 		this.orderDate = orderDate;
 		this.dispatchDate = dispatchDate;
@@ -137,20 +179,13 @@ public class CustomerOrder implements Serializable {
 	 * @author Peter
 	 * @return
 	 */
-	private double getSubTotalNoDiscount() {
-		double total = 0;
-		for (Article a : getArticles().keySet()) {
-			total += a.getPrice() * articles.get(a);
-		}
-		return total;
+	
+	public double getTotal() {
+		return this.total;
 	}
 	
-	/**
-	 * @author Peter
-	 * @return
-	 */
-	public double getTotal() {
-		return getSubTotalNoDiscount() - getTotalDiscount();
+	public double getTotalWithDiscount() {
+		return getTotal() - getTotalDiscount();
 	}
 	
 	/**
@@ -158,10 +193,10 @@ public class CustomerOrder implements Serializable {
 	 * @return
 	 */
 	public double getTotalDiscount() {
-		return getSubTotalNoDiscount() * customer.getDiscount();
+		return getTotal() * customer.getDiscount();
 	}
 
-	public Map<Article, Integer> getArticles() {
+	public Map<String, Integer> getArticles() {
 		return articles;
 	}
 
@@ -171,9 +206,9 @@ public class CustomerOrder implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		double stnd = getSubTotalNoDiscount();
+		double stnd = getTotal();
 		double td = getTotalDiscount();
-		double total = getTotal();
+		double total = getTotalWithDiscount();
 		
 		sb.append(customer.toString());
 		sb.append("\nOrderNumber: " + orderNr);
@@ -188,7 +223,7 @@ public class CustomerOrder implements Serializable {
 		}
 		sb.append("\nSubtotal: " + stnd);
 		sb.append("\nCustomer discount: " + td);
-		sb.append("\nTotal in SEK: " + total);
+		sb.append("\nTotal in SEK: " + total + "\n");
 		String customerOrder = sb.toString();
 		return customerOrder;
 		

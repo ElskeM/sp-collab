@@ -4,23 +4,29 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import dao.ArticleNotFoundException;
 import dao.CustomerNotFoundException;
 import dao.OrderNotFoundException;
+import dao.OutOfStockException;
 import domain.CustomerOrder;
 import service.OlfService;
 import service.ServiceUnavailableException;
@@ -35,25 +41,43 @@ public class CustomerOrderResource {
 
 	@Inject
 	private OlfService service;
-	
+
 	@Context
 	private UriInfo uriInfo;
 
-	/**
-	 * @author elske
-	 * @return
-	 */
+	private Response getAllOrders() {
+		try {
+			List<CustomerOrder> allOrders = service.getAllOrders();
+			return Response.ok(allOrders).build();
+		} catch (EJBTransactionRolledbackException e) {
+			return Response.serverError()
+					.entity(new ErrorMessage("Error communicating with the database backend", MESSAGE_TYPE.ServerError))
+					.build();
+		}
+	}
+
 	@GET
 	@Produces({ "application/JSON" })
-	public Response getAllOrders() {
-		List<CustomerOrder> allOrders = service.getAllOrders();
-		return Response.ok(allOrders).build();
+	public Response getOrdersBetweenDates(@QueryParam("fromDate") String fromDate,
+			@QueryParam("toDate") String toDate) {
+
+		if (fromDate == null && toDate == null) {
+			return getAllOrders();
+		}
+
+		GenericEntity<List<CustomerOrder>> orders;
+		try {
+			orders = new GenericEntity<List<CustomerOrder>>(service.getOrdersBetweenDates(fromDate, toDate)) {
+			};
+		} catch (OrderNotFoundException e) {
+			return Response.status(404).build();
+		}
+		return Response.ok(orders).build();
 	}
 
 	/**
-	 * @author elske
 	 * @param order
-	 * @return
+	 * @return Response
 	 */
 	@POST
 	@Produces({ "application/JSON" })
@@ -76,37 +100,39 @@ public class CustomerOrderResource {
 			return Response.status(404).build();
 		} catch (ServiceUnavailableException e) {
 			return Response.status(504).build();
+		} catch (OutOfStockException e1) {
+			return Response.ok(new ErrorMessage(e1.getMessage(), MESSAGE_TYPE.ArticleOutOfStock)).build();
 		}
 	}
 
 	/**
-	 * @author elske
 	 * @param orderNr
-	 * @return
+	 * @return Response
 	 */
 	@GET
-	@Produces({"application/JSON"})
+	@Produces({ "application/JSON" })
 	@Path("{orderNr}")
 	public Response OrderById(@PathParam("orderNr") int orderNr) {
 		try {
 			CustomerOrder result = service.getOrderById(orderNr);
+			Link selfLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("self").type("get").build();
+			Link updateLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("update").type("put").build();
+			Link deleteLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("delete").type("delete").build();
 			return Response.ok(result).build();
 		} catch (OrderNotFoundException e) {
 			return Response.status(404).build();
 		}
 	}
-	
-	
+
 	/**
-	 * @author elske
 	 * @param orderNr
 	 * @param cO
-	 * @return
+	 * @return Response
 	 */
 	@PUT
 	@Path("{orderNr}")
-	@Produces({"application/JSON"})
-	@Consumes({"application/JSON"})
+	@Produces({ "application/JSON" })
+	@Consumes({ "application/JSON" })
 	public Response updateCustomerOrder(@PathParam("orderNr") int orderNr, CustomerOrder cO) {
 		try {
 			service.updateCustomerOrder(orderNr, cO.getArticles(), cO.getDispatchDate());
@@ -115,11 +141,10 @@ public class CustomerOrderResource {
 			return Response.status(404).build();
 		}
 	}
-	
+
 	/**
-	 * @author elske
 	 * @param orderNr
-	 * @return
+	 * @return Response
 	 */
 	@DELETE
 	@Path("{orderNr}")
@@ -130,7 +155,7 @@ public class CustomerOrderResource {
 		} catch (OrderNotFoundException e) {
 			return Response.status(404).build();
 		}
-		
+
 	}
-	
+
 }

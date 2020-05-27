@@ -10,10 +10,15 @@ import dao.ArticleNotFoundException;
 import dao.CustomerNotFoundException;
 import dao.ForbiddenDeleteException;
 import dao.OrderNotFoundException;
+import dao.OutOfStockException;
 import domain.Article;
 import domain.Customer;
 import domain.CustomerOrder;
 
+/**
+ * @author Peter, Pontus, Simon, Elske
+ *
+ */
 @Local
 public interface OlfService {
 
@@ -23,15 +28,14 @@ public interface OlfService {
 	
 	public Article getArticleById(int artNr) throws ArticleNotFoundException;
 	public List<Article> getArticlesBetweenId(int firstId, int secondId) throws ArticleNotFoundException;
-	public List<CustomerOrder> getOrdersBetweenId(int firstId, int secondId) throws OrderNotFoundException;
-	public List<Customer> getCustomersBetweenId(int firstId, int secondId) throws CustomerNotFoundException;
+	public List<CustomerOrder> getOrdersBetweenDates(String firstDate, String secondDate) throws OrderNotFoundException;
 	public Customer getCustomerById(int cnr) throws CustomerNotFoundException;
 	public List<Customer> getCustomerByName(String name) throws CustomerNotFoundException;
 	public CustomerOrder getOrderById(int orderNr) throws OrderNotFoundException; 
 
 	public Article register(Article article);
-	public CustomerOrder register(CustomerOrder order) throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException ;
-	public Customer register(Customer customer);
+	public CustomerOrder register(CustomerOrder order) throws ArticleNotFoundException, CustomerNotFoundException, ServiceUnavailableException, OutOfStockException ;
+	public Customer register(Customer customer) throws ServiceUnavailableException;
 	
 	public void dropAllTables();
 
@@ -39,7 +43,7 @@ public interface OlfService {
 	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException;
 	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException;
 	
-	public void updateCustomerOrder(int orderNr, Map<Article, Integer> articles, String dispatchDate) throws OrderNotFoundException;
+	public void updateCustomerOrder(int orderNr, Map<String, Integer> articles, String dispatchDate) throws OrderNotFoundException;
 	public void updateArticle(int artNr, String description, double price, int stock) throws ArticleNotFoundException;
 	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException;
 

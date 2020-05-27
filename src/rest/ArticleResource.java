@@ -27,6 +27,10 @@ import domain.Article;
 import service.OlfService;
 import service.ServiceUnavailableException;
 
+/**
+ * @author Pontus
+ *
+ */
 @Stateless
 @Path("/articles")
 public class ArticleResource {
@@ -37,13 +41,11 @@ public class ArticleResource {
 	@Context
 	private UriInfo uriInfo;
 
-//	@GET
-//	@Produces({"application/JSON", "application/XML"})
-//	public Response getAllArticles() {
-//		return Response.ok(service.getAllArticle()).build();
-//	}
-
-
+	/**
+	 * @param firstId
+	 * @param secondId
+	 * @return Response
+	 */
 	@GET
 	@Produces({ "application/JSON" })
 	public Response getAllArticlesBetweenId(@DefaultValue("0") @QueryParam("firstId") Integer firstId,
@@ -63,9 +65,13 @@ public class ArticleResource {
 
 		}
 
-		return Response.ok(articles).build();
+		return Response.ok(articles).header("Access-Control-Allow-Origin", "*").build();
 	}
 
+	/**
+	 * @param artNr
+	 * @return Response
+	 */
 	@GET
 	@Produces({ "application/JSON" })
 	@Path("{artNr}")
@@ -82,6 +88,10 @@ public class ArticleResource {
 		}
 	}
 
+	/**
+	 * @param artNr
+	 * @return Response
+	 */
 	@DELETE
 	@Path("{artNr}")
 	public Response deleteArticle(@PathParam("artNr") int artNr) {
@@ -95,6 +105,10 @@ public class ArticleResource {
 
 	}
 
+	/**
+	 * @param article
+	 * @return Response
+	 */
 	@POST
 	@Produces({ "application/JSON" })
 	@Consumes({ "application/JSON" })
@@ -109,11 +123,16 @@ public class ArticleResource {
 		return Response.created(uri).build();
 	}
 
+	/**
+	 * @param artNr
+	 * @param a
+	 * @return Response
+	 */
 	@PUT
 	@Path("{artNr}")
 	@Produces({ "application/JSON" })
 	@Consumes({ "application/JSON" })
-	public Response updateArticle(@PathParam("employeeNo") int artNr, Article a) {
+	public Response updateArticle(@PathParam("artNr") int artNr, Article a) {
 		try {
 			service.updateArticle(artNr, a.getDescription(), a.getPrice(), a.getStock());
 			return Response.ok(service.getArticleById(artNr)).build();
