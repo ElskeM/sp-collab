@@ -1,9 +1,8 @@
 package domain;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,12 +11,10 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import util.StringToIntegerConverter;
-
 @Entity
 //@Embeddable
 @XmlRootElement
-@Table(name="tblCustomer")
+@Table(name = "tblCustomer")
 public class Customer implements Serializable {
 	private static final long serialVersionUID = -6937327123991374742L;
 
@@ -25,18 +22,18 @@ public class Customer implements Serializable {
 	@XmlAttribute
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "cnr")
-	private int customerNr;//Or string name?
-	
+	private int customerNr;
+
 	private String firstName;
 	private String lastName;
 	private String address;
 	private String zipCode;
 	private String city;
-	
-	private double discount;//??
-	
+
+	private double discount;
+
 	public Customer() {
-		// TODO Auto-generated constructor stub
+		// Tom konstruktorn för JPA
 	}
 
 	public Customer(String firstName, String lastName, String address, String zipCode, String city, double discount) {
@@ -87,29 +84,26 @@ public class Customer implements Serializable {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	
+
 	public double getDiscount() {
 		return discount;
 	}
 
 	public void setDiscount(double discount) {
 		this.discount = discount;
-	}	
-	
+	}
+
 	public int getCustomerNr() {
 		return customerNr;
 	}
-	
+
 	public void setCustomerNr(int customerNr) {
 		this.customerNr = customerNr;
 	}
 
 	@Override
 	public String toString() {
-		return "Customer#: " + getCustomerNr() + "\n" + firstName + " " + lastName + "\n" + address
-				+ "\n" + zipCode + " " + city;
+		return "Customer#: " + getCustomerNr() + "\n" + firstName + " " + lastName + "\n" + address + "\n" + zipCode
+				+ " " + city;
 	}
-	
-	
-	
 }

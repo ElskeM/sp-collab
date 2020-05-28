@@ -4,12 +4,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -25,6 +23,7 @@ import javax.ws.rs.core.UriInfo;
 
 import dao.ArticleNotFoundException;
 import dao.CustomerNotFoundException;
+import dao.DataAccessException;
 import dao.OrderNotFoundException;
 import dao.OutOfStockException;
 import domain.CustomerOrder;
@@ -49,13 +48,16 @@ public class CustomerOrderResource {
 		try {
 			List<CustomerOrder> allOrders = service.getAllOrders();
 			return Response.ok(allOrders).build();
-		} catch (EJBTransactionRolledbackException e) {
-			return Response.serverError()
-					.entity(new ErrorMessage("Error communicating with the database backend", MESSAGE_TYPE.ServerError))
-					.build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
 	}
 
+	/**
+	 * @param fromDate
+	 * @param toDate
+	 * @return
+	 */
 	@GET
 	@Produces({ "application/JSON" })
 	public Response getOrdersBetweenDates(@QueryParam("fromDate") String fromDate,
@@ -71,6 +73,8 @@ public class CustomerOrderResource {
 			};
 		} catch (OrderNotFoundException e) {
 			return Response.status(404).build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
 		return Response.ok(orders).build();
 	}
@@ -102,6 +106,8 @@ public class CustomerOrderResource {
 			return Response.status(504).build();
 		} catch (OutOfStockException e1) {
 			return Response.ok(new ErrorMessage(e1.getMessage(), MESSAGE_TYPE.ArticleOutOfStock)).build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
 	}
 
@@ -118,9 +124,11 @@ public class CustomerOrderResource {
 			Link selfLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("self").type("get").build();
 			Link updateLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("update").type("put").build();
 			Link deleteLink = Link.fromUri(uriInfo.getAbsolutePath()).rel("delete").type("delete").build();
-			return Response.ok(result).build();
+			return Response.ok(result).links(selfLink, updateLink, deleteLink).build();
 		} catch (OrderNotFoundException e) {
 			return Response.status(404).build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
 	}
 
@@ -143,6 +151,8 @@ public class CustomerOrderResource {
 			return Response.status(404).build();
 		} catch (ArticleNotFoundException e) {
 			return Response.status(404).build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
 	}
 
@@ -158,8 +168,8 @@ public class CustomerOrderResource {
 			return Response.status(204).build();
 		} catch (OrderNotFoundException e) {
 			return Response.status(404).build();
+		} catch (DataAccessException e) {
+			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
-
 	}
-
 }

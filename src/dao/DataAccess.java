@@ -20,14 +20,14 @@ public interface DataAccess {
 	 * 
 	 * @param article
 	 */
-	public void insert(Article article);
+	public void insert(Article article) throws DataAccessException;
 
 	/**
 	 * Inserts a new customer into the database.
 	 * 
 	 * @param customer
 	 */
-	public void insert(Customer customer);
+	public void insert(Customer customer) throws DataAccessException;
 
 	/**
 	 * Inserts a new order into the database.
@@ -42,28 +42,28 @@ public interface DataAccess {
 	 *                                   articles stock.
 	 */
 	public void insert(CustomerOrder customerOrder)
-			throws ArticleNotFoundException, CustomerNotFoundException, OutOfStockException;
+			throws ArticleNotFoundException, CustomerNotFoundException, OutOfStockException, DataAccessException;
 
 	/**
 	 * Finds and returns all orders.
 	 * 
 	 * @return
 	 */
-	public List<CustomerOrder> findAllOrders();
+	public List<CustomerOrder> findAllOrders() throws DataAccessException;
 
 	/**
 	 * Finds and returns all customers.
 	 * 
 	 * @return
 	 */
-	public List<Customer> findAllCustomer();
+	public List<Customer> findAllCustomer() throws DataAccessException;
 
 	/**
 	 * Finds and returns all articles.
 	 * 
 	 * @return
 	 */
-	public List<Article> findAllArticle();
+	public List<Article> findAllArticle() throws DataAccessException;
 
 	/**
 	 * Finds and returns the article with the specific article number.
@@ -72,7 +72,7 @@ public interface DataAccess {
 	 * @return
 	 * @throws ArticleNotFoundException
 	 */
-	public Article findArticleById(int artNr) throws ArticleNotFoundException;
+	public Article findArticleById(int artNr) throws ArticleNotFoundException, DataAccessException;
 
 	/**
 	 * Finds and returns the customer with the specific customer number.
@@ -81,7 +81,7 @@ public interface DataAccess {
 	 * @return
 	 * @throws CustomerNotFoundException
 	 */
-	public Customer findCustomerById(int cnr) throws CustomerNotFoundException;
+	public Customer findCustomerById(int cnr) throws CustomerNotFoundException, DataAccessException;
 
 	/**
 	 * Finds and returns the order with the specific order number.
@@ -90,7 +90,7 @@ public interface DataAccess {
 	 * @return
 	 * @throws OrderNotFoundException
 	 */
-	public CustomerOrder findOrderById(int orderNr) throws OrderNotFoundException;
+	public CustomerOrder findOrderById(int orderNr) throws OrderNotFoundException, DataAccessException;
 
 	/**
 	 * Finds and returns articles which contains the string parameter.
@@ -99,7 +99,7 @@ public interface DataAccess {
 	 * @return
 	 * @throws ArticleNotFoundException
 	 */
-	public List<Article> findArticleByName(String name) throws ArticleNotFoundException;
+	public List<Article> findArticleByName(String name) throws ArticleNotFoundException, DataAccessException;
 
 	/**
 	 * Finds all customers whose last name contains the string parameter.
@@ -108,7 +108,7 @@ public interface DataAccess {
 	 * @return list of customers.
 	 * @throws CustomerNotFoundException if no customers was found.
 	 */
-	public List<Customer> findCustomerByLastname(String name) throws CustomerNotFoundException;
+	public List<Customer> findCustomerByLastname(String name) throws CustomerNotFoundException, DataAccessException;
 
 	/**
 	 * Finds and returns all orders made by a customer.
@@ -117,7 +117,7 @@ public interface DataAccess {
 	 * @return list of orders with matching customer number.
 	 * @throws OrderNotFoundException if no orders were found.
 	 */
-	public List<CustomerOrder> findOrderByCustomerId(int cnr) throws OrderNotFoundException;
+	public List<CustomerOrder> findOrderByCustomerId(int cnr) throws OrderNotFoundException, DataAccessException;
 
 	/**
 	 * Finds and returns a list of articles which has an article number between the
@@ -128,7 +128,7 @@ public interface DataAccess {
 	 * @return
 	 * @throws ArticleNotFoundException if no articles were found.
 	 */
-	public List<Article> findArticlesBetweenId(int firstId, int secondId) throws ArticleNotFoundException;
+	public List<Article> findArticlesBetweenId(int firstId, int secondId) throws ArticleNotFoundException, DataAccessException;
 
 	/**
 	 * Finds and returns a list of orders which has an order number between the two
@@ -139,7 +139,7 @@ public interface DataAccess {
 	 * @return
 	 * @throws OrderNotFoundException
 	 */
-	public List<CustomerOrder> findOrdersBetweenDates(String firstDate, String secondDates) throws OrderNotFoundException;
+	public List<CustomerOrder> findOrdersBetweenDates(String firstDate, String secondDates) throws OrderNotFoundException, DataAccessException;
 
 	/**
 	 * Updates an existing order with a new list of articles and dispatch date.
@@ -150,7 +150,7 @@ public interface DataAccess {
 	 * @throws OrderNotFoundException
 	 */
 	public void updateCustomerOrder(int orderNr, Map<String, Integer> articles, String dispatchDate)
-			throws OrderNotFoundException, OutOfStockException, ArticleNotFoundException;
+			throws OrderNotFoundException, OutOfStockException, ArticleNotFoundException, DataAccessException;
 
 	/**
 	 * Updates an existing customer.
@@ -159,7 +159,7 @@ public interface DataAccess {
 	 * @param customer
 	 * @throws CustomerNotFoundException
 	 */
-	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException;
+	public void updateCustomer(int cnr, Customer customer) throws CustomerNotFoundException, DataAccessException;
 
 	/**
 	 * Updates an existing article with new description, price and stock.
@@ -170,7 +170,7 @@ public interface DataAccess {
 	 * @param stock
 	 * @throws ArticleNotFoundException
 	 */
-	public void updateArticle(int artNr, String description, double price, int stock) throws ArticleNotFoundException;
+	public void updateArticle(int artNr, String description, double price, int stock) throws ArticleNotFoundException, DataAccessException;
 
 	/**
 	 * Removes a article from the database.
@@ -178,7 +178,7 @@ public interface DataAccess {
 	 * @param artNr
 	 * @throws ArticleNotFoundException
 	 */
-	public void deleteArticle(int artNr) throws ArticleNotFoundException;
+	public void deleteArticle(int artNr) throws ArticleNotFoundException, DataAccessException;
 
 	/**
 	 * 
@@ -187,7 +187,7 @@ public interface DataAccess {
 	 * @param orderNr
 	 * @throws OrderNotFoundException
 	 */
-	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException;
+	public void deleteCustomerOrder(int orderNr) throws OrderNotFoundException, DataAccessException;
 
 	/**
 	 * Removes a customer if the customer does not have a order.
@@ -196,11 +196,11 @@ public interface DataAccess {
 	 * @throws CustomerNotFoundException
 	 * @throws ForbiddenDeleteException
 	 */
-	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException;
+	public void deleteCustomer(int cnr) throws CustomerNotFoundException, ForbiddenDeleteException, DataAccessException;
 
 	/**
 	 * Remove this from production version
 	 */
-	public void dropAllTables();
+	public void dropAllTables() throws DataAccessException;
 
 }
