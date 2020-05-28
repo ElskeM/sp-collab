@@ -9,10 +9,10 @@ Du behöver wildfly samt derby installerat på din dator och använda Eclipse. W
 4. Starta Derby och Wildfly
 
 ## Bygginstruktioner för klienten
-1. Klona [Länk till klient-repo]. Lägg olfdbClasses.jar som återfinns i servicens dist-katalog till klientens build path
+1. Klona https://github.com/ElskeM/sp-collab-client.git. Lägg olfdbClasses.jar som återfinns i servicens dist-katalog till klientens build path
 
 ## Bygginstruktioner för webserviceklienten
-1. Klona https://github.com/ElskeM/sp-collab-webclient. Bygg projektet med Node och Vue-Cli
+1. Klona https://github.com/ElskeM/sp-collab-webclient.git. Bygg projektet med Node och Vue-Cli
 
 ### Felsökning
 1. Kontrollera att derby-servern körs
