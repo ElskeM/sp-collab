@@ -76,8 +76,14 @@ public class CustomerWebResource {
 	
 		return Response.created(uri)
 				.build();
+		
+//		return Response.ok(customer)
+//				.build();
+		
 
 	}
+	
+	
 
 
 }
