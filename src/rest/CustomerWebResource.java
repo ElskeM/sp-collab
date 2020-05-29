@@ -63,7 +63,7 @@ public class CustomerWebResource {
 	 * @return
 	 */
 	@POST
-	@Produces({ MediaType.APPLICATION_JSON })
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registerCustomer(@Valid Customer customer) {
 
@@ -77,7 +77,7 @@ public class CustomerWebResource {
 		URI uri = null;
 
 		try {
-			uri = new URI(uriInfo.getAbsolutePath() + "/" + customer.getCustomerNr());
+			uri = new URI(uriInfo.getBaseUri() + "customers/" + customer.getCustomerNr());
 		} catch (URISyntaxException e) {
 		}
 
