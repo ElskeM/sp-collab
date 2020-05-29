@@ -15,7 +15,7 @@ Du behöver wildfly samt derby installerat på din dator och använda Eclipse. W
 
 ## Bygginstruktioner för webserviceklienten
 1. Klona https://github.com/ElskeM/sp-c ollab-webclient.git. 
-2. Bygg projektet med Node och Vue-Cli (`npm install` => `npm run serve`)
+2. Bygg projektet med Node och Vue-Cli (först `npm install`, sedan `npm run serve`)
 
 ### Felsökning
 1. Kontrollera att derby-servern körs
