@@ -74,15 +74,15 @@ public class CustomerWebResource {
 		} catch (DataAccessException e) {
 			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
-		URI uri = null;
+//		URI uri = null;
+//
+//		try {
+//			uri = new URI(uriInfo.getAbsolutePath() + "/" + customer.getCustomerNr());
+//		} catch (URISyntaxException e) {
+//		}
 
-		try {
-			uri = new URI(uriInfo.getAbsolutePath() + "/" + customer.getCustomerNr());
-		} catch (URISyntaxException e) {
-		}
 
-
-		return Response.created(uri).build();
+		return Response.ok(customer).build();
 	}
 	
 	
