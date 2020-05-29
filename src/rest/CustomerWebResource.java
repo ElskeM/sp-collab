@@ -63,7 +63,7 @@ public class CustomerWebResource {
 	 * @return
 	 */
 	@POST
-	@Produces({ MediaType.APPLICATION_JSON })
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registerCustomer(@Valid Customer customer) {
 
@@ -74,12 +74,14 @@ public class CustomerWebResource {
 		} catch (DataAccessException e) {
 			return Response.serverError().entity(new ErrorMessage(e.getMessage(), MESSAGE_TYPE.ServerError)).build();
 		}
+
 //		URI uri = null;
 //
 //		try {
 //			uri = new URI(uriInfo.getAbsolutePath() + "/" + customer.getCustomerNr());
 //		} catch (URISyntaxException e) {
 //		}
+
 
 
 		return Response.ok(customer).build();
